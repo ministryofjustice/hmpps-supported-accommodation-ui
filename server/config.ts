@@ -44,6 +44,15 @@ export default {
     expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 120)),
   },
   apis: {
+    approvedPremises: {
+      url: get('APPROVED_PREMISES_API_URL', 'http://localhost:9092', requiredInProduction),
+      timeout: {
+        response: 10000,
+        deadline: 10000,
+      },
+      agent: new AgentConfig(10000),
+      serviceName: get('COMMUNITY_ACCOMMODATION_API_SERVICE_NAME', 'approved-premises', requiredInProduction),
+    },
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
@@ -68,4 +77,7 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  flags: {
+    oasysDisabled: process.env.OASYS_DISABLED || false,
+  },
 }
