@@ -1,11 +1,14 @@
 import type { Express } from 'express'
 import request from 'supertest'
+import { services } from '../services'
+import { controllers } from '../controllers'
 import { appWithAllRoutes } from './testutils/appSetup'
 
 let app: Express
 
 beforeEach(() => {
-  app = appWithAllRoutes({})
+  const servicesList = services()
+  app = appWithAllRoutes({ controllers: controllers(servicesList) })
 })
 
 afterEach(() => {
