@@ -2,7 +2,11 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
+
+import applicationPaths from '../paths/apply'
 import { initialiseName } from './utils'
+
+import * as OasysImportUtils from './oasysImportUtils'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -39,4 +43,16 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   )
 
   njkEnv.addFilter('initialiseName', initialiseName)
+
+  njkEnv.addGlobal('fetchContext', function fetchContext() {
+    return this.ctx
+  })
+
+  njkEnv.addGlobal('mergeObjects', (obj1: Record<string, unknown>, obj2: Record<string, unknown>) => {
+    return { ...obj1, ...obj2 }
+  })
+
+  njkEnv.addGlobal('OasysImportUtils', OasysImportUtils)
+
+  njkEnv.addGlobal('paths', { ...applicationPaths })
 }
