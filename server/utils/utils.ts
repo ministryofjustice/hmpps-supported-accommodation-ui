@@ -1,3 +1,5 @@
+import qs, { IStringifyOptions } from 'qs'
+
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
 
@@ -20,4 +22,11 @@ export const initialiseName = (fullName?: string): string | null => {
 
   const array = fullName.split(' ')
   return `${array[0][0]}. ${array.reverse()[0]}`
+}
+
+export const createQueryString = (
+  params: Record<string, unknown> | string,
+  options: IStringifyOptions = { encode: false, indices: false },
+): string => {
+  return qs.stringify(params, options)
 }

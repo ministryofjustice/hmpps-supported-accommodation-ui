@@ -1,0 +1,211 @@
+{
+  "assessmentId": null,
+  "assessmentState": null,
+  "dateStarted": null,
+  "offenceDetails": [
+    {
+      "label": "Offence analysis",
+      "questionNumber": "2.1",
+      "answer": ""
+    },
+    {
+      "label": "Victim - perpetrator relationship",
+      "questionNumber": "2.4.1",
+      "answer": ""
+    },
+    {
+      "label": "Other victim information",
+      "questionNumber": "2.4.2",
+      "answer": ""
+    },
+    {
+      "label": "Impact on the victim",
+      "questionNumber": "2.5",
+      "answer": ""
+    },
+    {
+      "label": "Motivation and triggers",
+      "questionNumber": "2.8.3",
+      "answer": ""
+    },
+    {
+      "label": "Issues contributing to risks",
+      "questionNumber": "2.98",
+      "answer": ""
+    },
+    {
+      "label": "Pattern of offending",
+      "questionNumber": "2.12",
+      "answer": ""
+    }
+  ],
+  "roshSummary": [
+    {
+      "label": "Who is at risk",
+      "questionNumber": "R10.1",
+      "answer": ""
+    },
+    {
+      "label": "What is the nature of the risk",
+      "questionNumber": "R10.2",
+      "answer": ""
+    },
+    {
+      "label": "When is the risk likely to be the greatest",
+      "questionNumber": "R10.3",
+      "answer": ""
+    },
+    {
+      "label": "What circumstances are likely to increase risk",
+      "questionNumber": "R10.4",
+      "answer": ""
+    },
+    {
+      "label": "What circumstances are likely to reduce the risk",
+      "questionNumber": "R10.5",
+      "answer": ""
+    }
+  ],
+  "supportingInformation": [
+    {
+      "label": "Accommodation issues contributing to risks of offending and harm",
+      "questionNumber": "3.9",
+      "sectionNumber": 3,
+      "linkedToHarm": true,
+      "linkedToReOffending": true,
+      "answer": ""
+    },
+    {
+      "label": "Education, training and employability issues contributing to risks of offending and harm",
+      "questionNumber": "4.9",
+      "sectionNumber": 4,
+      "linkedToHarm": true,
+      "linkedToReOffending": true,
+      "answer": ""
+    },
+    {
+      "label": "Financial management issues contributing to risks of offending and harm",
+      "questionNumber": "5.9",
+      "sectionNumber": 5,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Relationship issues contributing to risks of offending and harm",
+      "questionNumber": "6.9",
+      "sectionNumber": 6,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Lifestyle issues contributing to risks of offending and harm",
+      "questionNumber": "7.9",
+      "sectionNumber": 7,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Drug misuse issues contributing to risks of offending and harm",
+      "questionNumber": "8.9",
+      "sectionNumber": 8,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Alcohol misuse issues contributing to risks of offending and harm",
+      "questionNumber": "9.9",
+      "sectionNumber": 9,
+      "linkedToHarm": false,
+      "linkedToReOffending": true,
+      "answer": ""
+    },
+    {
+      "label": "Issues of emotional well-being contributing to risks of offending and harm",
+      "questionNumber": "10.9",
+      "sectionNumber": 10,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Thinking / behavioural issues contributing to risks of offending and harm",
+      "questionNumber": "11.9",
+      "sectionNumber": 11,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    },
+    {
+      "label": "Issues about attitudes contributing to risks of offending and harm",
+      "questionNumber": "12.9",
+      "sectionNumber": 12,
+      "linkedToHarm": false,
+      "linkedToReOffending": false,
+      "answer": ""
+    }
+  ],
+  "riskToSelf": [
+    {
+      "label": "Current concerns about self-harm or suicide",
+      "questionNumber": "R8.1.1",
+      "answer": ""
+    },
+    {
+      "label": "Current concerns about Coping in Custody or Hostel",
+      "questionNumber": "R8.2.1",
+      "answer": ""
+    },
+    {
+      "label": "Current concerns about Vulnerability",
+      "questionNumber": "R8.3.1",
+      "answer": ""
+    }
+  ],
+  "riskManagementPlan": [
+    {
+      "label": "Further considerations",
+      "questionNumber": "RM28",
+      "answer": ""
+    },
+    {
+      "label": "Additional comments",
+      "questionNumber": "RM35",
+      "answer": ""
+    },
+    {
+      "label": "Contingency plans",
+      "questionNumber": "RM34",
+      "answer": ""
+    },
+    {
+      "label": "Victim safety planning",
+      "questionNumber": "RM33",
+      "answer": ""
+    },
+    {
+      "label": "Interventions and treatment",
+      "questionNumber": "RM32",
+      "answer": ""
+    },
+    {
+      "label": "Monitoring and control",
+      "questionNumber": "RM31",
+      "answer": ""
+    },
+    {
+      "label": "Supervision",
+      "questionNumber": "RM30",
+      "answer": ""
+    },
+    {
+      "label": "Key information about current situation",
+      "questionNumber": "RM28.1",
+      "answer": ""
+    }
+  ],
+  "dateCompleted": null
+}
