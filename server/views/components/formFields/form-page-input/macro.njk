@@ -1,0 +1,12 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% macro formPageInput(params, context) %}
+  {{
+      govukInput(
+        mergeObjects(
+          params,
+          { id: params.fieldName, name: params.fieldName, errorMessage: context.errors[params.fieldName], value: context[params.fieldName] }
+        )
+      )
+  }}
+{% endmacro %}

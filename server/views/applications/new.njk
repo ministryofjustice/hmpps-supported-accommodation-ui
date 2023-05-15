@@ -1,0 +1,45 @@
+{%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../components/formFields/form-page-input/macro.njk" import formPageInput %}
+
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - " + pageHeading  %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="{{ paths.applications.people.find() }}" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+        {{
+          formPageInput(
+            {
+              label: {
+                text: "Enter the person's CRN",
+                classes: "govuk-label--l",
+                isPageHeading: true
+              },
+              hint: {
+                html: "<p>Enter the CRN for the person needing an AP placement.</p><p>We'll import their details into your application.</p>
+                 <p>For example, a CRN is DO16821</p>"
+              },
+              classes: "govuk-input--width-10",
+              fieldName: "crn"
+            },
+            fetchContext()
+          )
+        }}
+
+        {{ govukButton({
+                    name: 'submit',
+                    text: "Save and continue"
+                }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
