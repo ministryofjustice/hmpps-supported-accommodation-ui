@@ -5,7 +5,9 @@ import paths from '../paths/apply'
 import PeopleController from './peopleController'
 import { errorMessage, errorSummary } from '../utils/validation'
 import PersonService from '../services/personService'
+import ApplicationService from '../services/applicationService'
 import personFactory from '../testutils/factories/person'
+import applicationFactory from '../testutils/factories/application'
 
 describe('peopleController', () => {
   const flashSpy = jest.fn()
@@ -17,11 +19,12 @@ describe('peopleController', () => {
   const next: DeepMocked<NextFunction> = jest.fn()
 
   const personService = createMock<PersonService>({})
+  const applicationService = createMock<ApplicationService>({})
 
   let peopleController: PeopleController
 
   beforeEach(() => {
-    peopleController = new PeopleController(personService)
+    peopleController = new PeopleController(applicationService, personService)
     request = createMock<Request>({
       body: { crn },
       user: { token },
@@ -40,9 +43,11 @@ describe('peopleController', () => {
         const requestHandler = peopleController.find()
 
         personService.findByCrn.mockResolvedValue(personFactory.build({}))
+        applicationService.createApplication.mockResolvedValue(applicationFactory.build({ id: '123abc' }))
 
         await requestHandler(request, response, next)
-        expect(response.redirect).toHaveBeenCalledWith(paths.applications.show({ crn }))
+
+        expect(response.redirect).toHaveBeenCalledWith(paths.applications.show({ id: '123abc' }))
       })
 
       describe('when there are errors', () => {

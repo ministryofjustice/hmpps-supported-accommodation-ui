@@ -10,6 +10,12 @@ export default class ApplicationClient {
     this.restClient = new RestClient('applicationClient', config.apis.approvedPremises as ApiConfig, token)
   }
 
+  async find(applicationId: string): Promise<Application> {
+    return (await this.restClient.get({
+      path: paths.applications.show({ id: applicationId }),
+    })) as Application
+  }
+
   async create(crn: string): Promise<Application> {
     return (await this.restClient.post({
       path: paths.applications.new.pattern,

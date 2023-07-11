@@ -1,9 +1,8 @@
 import { path } from 'static-path'
 
 const applicationsPath = path('/applications')
-
+const singleApplicationPath = applicationsPath.path(':id')
 const peoplePath = applicationsPath.path('people')
-const risksPath = applicationsPath.path(':crn')
 
 const paths = {
   applications: {
@@ -12,7 +11,7 @@ const paths = {
     people: {
       find: peoplePath.path('find'),
     },
-    show: risksPath.path('show'),
+    show: singleApplicationPath,
   },
 }
 

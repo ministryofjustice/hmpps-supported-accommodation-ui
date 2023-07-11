@@ -1,3 +1,5 @@
+import type { Cas2Application } from '@approved-premises/api'
+
 export default {}
 
 declare module 'express-session' {

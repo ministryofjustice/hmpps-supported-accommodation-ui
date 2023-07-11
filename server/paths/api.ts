@@ -4,6 +4,7 @@ const peoplePath = path('/people')
 const personPath = peoplePath.path(':crn')
 const oasysPath = personPath.path('oasys')
 const applicationsPath = path('/applications')
+const singleApplicationPath = applicationsPath.path(':id')
 
 export default {
   people: {
@@ -15,5 +16,6 @@ export default {
   applications: {
     new: applicationsPath,
     index: applicationsPath,
+    show: singleApplicationPath,
   },
 }
