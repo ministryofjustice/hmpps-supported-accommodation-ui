@@ -6,7 +6,7 @@ import { Services } from '../services'
 import PeopleController from './peopleController'
 
 export const controllers = (services: Services) => {
-  const peopleController = new PeopleController(services.personService)
+  const peopleController = new PeopleController(services.applicationService, services.personService)
   return {
     peopleController,
     ...applyControllers(services),

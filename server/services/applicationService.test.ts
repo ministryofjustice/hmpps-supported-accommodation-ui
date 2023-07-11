@@ -34,6 +34,22 @@ describe('ApplicationService', () => {
     })
   })
 
+  describe('findApplication', () => {
+    it('calls the find method and returns an application', async () => {
+      const application = applicationFactory.build()
+      const token = 'SOME_TOKEN'
+
+      applicationClient.find.mockResolvedValue(application)
+
+      const result = await service.findApplication(token, application.id)
+
+      expect(result).toEqual(application)
+
+      expect(applicationClientFactory).toHaveBeenCalledWith(token)
+      expect(applicationClient.find).toHaveBeenCalledWith(application.id)
+    })
+  })
+
   describe('getAllApplications', () => {
     const token = 'SOME_TOKEN'
     const applications = applicationFactory.buildList(5)

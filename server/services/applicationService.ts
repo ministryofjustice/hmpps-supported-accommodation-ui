@@ -12,6 +12,14 @@ export default class ApplicationService {
     return application
   }
 
+  async findApplication(token: string, id: string): Promise<Application> {
+    const applicationClient = this.applicationClientFactory(token)
+
+    const application = await applicationClient.find(id)
+
+    return application
+  }
+
   async getAllApplications(token: string): Promise<Array<Application>> {
     const applicationClient = this.applicationClientFactory(token)
 

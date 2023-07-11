@@ -1,3 +1,5 @@
+import type { Cas2Application } from '@approved-premises/api'
+
 export default {}
 
 declare module 'express-session' {
@@ -5,6 +7,7 @@ declare module 'express-session' {
   interface SessionData {
     returnTo: string
     nowInMinutes: number
+    application: Cas2Application
   }
 }
 

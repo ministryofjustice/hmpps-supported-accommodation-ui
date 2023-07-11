@@ -12,6 +12,32 @@ describeClient('ApplicationClient', provider => {
     applicationClient = new ApplicationClient(token)
   })
 
+  describe('find', () => {
+    it('should return an application', async () => {
+      const application = applicationFactory.build()
+
+      provider.addInteraction({
+        state: 'Server is healthy',
+        uponReceiving: 'A request for an application',
+        withRequest: {
+          method: 'GET',
+          path: paths.applications.show({ id: application.id }),
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+        willRespondWith: {
+          status: 200,
+          body: application,
+        },
+      })
+
+      const result = await applicationClient.find(application.id)
+
+      expect(result).toEqual(application)
+    })
+  })
+
   describe('create', () => {
     it('should return an application when a crn is posted', async () => {
       const application = applicationFactory.build()

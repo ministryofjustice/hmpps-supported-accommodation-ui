@@ -2,9 +2,10 @@ import type { Request, RequestHandler, Response } from 'express'
 import paths from '../paths/apply'
 import { errorMessage, errorSummary } from '../utils/validation'
 import PersonService from '../services/personService'
+import ApplicationService from '../services/applicationService'
 
 export default class PeopleController {
-  constructor(private readonly personService: PersonService) {}
+  constructor(private readonly applicationService: ApplicationService, private readonly personService: PersonService) {}
 
   find(): RequestHandler {
     return async (req: Request, res: Response) => {
@@ -12,9 +13,12 @@ export default class PeopleController {
 
       if (crn) {
         try {
-          await this.personService.findByCrn(req.user.token, crn)
+          const person = await this.personService.findByCrn(req.user.token, crn)
+          const application = await this.applicationService.createApplication(req.user.token, person.crn)
 
-          res.redirect(paths.applications.show({ crn }))
+          req.session.application = application
+
+          res.redirect(paths.applications.show({ id: application.id }))
         } catch (err) {
           if (err.status === 404) {
             this.addErrorMessagesToFlash(req, `No person with a CRN of '${crn}' was found`)
