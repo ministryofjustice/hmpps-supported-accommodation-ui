@@ -6,10 +6,11 @@ import { ErrorsAndUserInput } from '@approved-premises/ui'
 import { applicationFactory } from '../../testutils/factories'
 import { fetchErrorsAndUserInput } from '../../utils/validation'
 import ApplicationsController from './applicationsController'
-import { PersonService, ApplicationService } from '../../services'
+import { PersonService, ApplicationService, TaskListService } from '../../services'
 import paths from '../../paths/apply'
 
 jest.mock('../../utils/validation')
+jest.mock('../../services/tasklistService')
 
 describe('applicationsController', () => {
   const token = 'SOME_TOKEN'
@@ -70,18 +71,20 @@ describe('applicationsController', () => {
   })
 
   describe('show', () => {
-    it('renders oasys information view', async () => {
-      const oasysSections = {
-        roshSummary: [{}],
-      }
-      personService.getOasysSections.mockResolvedValue(oasysSections as OASysSections)
+    it('renders the task list view', async () => {
+      const application = applicationFactory.build()
+      const stubTaskList = jest.fn()
+      applicationService.findApplication.mockResolvedValue(application)
+      ;(TaskListService as jest.Mock).mockImplementation(() => {
+        return stubTaskList
+      })
 
       const requestHandler = applicationsController.show()
       await requestHandler(request, response, next)
 
-      expect(response.render).toHaveBeenCalledWith('applications/pages/risks/risks', {
-        pageHeading: 'Risk of Serious Harm Summary',
-        oasysSections,
+      expect(response.render).toHaveBeenCalledWith('applications/tasklist', {
+        application,
+        taskList: stubTaskList,
       })
     })
   })
