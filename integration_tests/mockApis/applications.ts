@@ -26,4 +26,16 @@ export default {
         jsonBody: applications,
       },
     }),
+  stubApplicationGet: (args: { application: Application }) =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/applications/${args.application.id}`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: args.application,
+      },
+    }),
 }
