@@ -1,0 +1,18 @@
+{% for section in taskList.sections %}
+  <li>
+    <h2 class="app-task-list__section">
+      <span class="app-task-list__section-number">{{ section.sectionNumber }}. </span>
+      {{ section.title }}
+    </h2>
+    <ul class="app-task-list__items">
+      {% for task in section.tasks %}
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            {{ TaskListUtils.taskLink(task, application) | safe   }}
+          </span>
+          {{ TaskListUtils.statusTag(task) | safe  }}
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
