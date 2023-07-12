@@ -71,10 +71,10 @@ context('New', () => {
   // And the task should link to its first page
   //-------------------------------------------
   it('offers a link to the first page of the task', () => {
-    // I see a hyperlink which could be followed
-    cy.get('a')
-      .contains('Funding information for CAS-2 placement')
-      .should('have.attr', 'href')
-      .and('include', 'tasks/area-and-funding/pages/funding-information')
+    // I click the link to the first page of the task
+    cy.get('a').contains('Funding information for CAS-2 placement').click()
+
+    // I'm on the expected page
+    cy.get('h2').contains('Funding information for CAS-2 placement')
   })
 })
