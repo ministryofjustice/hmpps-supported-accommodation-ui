@@ -9,6 +9,7 @@
 //    When I create an application
 //    Then I should see the task listed within the section
 //    And the task should link to its first page
+//    And the task list page should have the expected question
 
 import IndexPage from '../../pages'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
@@ -64,10 +65,21 @@ context('New', () => {
   // And the task should link to its first page
   //-------------------------------------------
   it('offers a link to the first page of the task', () => {
-    // I see a hyperlink which could be followed
-    cy.get('a')
-      .contains('Funding information for CAS-2 placement')
-      .should('have.attr', 'href')
-      .and('include', 'tasks/area-and-funding/pages/funding-information')
+    // I click the link to the first page of the task
+    cy.get('a').contains('Funding information for CAS-2 placement').click()
+
+    // I'm on the expected page
+    cy.get('h1').contains('Funding information for CAS-2 placement')
+
+    // And the task list page should have the expected question and answers
+    //---------------------------------------------------------
+    // And I see the expected question
+    cy.get('legend').contains('How will you pay for CAS-2 accommodation and the service charge?')
+
+    // And I see the expected answers
+    cy.get('label').contains('Personal money / savings')
+    cy.get('label').contains(
+      'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
+    )
   })
 })

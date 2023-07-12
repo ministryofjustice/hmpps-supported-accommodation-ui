@@ -1,8 +1,31 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { createMock } from '@golevelup/ts-jest'
 import type { ErrorMessages, ErrorSummary } from '@approved-premises/ui'
+import { catchAPIErrorOrPropogate, fetchErrorsAndUserInput } from './validation'
+import { TaskListAPIError } from './errors'
 
-import { fetchErrorsAndUserInput } from './validation'
+describe('catchAPIErrorOrPropogate', () => {
+  const request = createMock<Request>({ headers: { referer: 'foo/bar' } })
+  const response = createMock<Response>()
+
+  it('populates the error and redirects to the previous page if the API finds an error', () => {
+    const error = new TaskListAPIError('some message', 'field')
+
+    catchAPIErrorOrPropogate(request, response, error)
+
+    expect(request.flash).toHaveBeenCalledWith('errors', {
+      crn: { text: error.message, attributes: { 'data-cy-error-field': true } },
+    })
+    expect(request.flash).toHaveBeenCalledWith('errorSummary', [
+      {
+        text: error.message,
+        href: `#${error.field}`,
+      },
+    ])
+
+    expect(response.redirect).toHaveBeenCalledWith(request.headers.referer)
+  })
+})
 
 describe('fetchErrorsAndUserInput', () => {
   const request = createMock<Request>({})

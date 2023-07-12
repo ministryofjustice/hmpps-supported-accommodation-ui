@@ -1,4 +1,5 @@
-import type { FormArtifact, JourneyType, UiTask, YesOrNo, YesOrNoWithDetail } from '@approved-premises/ui'
+import type { FormArtifact, JourneyType, UiTask } from '@approved-premises/ui'
+import { TaskListPageInterface } from '../taskListPage'
 
 export const getTask = <T>(task: T) => {
   const taskPages = {}
@@ -46,6 +47,26 @@ export const getPagesForSections = <T>(sections: Array<T>) => {
   })
   return pages
 }
+export function getBody(
+  Page: TaskListPageInterface,
+  application: FormArtifact,
+  request: Request,
+  userInput: Record<string, unknown>,
+) {
+  if (userInput && Object.keys(userInput).length) {
+    return userInput
+  }
+  if (Object.keys(request.body).length) {
+    return request.body
+  }
+  return pageDataFromApplication(Page, application)
+}
+
+export const viewPath = <T>(page: T, journeyType: JourneyType) => {
+  const pageName = getPageName(page.constructor)
+  const taskName = getTaskName(page.constructor)
+  return `${journeyType}/pages/${taskName}/${pageName}`
+}
 
 export const getPageName = <T>(page: T) => {
   return Reflect.getMetadata('page:name', page)
@@ -53,4 +74,11 @@ export const getPageName = <T>(page: T) => {
 
 export const getTaskName = <T>(page: T) => {
   return Reflect.getMetadata('page:task', page)
+}
+
+export function pageDataFromApplication(Page: TaskListPageInterface, application: FormArtifact) {
+  const pageName = getPageName(Page)
+  const taskName = getTaskName(Page)
+
+  return application.data?.[taskName]?.[pageName] || {}
 }

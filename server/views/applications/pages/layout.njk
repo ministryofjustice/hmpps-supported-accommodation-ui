@@ -1,0 +1,14 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "../../components/formFields/form-page-radios/macro.njk" import formPageRadios %}
+
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - " + page.title %}
+{% set mainClasses = "app-container govuk-body" %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="{{ columnClasses | default("govuk-grid-column-two-thirds") }}">
+      {% block questions %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

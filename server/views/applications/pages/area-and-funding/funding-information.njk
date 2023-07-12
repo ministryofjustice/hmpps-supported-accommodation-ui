@@ -1,0 +1,19 @@
+{% extends "../layout.njk" %}
+{% block questions %}
+  <h1 class="govuk-heading-l">{{ page.title }}</h1>
+  {{
+    formPageRadios(
+    {
+    fieldName: "fundingSource",
+    fieldset: {
+    legend: {
+    text: page.questions.fundingSource,
+    classes: "govuk-fieldset__legend--m"
+    }
+    },
+    items: page.items()
+    },
+    fetchContext()
+    )
+  }}
+{% endblock %}
