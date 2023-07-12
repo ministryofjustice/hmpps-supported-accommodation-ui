@@ -1,0 +1,20 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% macro formPageRadios(params, context) %}
+  {% set radioItems = [] %}
+
+  {% for item in params.items %}
+    {% set radioItems = (radioItems.push(mergeObjects(item, {
+      checked: context[params.fieldName] == item.value
+    })), radioItems) %}
+  {% endfor %}
+
+  {{
+      govukRadios(
+        mergeObjects(
+          mergeObjects(params, { items: radioItems }),
+          { idPrefix: params.fieldName, name: params.fieldName, errorMessage: context.errors[params.fieldName] }
+        )
+      )
+  }}
+{% endmacro %}

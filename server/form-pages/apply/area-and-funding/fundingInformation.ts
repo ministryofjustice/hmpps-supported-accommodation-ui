@@ -1,21 +1,27 @@
-import type { TaskListErrors, YesOrNo } from '@approved-premises/ui'
+import type { TaskListErrors } from '@approved-premises/ui'
 import { Page } from '../../utils/decorators'
 import TaskListPage from '../../taskListPage'
-// import { sentenceCase } from '../../../utils/utils'
+
+export const fundingSources = {
+  personalSavings: 'Personal money / savings',
+  benefits: 'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
+}
+
+export type FundingSources = keyof typeof fundingSources
 
 type FundingInformationBody = {
-  funding: YesOrNo
+  fundingSourceMulti: FundingSources
 }
 
 @Page({
   name: 'funding-information',
-  bodyProperties: ['fundingYesNo'],
+  bodyProperties: ['fundingSourceMulti'],
 })
 export default class FundingInformation implements TaskListPage {
   title = 'Funding information for CAS-2 placement'
 
   questions = {
-    fundingYesNo: 'Is your placement funded by xyz?',
+    fundingSourceMulti: 'How will you pay for CAS-2 accommodation and the service charge?',
   }
 
   body: FundingInformationBody
@@ -34,12 +40,16 @@ export default class FundingInformation implements TaskListPage {
 
   errors() {
     const errors: TaskListErrors<this> = {}
-
+    if (!this.body.fundingSourceMulti) {
+      errors.fundingSourceMulti = 'You must specify a funding source'
+    }
     return errors
   }
 
   response() {
-    const response = {}
+    const response = {
+      [this.questions.fundingSourceMulti]: fundingSources[this.body.fundingSourceMulti],
+    }
 
     Object.keys(response).forEach(key => {
       if (!response[key]) {

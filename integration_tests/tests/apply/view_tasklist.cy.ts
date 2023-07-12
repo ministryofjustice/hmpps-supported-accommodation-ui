@@ -16,6 +16,7 @@
 //    When I create an application
 //    Then I should see the task listed within the section
 //    And the task should link to its first page
+//    And the task list page should have the expected question
 
 import IndexPage from '../../pages'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
@@ -76,5 +77,10 @@ context('New', () => {
 
     // I'm on the expected page
     cy.get('h1').contains('Funding information for CAS-2 placement')
+
+    // And the task list page should have the expected question
+    //---------------------------------------------------------
+    // And I see the expected question
+    cy.get('legend').contains('How will you pay for CAS-2 accommodation and the service charge?')
   })
 })
