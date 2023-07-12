@@ -10,7 +10,7 @@ import { PersonService, ApplicationService, TaskListService } from '../../servic
 import paths from '../../paths/apply'
 
 jest.mock('../../utils/validation')
-jest.mock('../../services/tasklistService')
+jest.mock('../../services/taskListService')
 
 describe('applicationsController', () => {
   const token = 'SOME_TOKEN'
@@ -82,7 +82,7 @@ describe('applicationsController', () => {
       const requestHandler = applicationsController.show()
       await requestHandler(request, response, next)
 
-      expect(response.render).toHaveBeenCalledWith('applications/tasklist', {
+      expect(response.render).toHaveBeenCalledWith('applications/taskList', {
         application,
         taskList: stubTaskList,
       })

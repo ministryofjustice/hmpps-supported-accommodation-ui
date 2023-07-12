@@ -30,7 +30,7 @@ export default class ApplicationsController {
       const application = await this.applicationService.findApplication(req.user.token, req.params.id)
       const taskList = new TaskListService(application)
 
-      return res.render('applications/tasklist', { application, taskList })
+      return res.render('applications/taskList', { application, taskList })
     }
   }
 

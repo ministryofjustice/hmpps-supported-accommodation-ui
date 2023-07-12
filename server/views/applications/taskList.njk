@@ -1,0 +1,51 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "../partials/showErrorSummary.njk" import showErrorSummary %}
+{% extends "../partials/layout.njk" %}
+{% block pageTitle %}
+  CAS 2 - Task list
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-width-container">
+      <h1 class="govuk-heading-xl">CAS 2: Refer for Accommodation</h1>
+
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-2" data-cy-status>Application incomplete</h2>
+      <p class="govuk-body govuk-!-margin-bottom-7">
+        You have completed {{ taskList.completeSectionCount }} of {{ (taskList.sections | length) }} sections.
+      </p>
+    </div>
+    {{ showErrorSummary(errorSummary) }}
+
+    <div class="govuk-grid-column-two-thirds">
+      <ol class="app-task-list">
+        {% include '../partials/taskListItems.njk' %}
+
+        <li>
+          <h2 class="app-task-list__section">
+            <span class="app-task-list__section-number">
+              {{ (taskList.sections | length) + 1 }}.
+            </span>
+            Submit your application
+          </h2>
+
+          {{
+            govukCheckboxes({
+            idPrefix: "confirmation",
+            name: "confirmation",
+            errorMessage: errorObject,
+            items: [
+            {
+            value: "submit",
+            text: "I confirm the information provided is complete, accurate and up to date."
+            }
+            ]
+            })
+          }}
+        </li>
+      </ol>
+    </div>
+  </div>
+{% endblock %}
