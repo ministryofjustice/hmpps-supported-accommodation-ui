@@ -75,6 +75,6 @@ context('New', () => {
     cy.get('a').contains('Funding information for CAS-2 placement').click()
 
     // I'm on the expected page
-    cy.get('h2').contains('Funding information for CAS-2 placement')
+    cy.get('h1').contains('Funding information for CAS-2 placement')
   })
 })

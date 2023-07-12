@@ -3,6 +3,7 @@ import { type RequestHandler, Router } from 'express'
 import { Controllers } from 'server/controllers'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import paths from '../paths/apply'
+import applyRoutes from './apply'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(controllers: Controllers): Router {
@@ -21,6 +22,8 @@ export default function routes(controllers: Controllers): Router {
 
   post(paths.applications.create.pattern, applicationsController.create())
   post(paths.applications.people.find.pattern, peopleController.find())
+
+  applyRoutes(controllers, router)
 
   return router
 }

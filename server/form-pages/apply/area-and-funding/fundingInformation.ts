@@ -3,16 +3,20 @@ import { Page } from '../../utils/decorators'
 import TaskListPage from '../../taskListPage'
 // import { sentenceCase } from '../../../utils/utils'
 
-type FundingInformationBody = {}
+type FundingInformationBody = {
+  funding: YesOrNo
+}
 
 @Page({
   name: 'funding-information',
-  bodyProperties: [],
+  bodyProperties: ['fundingYesNo'],
 })
 export default class FundingInformation implements TaskListPage {
-  title = 'Funding information'
+  title = 'Funding information for CAS-2 placement'
 
-  questions = {}
+  questions = {
+    fundingYesNo: 'Is your placement funded by xyz?',
+  }
 
   body: FundingInformationBody
 

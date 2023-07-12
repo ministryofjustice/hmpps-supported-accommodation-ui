@@ -1,3 +1,5 @@
+export type JourneyType = 'applications'
+
 export type UiTask = {
   id: string
   title: string
@@ -10,25 +12,32 @@ export type FormSection = {
 }
 
 export type FormSections = Array<FormSection>
+export type TaskNames = 'funding-information'
 export type FormPages = { [key in TaskNames]: Record<string, unknown> }
 
 export type TaskStatus = 'not_started' | 'in_progress' | 'complete' | 'cannot_start'
 export type TaskWithStatus = UiTask & { status: TaskStatus }
 
 export type TaskListErrors<K extends TasklistPage> = Partial<Record<keyof K['body'], unknown>>
+interface TasklistPage {
+  body: Record<string, unknown>
+}
 
 export type PageResponse = Record<string, string | Array<string> | Array<Record<string, unknown>>>
 
-export type FormArtifact = ApprovedPremisesApplication | ApprovedPremisesAssessment | PlacementApplication
+export type FormArtifact = Cas2Application
+
+export type YesOrNo = 'yes' | 'no'
+
+export type YesOrNoWithDetail<T extends string> = {
+  [K in T]: YesOrNo
+} & {
+  [K in `${T}Detail`]: string
+}
 
 export type DataServices = Partial<{
   personService: {
-    // getPrisonCaseNotes: (token: string, crn: string) => Promise<Array<PrisonCaseNote>>
-    // getAdjudications: (token: string, crn: string) => Promise<Array<Adjudication>>
-    // getAcctAlerts: (token: string, crn: string) => Promise<Array<PersonAcctAlert>>
-    getOasysSelections: (token: string, crn: string) => Promise<Array<OASysSection>>
-    getOasysSections: (token: string, crn: string, selectedSections?: Array<number>) => Promise<OASysSections>
-    getPersonRisks: (token: string, crn: string) => Promise<PersonRisksUI>
+    findByCrn: (token: string, crn: string) => Promise<Person>
   }
   applicationService: {
     // getDocuments: (token: string, application: ApprovedPremisesApplication) => Promise<Array<Document>>

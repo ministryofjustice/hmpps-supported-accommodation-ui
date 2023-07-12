@@ -1,7 +1,7 @@
 import type { TaskStatus, UiTask } from '@approved-premises/ui'
 
 import { Cas2Application as Application } from '@approved-premises/api'
-import { TasklistPageInterface } from '../tasklistPage'
+import { TaskListPageInterface } from '../taskListPage'
 
 const getPageData = (application: Application, taskName: string, pageName: string) => {
   return application.data?.[taskName]?.[pageName]
@@ -28,7 +28,7 @@ const getTaskStatus = (task: UiTask, application: Application): TaskStatus => {
     }
 
     // Let's initialize this page
-    const Page = task.pages[pageId] as TasklistPageInterface
+    const Page = task.pages[pageId] as TaskListPageInterface
     const page = new Page(pageData, application)
 
     // Get the errors for this page
