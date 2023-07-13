@@ -1,6 +1,6 @@
 import ApplyPage from './applyPage'
 
-export default class FundingInformationePage extends ApplyPage {
+export default class FundingInformationPage extends ApplyPage {
   constructor() {
     super('Emergency application', application, 'basic-information', 'reason-for-short-notice')
   }
