@@ -38,4 +38,16 @@ export default {
         jsonBody: args.application,
       },
     }),
+  stubApplicationUpdateError: (args: { application: Application }) =>
+    stubFor({
+      request: {
+        method: 'PUT',
+        url: `/applications/${args.application.id}`,
+      },
+      response: {
+        status: 200, // not sure of the right code!
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: args.application,
+      },
+    }),
 }
