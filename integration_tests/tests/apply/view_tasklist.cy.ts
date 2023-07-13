@@ -19,6 +19,7 @@
 //    And the task list page should have the expected question
 
 import IndexPage from '../../pages'
+import Page from '../../pages/page'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
 
 context('New', () => {
@@ -88,5 +89,19 @@ context('New', () => {
     cy.get('label').contains(
       'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
     )
+  })
+
+  // When I try to continue without answer the question
+  //-------------------------------------------
+  it('enforces answer', () => {
+    // Given I'm on the Funding information task page
+    cy.get('a').contains('Funding information for CAS-2 placement').click()
+
+    // I attempt to continue without making a choice
+    cy.get('button').contains('Save and continue').click()
+
+    // Then I see that an answer is required
+    const page = Page.verifyOnPage(IndexPage)
+    page.shouldShowErrorMessagesForFields(['fundingSource'])
   })
 })

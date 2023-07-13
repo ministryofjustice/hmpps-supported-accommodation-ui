@@ -1,4 +1,5 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "../../components/formFields/form-page-radios/macro.njk" import formPageRadios %}
 
 {% extends "../../partials/layout.njk" %}
@@ -9,6 +10,9 @@
   <div class="govuk-grid-row">
     <div class="{{ columnClasses | default("govuk-grid-column-two-thirds") }}">
       {% block questions %}{% endblock %}
+      {{ govukButton({
+          text: "Save and continue"
+      }) }}
     </div>
   </div>
 {% endblock %}
