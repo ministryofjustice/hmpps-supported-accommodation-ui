@@ -4,9 +4,11 @@ import TaskListPage from '../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../utils/formUtils'
 
 export const fundingSources = {
-  personalSavings: 'Personal money / savings',
-  benefits: 'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
+  personalSavings: 'Personal money or savings',
+  benefits: 'Benefits',
 }
+const benefitsHint =
+  'This includes Housing Benefit and Universal Credit, Disability Living Allowance, and Employment and Support Allowance'
 
 export type FundingSources = keyof typeof fundingSources
 
@@ -19,10 +21,10 @@ type FundingInformationBody = {
   bodyProperties: ['fundingSource'],
 })
 export default class FundingInformation implements TaskListPage {
-  title = 'Funding information for CAS-2 placement'
+  title = 'Funding information'
 
   questions = {
-    fundingSource: 'How will you pay for CAS-2 accommodation and the service charge?',
+    fundingSource: 'How will Terry Midhurst pay for their accommodation and service charge?',
   }
 
   body: FundingInformationBody
@@ -63,7 +65,11 @@ export default class FundingInformation implements TaskListPage {
 
   items() {
     const items = convertKeyValuePairToRadioItems(fundingSources, this.body.fundingSource)
-
-    return items
+    return items.map(radio => {
+      if (radio.value === 'benefits') {
+        return { ...radio, hint: { text: benefitsHint } }
+      }
+      return radio
+    })
   }
 }

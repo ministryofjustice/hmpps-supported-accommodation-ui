@@ -7,7 +7,7 @@ describe('FundingInformation', () => {
       const page = new FundingInformation({ fundingSource: 'personalSavings' })
 
       expect(page.questions).toEqual({
-        fundingSource: 'How will you pay for CAS-2 accommodation and the service charge?',
+        fundingSource: 'How will Terry Midhurst pay for their accommodation and service charge?',
       })
     })
   })
@@ -27,7 +27,7 @@ describe('FundingInformation', () => {
       const page = new FundingInformation({ fundingSource: 'personalSavings' })
 
       expect(page.response()).toEqual({
-        'How will you pay for CAS-2 accommodation and the service charge?': 'Personal money / savings',
+        'How will Terry Midhurst pay for their accommodation and service charge?': 'Personal money or savings',
       })
     })
   })

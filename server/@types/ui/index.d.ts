@@ -101,6 +101,7 @@ export interface RadioItem {
   text: string
   value: string
   checked?: boolean
+  hint?: { text: string }
   conditional?: {
     html?: string
   }
