@@ -1,6 +1,7 @@
 import type { TaskListErrors } from '@approved-premises/ui'
 import { Page } from '../../utils/decorators'
 import TaskListPage from '../../taskListPage'
+import { convertKeyValuePairToRadioItems } from '../../../utils/formUtils'
 
 export const fundingSources = {
   personalSavings: 'Personal money / savings',
@@ -58,5 +59,11 @@ export default class FundingInformation implements TaskListPage {
     })
 
     return response
+  }
+
+  items() {
+    const items = convertKeyValuePairToRadioItems(fundingSources, this.body.fundingSourceMulti)
+
+    return items
   }
 }

@@ -96,3 +96,12 @@ export type ObjectWithDateParts<K extends string | number> = { [P in `${K}-${'ye
 }
 
 export type TableRow = Array<TableCell>
+
+export interface RadioItem {
+  text: string
+  value: string
+  checked?: boolean
+  conditional?: {
+    html?: string
+  }
+}

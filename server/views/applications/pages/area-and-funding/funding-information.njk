@@ -3,29 +3,17 @@
   <h1 class="govuk-heading-l">{{ page.title }}</h1>
   {{
     formPageRadios(
-      {
-        fieldName: "fundingSourceMulti",
-        fieldset: {
-          legend: {
-            text: page.questions.fundingSourceMulti,
-            classes: "govuk-fieldset__legend--m"
-          }
-        },
-        hint: {
-          text: "Guidance goes here..."
-        },
-        items: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No"
-          }
-        ]
-      },
-      fetchContext()
+    {
+    fieldName: "fundingSourceMulti",
+    fieldset: {
+    legend: {
+    text: page.questions.fundingSourceMulti,
+    classes: "govuk-fieldset__legend--m"
+    }
+    },
+    items: page.items()
+    },
+    fetchContext()
     )
   }}
 {% endblock %}

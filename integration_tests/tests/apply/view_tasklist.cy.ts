@@ -78,9 +78,15 @@ context('New', () => {
     // I'm on the expected page
     cy.get('h1').contains('Funding information for CAS-2 placement')
 
-    // And the task list page should have the expected question
+    // And the task list page should have the expected question and answers
     //---------------------------------------------------------
     // And I see the expected question
     cy.get('legend').contains('How will you pay for CAS-2 accommodation and the service charge?')
+
+    // And I see the expected answers
+    cy.get('label').contains('Personal money / savings')
+    cy.get('label').contains(
+      'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
+    )
   })
 })
