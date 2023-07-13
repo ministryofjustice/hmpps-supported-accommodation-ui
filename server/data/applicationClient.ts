@@ -1,4 +1,4 @@
-import { Cas2Application as Application } from '@approved-premises/api'
+import { Cas2Application as Application, UpdateApplication } from '@approved-premises/api'
 import RestClient from './restClient'
 import config, { ApiConfig } from '../config'
 import paths from '../paths/api'
@@ -25,5 +25,12 @@ export default class ApplicationClient {
 
   async all(): Promise<Array<Application>> {
     return (await this.restClient.get({ path: paths.applications.index.pattern })) as Array<Application>
+  }
+
+  async update(applicationId: string, updateData: UpdateApplication): Promise<Application> {
+    return (await this.restClient.put({
+      path: paths.applications.update({ id: applicationId }),
+      data: { ...updateData, type: 'CAS1' },
+    })) as Application
   }
 }

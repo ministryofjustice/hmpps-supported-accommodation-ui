@@ -4,8 +4,14 @@ import createError from 'http-errors'
 import type { DataServices } from '@approved-premises/ui'
 import { ApplicationService } from '../../../services'
 
-import { catchAPIErrorOrPropogate, fetchErrorsAndUserInput } from '../../../utils/validation'
+import {
+  catchAPIErrorOrPropogate,
+  fetchErrorsAndUserInput,
+  catchValidationErrorOrPropogate,
+} from '../../../utils/validation'
 import { UnknownPageError } from '../../../utils/errors'
+
+import paths from '../../../paths/apply'
 import { viewPath } from '../../../form-pages/utils'
 import { getPage } from '../../../utils/applications/getPage'
 
@@ -38,6 +44,31 @@ export default class PagesController {
         } else {
           catchAPIErrorOrPropogate(req, res, e)
         }
+      }
+    }
+  }
+
+  update(taskName: string, pageName: string) {
+    console.log('PagesController.update()')
+    return async (req: Request, res: Response) => {
+      const Page = getPage(taskName, pageName, 'applications')
+      const page = await this.applicationService.initializePage(Page, req, this.dataServices)
+
+      try {
+        await this.applicationService.save(page, req)
+        const next = page.next()
+        if (next) {
+          res.redirect(paths.applications.pages.show({ id: req.params.id, task: taskName, page: page.next() }))
+        } else {
+          res.redirect(paths.applications.show({ id: req.params.id }))
+        }
+      } catch (err) {
+        catchValidationErrorOrPropogate(
+          req,
+          res,
+          err,
+          paths.applications.pages.show({ id: req.params.id, task: taskName, page: pageName }),
+        )
       }
     }
   }

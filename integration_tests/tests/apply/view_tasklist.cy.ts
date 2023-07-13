@@ -19,7 +19,7 @@
 //    And the task list page should have the expected question
 
 import IndexPage from '../../pages'
-import Page from '../../pages/page'
+import FundingInformationPage from '../../pages/apply/fundingInformationPage'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
 
 context('New', () => {
@@ -93,20 +93,16 @@ context('New', () => {
   })
 
   // When I try to continue without answer the question
-  //-------------------------------------------
+  // -------------------------------------------
   it('enforces answer', () => {
-    // stub error response
-    // WIP!
-    cy.task('stubApplicationUpdateError', { application, 'some error response for fundingSource' })
-
     // Given I'm on the Funding information task page
-    cy.get('a').contains('Funding information for CAS-2 placement').click()
+    cy.get('a').contains('Funding information').click()
 
     // I attempt to continue without making a choice
     cy.get('button').contains('Save and continue').click()
 
     // Then I see that an answer is required
-    const page = Page.verifyOnPage(IndexPage)
-    page.shouldShowErrorMessagesForFields(['fundingSource'])
+    const fundingInfoPage = new FundingInformationPage(application)
+    fundingInfoPage.shouldShowErrorMessagesForFields(['fundingSource'])
   })
 })

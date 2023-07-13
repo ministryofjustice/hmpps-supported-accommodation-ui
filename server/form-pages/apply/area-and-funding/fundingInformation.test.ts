@@ -40,7 +40,7 @@ describe('FundingInformation', () => {
       const page = new FundingInformation({})
 
       expect(page.errors()).toEqual({
-        fundingSource: 'You must specify a funding source',
+        fundingSource: 'You must choose a funding source',
       })
     })
   })
