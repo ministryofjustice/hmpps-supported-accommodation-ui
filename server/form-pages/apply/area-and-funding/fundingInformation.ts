@@ -11,18 +11,18 @@ export const fundingSources = {
 export type FundingSources = keyof typeof fundingSources
 
 type FundingInformationBody = {
-  fundingSourceMulti: FundingSources
+  fundingSource: FundingSources
 }
 
 @Page({
   name: 'funding-information',
-  bodyProperties: ['fundingSourceMulti'],
+  bodyProperties: ['fundingSource'],
 })
 export default class FundingInformation implements TaskListPage {
   title = 'Funding information for CAS-2 placement'
 
   questions = {
-    fundingSourceMulti: 'How will you pay for CAS-2 accommodation and the service charge?',
+    fundingSource: 'How will you pay for CAS-2 accommodation and the service charge?',
   }
 
   body: FundingInformationBody
@@ -41,15 +41,15 @@ export default class FundingInformation implements TaskListPage {
 
   errors() {
     const errors: TaskListErrors<this> = {}
-    if (!this.body.fundingSourceMulti) {
-      errors.fundingSourceMulti = 'You must specify a funding source'
+    if (!this.body.fundingSource) {
+      errors.fundingSource = 'You must specify a funding source'
     }
     return errors
   }
 
   response() {
     const response = {
-      [this.questions.fundingSourceMulti]: fundingSources[this.body.fundingSourceMulti],
+      [this.questions.fundingSource]: fundingSources[this.body.fundingSource],
     }
 
     Object.keys(response).forEach(key => {
@@ -62,7 +62,7 @@ export default class FundingInformation implements TaskListPage {
   }
 
   items() {
-    const items = convertKeyValuePairToRadioItems(fundingSources, this.body.fundingSourceMulti)
+    const items = convertKeyValuePairToRadioItems(fundingSources, this.body.fundingSource)
 
     return items
   }
