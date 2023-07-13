@@ -15,13 +15,19 @@ import IndexPage from '../../pages'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
 
 context('New', () => {
-  const person = personFactory.build({})
-  const application = applicationFactory.build({})
+  const person = personFactory.build({ name: 'Roger Smith' })
 
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+
+    cy.fixture('applicationData.json').then(applicationData => {
+      const application = applicationFactory.build({ person })
+      application.data = applicationData
+      cy.wrap(application).as('application')
+      cy.wrap(application.data).as('applicationData')
+    })
   })
 
   beforeEach(() => {
@@ -59,27 +65,28 @@ context('New', () => {
     cy.get('.app-task-list__section').contains('Area and funding')
 
     // I see the expected TASK
-    cy.get('.app-task-list__task-name').contains('Funding information for CAS-2 placement')
+    cy.get('.app-task-list__task-name').contains('Funding information')
   })
 
   // And the task should link to its first page
   //-------------------------------------------
   it('offers a link to the first page of the task', () => {
     // I click the link to the first page of the task
-    cy.get('a').contains('Funding information for CAS-2 placement').click()
+    cy.get('a').contains('Funding information').click()
 
     // I'm on the expected page
-    cy.get('h1').contains('Funding information for CAS-2 placement')
+    cy.get('h1').contains('Funding information')
 
     // And the task list page should have the expected question and answers
     //---------------------------------------------------------
     // And I see the expected question
-    cy.get('legend').contains('How will you pay for CAS-2 accommodation and the service charge?')
+    cy.get('legend').contains('How will Roger Smith pay for their accommodation and service charge')
 
     // And I see the expected answers
-    cy.get('label').contains('Personal money / savings')
-    cy.get('label').contains(
-      'Housing Benefit & Universal Credit / Disability Living Allowance / Employment & Support Allowance',
+    cy.get('label').contains('Personal money or savings')
+    cy.get('label').contains('Benefits')
+    cy.get('.govuk-hint.govuk-radios__hint').contains(
+      'This includes Housing Benefit and Universal Credit, Disability Living Allowance, and Employment and Support Allowance',
     )
   })
 })
