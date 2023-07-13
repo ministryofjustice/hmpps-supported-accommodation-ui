@@ -1,4 +1,4 @@
-import errorLookups from '../../i18n/en/errors.json'
+import errorLookups from '../../server/i18n/en/errors.json'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
