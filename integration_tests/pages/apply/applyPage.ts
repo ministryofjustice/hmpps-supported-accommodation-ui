@@ -20,4 +20,8 @@ export default class ApplyPage extends Page {
 
     // this.checkPhaseBanner('Give us your feedback')
   }
+
+  checkRadioButtonFromPageBody(fieldName: string) {
+    this.checkRadioByNameAndValue(fieldName, this.taskListPage.body[fieldName] as string)
+  }
 }

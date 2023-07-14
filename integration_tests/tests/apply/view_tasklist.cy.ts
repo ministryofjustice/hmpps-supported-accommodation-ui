@@ -12,26 +12,28 @@
 //    And the task list page should have the expected question
 
 import IndexPage from '../../pages'
+import Page from '../../pages/page'
+import TaskListPage from '../../pages/apply/taskListPage'
 import FundingInformationPage from '../../pages/apply/fundingInformationPage'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
 
 context('New', () => {
   const person = personFactory.build({ name: 'Roger Smith' })
 
-  beforeEach(() => {
+  beforeEach(function test() {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
 
     cy.fixture('applicationData.json').then(applicationData => {
-      const application = applicationFactory.build({ person })
+      const application = applicationFactory.build({ id: 'abc123', person })
       application.data = applicationData
       cy.wrap(application).as('application')
       cy.wrap(application.data).as('applicationData')
     })
   })
 
-  beforeEach(() => {
+  beforeEach(function test() {
     // Given I am logged in
     //---------------------
     cy.signIn()
@@ -50,8 +52,13 @@ context('New', () => {
     cy.task('stubFindPerson', {
       person,
     })
-    cy.task('stubCreateApplication', { application })
-    cy.task('stubApplicationGet', { application })
+
+    const newApplication = applicationFactory.build({ id: 'abc123', person })
+
+    cy.task('stubCreateApplication', { application: newApplication })
+    cy.task('stubApplicationGet', { application: newApplication })
+    cy.task('stubApplicationUpdate', { application: newApplication })
+
     cy.get('#crn').type(person.crn)
     cy.get('button').contains('Save and continue').click()
   })
@@ -67,6 +74,10 @@ context('New', () => {
 
     // I see the expected TASK
     cy.get('.app-task-list__task-name').contains('Funding information')
+
+    // And I should see that the task has not been started
+    const taskListPage = Page.verifyOnPage(TaskListPage)
+    taskListPage.shouldShowTaskStatus('area-and-funding', 'Not started')
   })
 
   // And the task should link to its first page
@@ -93,7 +104,7 @@ context('New', () => {
 
   // When I try to continue without answer the question
   // -------------------------------------------
-  it('enforces answer', () => {
+  it('enforces answer', function test() {
     // Given I'm on the Funding information task page
     cy.get('a').contains('Funding information').click()
 
@@ -101,7 +112,39 @@ context('New', () => {
     cy.get('button').contains('Save and continue').click()
 
     // Then I see that an answer is required
-    const fundingInfoPage = new FundingInformationPage(application)
+    const fundingInfoPage = new FundingInformationPage(this.application)
     fundingInfoPage.shouldShowErrorMessagesForFields(['fundingSource'])
+  })
+
+  // When I select an answer and submit the form
+  // -------------------------------------------
+  it('submits the form', function test() {
+    // Given I'm on the Funding information task page
+    cy.get('a').contains('Funding information').click()
+    const page = Page.verifyOnPage(FundingInformationPage, this.application)
+
+    // When I select an option and click save and continue
+    page.checkRadioButtonFromPageBody('fundingSource')
+
+    // after submission of the valid form the API will return the answered question
+    // -- note that the presence of the _page_ only is required in application.data
+    //    to signify that the page is complete
+    const answered = {
+      ...this.application,
+      data: {
+        'area-and-funding': {
+          'funding-information': {},
+        },
+      },
+    }
+    cy.task('stubApplicationGet', { application: answered })
+
+    page.clickSubmit()
+
+    // Then I return to the task list
+    const taskListPage = Page.verifyOnPage(TaskListPage)
+
+    // And I should see that the task is now complete
+    taskListPage.shouldShowTaskStatus('area-and-funding', 'Completed')
   })
 })

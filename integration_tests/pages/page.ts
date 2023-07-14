@@ -3,8 +3,8 @@ import errorLookups from '../../server/i18n/en/errors.json'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default abstract class Page {
-  static verifyOnPage<T>(constructor: new () => T): T {
-    return new constructor()
+  static verifyOnPage<T>(constructor: new (...args: Array<unknown>) => T, ...args: Array<unknown>): T {
+    return new constructor(...args)
   }
 
   constructor(private readonly title: string) {
@@ -18,6 +18,10 @@ export default abstract class Page {
   signOut = (): PageElement => cy.get('[data-qa=signOut]')
 
   manageDetails = (): PageElement => cy.get('[data-qa=manageDetails]')
+
+  clickSubmit(): void {
+    cy.get('button').click()
+  }
 
   shouldShowErrorMessagesForFields(fields: Array<string>): void {
     fields.forEach(field => {

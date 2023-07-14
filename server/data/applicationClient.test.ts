@@ -92,4 +92,35 @@ describeClient('ApplicationClient', provider => {
       expect(result).toEqual(previousApplications)
     })
   })
+
+  describe('update', () => {
+    it('should return an application when a PUT request is made', async () => {
+      const application = applicationFactory.build()
+      const data = {
+        data: application.data,
+        type: 'CAS2',
+      }
+
+      provider.addInteraction({
+        state: 'Server is healthy',
+        uponReceiving: 'Request to update an application',
+        withRequest: {
+          method: 'PUT',
+          path: paths.applications.update({ id: application.id }),
+          body: JSON.stringify(data),
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+        willRespondWith: {
+          status: 200,
+          body: application,
+        },
+      })
+
+      const result = await applicationClient.update(application.id, data)
+
+      expect(result).toEqual(application)
+    })
+  })
 })
