@@ -65,9 +65,9 @@ context('New', () => {
   //-------------------------------------------
   it('offers a link to the first page of the task', () => {
     // I see a hyperlink which could be followed
-    cy.get('.section .task:first a')
-      .should('have.class', 'active')
-      .and('have.attr', 'href')
+    cy.get('a')
+      .contains('Funding information for CAS-2 placement')
+      .should('have.attr', 'href')
       .and('include', 'tasks/area-and-funding/pages/funding-information')
   })
 })
