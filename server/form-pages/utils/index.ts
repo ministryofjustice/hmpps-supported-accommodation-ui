@@ -1,5 +1,5 @@
 import type { FormArtifact, JourneyType, UiTask, YesOrNo, YesOrNoWithDetail } from '@approved-premises/ui'
-// import type { Request } from 'express'
+import type { Request } from 'express'
 import { TaskListPageInterface } from '../taskListPage'
 // import { sentenceCase } from '../../utils/utils'
 

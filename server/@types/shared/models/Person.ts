@@ -12,7 +12,7 @@ export type Person = {
     religionOrBelief?: string;
     sex: string;
     genderIdentity?: string;
-    status: 'InCustody' | 'InCommunity';
+    status: 'InCustody' | 'InCommunity' | 'Unknown';
     prisonName?: string;
 };
 
