@@ -131,7 +131,7 @@
     "express-session": "^1.17.3",
     "fishery": "^2.2.2",
     "@golevelup/ts-jest": "^0.3.3",
-    "govuk-frontend": "^4.6.0",
+    "govuk-frontend": "^4.7.0",
     "helmet": "^7.0.0",
     "http-errors": "^2.0.0",
     "jquery": "^3.6.4",
