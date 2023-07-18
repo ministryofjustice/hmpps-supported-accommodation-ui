@@ -10,6 +10,7 @@ import asyncMiddleware from '../middleware/asyncMiddleware'
 export default function applyRoutes(controllers: Controllers, router: Router): Router {
   const { pages } = Apply
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
+  const put = (path: string | string[], handler: RequestHandler) => router.put(path, asyncMiddleware(handler))
 
   const { pagesController } = controllers
 
@@ -18,6 +19,7 @@ export default function applyRoutes(controllers: Controllers, router: Router): R
       const { pattern } = paths.applications.show.path(`tasks/${taskKey}/pages/${pageKey}`)
 
       get(pattern, pagesController.show(taskKey, pageKey))
+      put(pattern, pagesController.update(taskKey, pageKey))
     })
   })
 

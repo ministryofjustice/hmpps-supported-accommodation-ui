@@ -17,5 +17,6 @@ export default {
     new: applicationsPath,
     index: applicationsPath,
     show: singleApplicationPath,
+    update: singleApplicationPath,
   },
 }

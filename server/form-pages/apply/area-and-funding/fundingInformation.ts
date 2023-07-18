@@ -45,7 +45,7 @@ export default class FundingInformation implements TaskListPage {
   errors() {
     const errors: TaskListErrors<this> = {}
     if (!this.body.fundingSource) {
-      errors.fundingSource = 'You must specify a funding source'
+      errors.fundingSource = 'You must choose a funding source'
     }
     return errors
   }
