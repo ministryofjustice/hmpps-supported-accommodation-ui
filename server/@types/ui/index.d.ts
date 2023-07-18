@@ -1,3 +1,40 @@
+export type UiTask = {
+  id: string
+  title: string
+  pages: Record<string, unknown>
+}
+export type FormSection = {
+  title: string
+  name: string
+  tasks: Array<UiTask>
+}
+
+export type FormSections = Array<FormSection>
+export type FormPages = { [key in TaskNames]: Record<string, unknown> }
+
+export type TaskStatus = 'not_started' | 'in_progress' | 'complete' | 'cannot_start'
+export type TaskWithStatus = UiTask & { status: TaskStatus }
+
+export type TaskListErrors<K extends TasklistPage> = Partial<Record<keyof K['body'], unknown>>
+
+export type PageResponse = Record<string, string | Array<string> | Array<Record<string, unknown>>>
+
+export type FormArtifact = ApprovedPremisesApplication | ApprovedPremisesAssessment | PlacementApplication
+
+export type DataServices = Partial<{
+  personService: {
+    getOasysSelections: (token: string, crn: string) => Promise<Array<OASysSection>>
+    getOasysSections: (token: string, crn: string, selectedSections?: Array<number>) => Promise<OASysSections>
+    getPersonRisks: (token: string, crn: string) => Promise<PersonRisksUI>
+  }
+  applicationService: {
+    findApplication: (token: string, id: string) => Promise<Cas2Application>
+  }
+  userService: {
+    getUserById: (token: string, id: string) => Promise<User>
+  }
+}>
+
 export interface ErrorsAndUserInput {
   errorTitle?: string
   errors: ErrorMessages
