@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import { DeepMocked, createMock } from '@golevelup/ts-jest'
-import { Cas2Application as Application, OASysSections } from '@approved-premises/api'
+import { Cas2Application as Application } from '@approved-premises/api'
 import { ErrorsAndUserInput } from '@approved-premises/ui'
 
 import { applicationFactory } from '../../testutils/factories'
