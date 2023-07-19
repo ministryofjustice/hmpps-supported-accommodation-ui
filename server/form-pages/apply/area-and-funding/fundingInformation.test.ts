@@ -1,6 +1,22 @@
+import { convertKeyValuePairToRadioItems } from '../../../utils/formUtils'
 import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../shared-examples'
 import FundingInformation from './fundingInformation'
 import { personFactory, applicationFactory } from '../../../testutils/factories/index'
+
+jest.mock('../../../utils/formUtils', () => ({
+  convertKeyValuePairToRadioItems: jest.fn().mockImplementation(() => [
+    {
+      value: 'foo',
+      text: 'Foo',
+      checked: false,
+    },
+    {
+      value: 'bar',
+      text: 'Bar',
+      checked: false,
+    },
+  ]),
+}))
 
 describe('FundingInformation', () => {
   const application = applicationFactory.build({ person: personFactory.build({ name: 'Roger Smith' }) })
@@ -34,6 +50,59 @@ describe('FundingInformation', () => {
 
       expect(page.response()).toEqual({
         'How will Roger Smith pay for their accommodation and service charge?': 'Personal money or savings',
+      })
+    })
+
+    it('Deletes fields where there is not an answer', () => {
+      const page = new FundingInformation({ fundingSource: undefined }, application)
+
+      expect(page.response()).toEqual({})
+    })
+  })
+
+  describe('items', () => {
+    describe('when there is a radio for benefits', () => {
+      it('returns the benefits hint', () => {
+        ;(convertKeyValuePairToRadioItems as jest.Mock).mockImplementation(() => [
+          {
+            value: 'benefits',
+            text: 'Foo',
+            checked: false,
+          },
+        ])
+        const page = new FundingInformation({ fundingSource: 'personalSavings' }, application)
+
+        expect(page.items()).toEqual([
+          {
+            value: 'benefits',
+            text: 'Foo',
+            checked: false,
+            hint: {
+              text: 'This includes Housing Benefit and Universal Credit, Disability Living Allowance, and Employment and Support Allowance',
+            },
+          },
+        ])
+      })
+    })
+
+    describe('when there is not a radio for benefits', () => {
+      it('returns the radio without a hint', () => {
+        ;(convertKeyValuePairToRadioItems as jest.Mock).mockImplementation(() => [
+          {
+            value: 'foo',
+            text: 'Foo',
+            checked: false,
+          },
+        ])
+        const page = new FundingInformation({ fundingSource: 'personalSavings' }, application)
+
+        expect(page.items()).toEqual([
+          {
+            value: 'foo',
+            text: 'Foo',
+            checked: false,
+          },
+        ])
       })
     })
   })
