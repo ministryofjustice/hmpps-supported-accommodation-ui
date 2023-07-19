@@ -7,7 +7,6 @@ import PersonService from './personService'
 import ApplicationService from './applicationService'
 import TaskListService from './taskListService'
 
-
 export const services = () => {
   const { hmppsAuthClient, personClient, applicationClient } = dataAccess()
 
