@@ -1,4 +1,4 @@
-import { oasysSectionsFactory, personFactory } from '../testutils/factories'
+import { personFactory } from '../testutils/factories'
 import PersonService from './personService'
 import { PersonClient } from '../data'
 
@@ -15,20 +15,6 @@ describe('Person Service', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     personClientFactory.mockReturnValue(personClient)
-  })
-
-  describe('getOasysSections', () => {
-    it("returns the person's OASys selections given their CRN", async () => {
-      const oasysSections = oasysSectionsFactory.build()
-
-      personClient.oasysSections.mockResolvedValue(oasysSections)
-
-      const serviceOasysSections = await service.getOasysSections(token, 'crn')
-
-      expect(serviceOasysSections).toEqual(oasysSections)
-      expect(personClientFactory).toHaveBeenCalledWith(token)
-      expect(personClient.oasysSections).toHaveBeenCalledWith('crn', [])
-    })
   })
 
   describe('findByCrn', () => {

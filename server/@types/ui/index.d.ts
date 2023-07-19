@@ -29,9 +29,6 @@ export type FormArtifact = Cas2Application
 
 export type DataServices = Partial<{
   personService: {
-    getOasysSelections: (token: string, crn: string) => Promise<Array<OASysSection>>
-    getOasysSections: (token: string, crn: string, selectedSections?: Array<number>) => Promise<OASysSections>
-    getPersonRisks: (token: string, crn: string) => Promise<PersonRisksUI>
     findByCrn: (token: string, crn: string) => Promise<Person>
   }
   applicationService: {
