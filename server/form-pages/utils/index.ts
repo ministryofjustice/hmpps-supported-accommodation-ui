@@ -1,4 +1,5 @@
 import type { FormArtifact, JourneyType, UiTask } from '@approved-premises/ui'
+import type { Request } from 'express'
 import { TaskListPageInterface } from '../taskListPage'
 
 export const getTask = <T>(task: T) => {
