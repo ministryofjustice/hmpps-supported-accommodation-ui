@@ -1,4 +1,3 @@
-import { OASysSections } from '@approved-premises/api'
 import { Request, RequestHandler, Response } from 'express'
 import PersonService from '../../services/personService'
 import { fetchErrorsAndUserInput } from '../../utils/validation'
@@ -7,10 +6,7 @@ import TaskListService from '../../services/taskListService'
 import paths from '../../paths/apply'
 
 export default class ApplicationsController {
-  constructor(
-    private readonly personService: PersonService,
-    private readonly applicationService: ApplicationService,
-  ) {}
+  constructor(private readonly personService: PersonService, private readonly applicationService: ApplicationService) {}
 
   new(): RequestHandler {
     return async (req: Request, res: Response) => {
