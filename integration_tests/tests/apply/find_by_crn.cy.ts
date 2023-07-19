@@ -2,7 +2,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import IndexPage from '../../pages'
 import { personFactory, applicationFactory } from '../../../server/testutils/factories/index'
 
-context('New', () => {
+context('Find by CRN', () => {
   const person = personFactory.build({})
   const applications = applicationFactory.buildList(3) as Array<Application>
 
@@ -15,18 +15,12 @@ context('New', () => {
   beforeEach(() => {
     // Given I am logged in
     cy.signIn()
-    // and there is Oasys data
-    cy.fixture('oasysSections.json').then(riskData => {
-      cy.task('stubOasysSections', {
-        crn: person.crn,
-        oasysSections: riskData,
-      })
-    })
-    // and existing applications
+
+    // and there are existing applications
     cy.task('stubApplications', applications)
   })
 
-  it('shows existing applications, allows user to enter a CRN and see the first risk question data', () => {
+  it('shows existing applications, allows user to enter a CRN and begin an application for that person', () => {
     // Given I visit the start page
     IndexPage.visit()
     // And I click on the start button
@@ -42,11 +36,18 @@ context('New', () => {
     cy.task('stubFindPerson', {
       person,
     })
+    const newApplication = applicationFactory.build({ person })
+
+    cy.task('stubCreateApplication', { application: newApplication })
+    cy.task('stubApplicationGet', { application: newApplication })
+    cy.task('stubApplicationUpdate', { application: newApplication })
+
     cy.get('#crn').type(person.crn)
     cy.get('button').contains('Save and continue').click()
 
-    // Then I see the risks for that person
-    cy.get('[id^=roshAnswers]').contains('Some answer for the first RoSH question')
+    // Then I am on the task list of a fresh application
+    cy.get('h1').contains('CAS 2: Refer for Accommodation')
+    cy.get('h2').contains('Application incomplete')
   })
 
   it('renders with an empty CRN error if the CRN is not entered', () => {
