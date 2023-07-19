@@ -1,3 +1,4 @@
+import { UpdateApplication } from '@approved-premises/api'
 import ApplicationClient from './applicationClient'
 import { applicationFactory } from '../testutils/factories'
 import paths from '../paths/api'
@@ -99,7 +100,7 @@ describeClient('ApplicationClient', provider => {
       const data = {
         data: application.data,
         type: 'CAS2',
-      }
+      } as UpdateApplication
 
       provider.addInteraction({
         state: 'Server is healthy',
