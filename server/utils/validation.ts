@@ -11,7 +11,7 @@ interface InvalidParams {
   errorType: string
 }
 
-const firstFlashItem = (request: Request, key: string) => {
+export const firstFlashItem = (request: Request, key: string) => {
   const message = request.flash(key)
   return message ? message[0] : undefined
 }
@@ -46,11 +46,16 @@ export const catchValidationErrorOrPropogate = (
 ): void => {
   const errors = extractValidationErrors(error)
 
-  const errorMessages = generateErrorMessages(errors)
-  const errorSummary = generateErrorSummary(errors)
+  if (typeof errors === 'string') {
+    request.flash('errorSummary', { text: errors })
+  } else {
+    const errorMessages = generateErrorMessages(errors)
+    const errorSummary = generateErrorSummary(errors)
 
-  request.flash('errors', errorMessages)
-  request.flash('errorSummary', errorSummary)
+    request.flash('errors', errorMessages)
+    request.flash('errorSummary', errorSummary)
+  }
+
   request.flash('userInput', request.body)
 
   response.redirect(redirectPath)
@@ -98,19 +103,6 @@ const throwUndefinedError = (message: string) => {
   throw new Error(message)
 }
 
-const extractValidationErrors = (error: SanitisedError | Error) => {
-  if ('data' in error) {
-    if (error.data['invalid-params']) {
-      return generateErrors(error.data['invalid-params'])
-    }
-    if (error instanceof ValidationError) {
-      return error.data as Record<string, string>
-    }
-  }
-
-  throw error
-}
-
 const generateErrors = (params: Array<InvalidParams>): Record<string, string> => {
   return params.reduce((obj, error) => {
     const key = error.propertyName.split('.').slice(1).join('_')
@@ -119,6 +111,22 @@ const generateErrors = (params: Array<InvalidParams>): Record<string, string> =>
       [key]: errorText(error),
     }
   }, {})
+}
+
+const extractValidationErrors = (error: SanitisedError | Error) => {
+  if ('data' in error) {
+    if (Array.isArray(error.data['invalid-params']) && error.data['invalid-params'].length) {
+      return generateErrors(error.data['invalid-params'])
+    }
+    if (typeof error.data === 'object' && error.data !== null && 'detail' in error.data) {
+      return error.data.detail as string
+    }
+    if (error instanceof ValidationError) {
+      return error.data as Record<string, string>
+    }
+  }
+
+  throw error
 }
 
 export const generateErrorSummary = (errors: Record<string, string>): Array<ErrorSummary> => {
