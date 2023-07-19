@@ -7,7 +7,7 @@ import Apply from '../../../server/form-pages/apply'
 export default class ApplyPage extends Page {
   taskListPage: TaskListPage
 
-  constructor(title: string, application: Application, taskName: string, pageName: string, backLink?: string) {
+  constructor(title: string, application: Application, taskName: string, pageName: string, _backLink?: string) {
     super(title)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
