@@ -46,6 +46,7 @@
         ],
         "@typescript-eslint/semi": 0,
         "import/no-unresolved": "error",
+        "no-param-reassign": ["error", { "props": false }],
         "prettier/prettier": [
           "error",
           {
