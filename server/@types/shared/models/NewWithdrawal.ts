@@ -7,5 +7,6 @@ import type { WithdrawalReason } from './WithdrawalReason';
 
 export type NewWithdrawal = {
     reason: WithdrawalReason;
+    otherReason?: string;
 };
 
