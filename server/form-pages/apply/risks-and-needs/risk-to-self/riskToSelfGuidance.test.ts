@@ -76,7 +76,7 @@ describe('RiskToSelfGuidance', () => {
     })
   })
 
-  itShouldHaveNextValue(new RiskToSelfGuidance({}, application, oasysSections, ''), '')
+  itShouldHaveNextValue(new RiskToSelfGuidance({}, application, oasysSections, ''), 'vulnerability')
   itShouldHavePreviousValue(new RiskToSelfGuidance({}, application, oasysSections, ''), 'taskList')
 
   describe('errors', () => {

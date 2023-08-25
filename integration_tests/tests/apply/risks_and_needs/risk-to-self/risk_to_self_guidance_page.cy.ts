@@ -20,7 +20,7 @@
 //  Scenario: import OASys data
 //    When there is OASys data
 //    When I choose to import and save the data
-//    Then we are taken to the Task List page (temporarily)
+//    Then we are taken to the vulnerability page
 //
 //  Scenario: there is no OASys data
 //    When I follow the link to the first page in the "Risks and needs" section
@@ -30,6 +30,7 @@
 import RiskToSelfGuidancePage from '../../../../pages/apply/risks-and-needs/risk-to-self/riskToSelfGuidancePage'
 import Page from '../../../../pages/page'
 import TaskListPage from '../../../../pages/apply/taskListPage'
+import VulnerabilityPage from '../../../../pages/apply/risks-and-needs/risk-to-self/vulnerabilityPage'
 import {
   personFactory,
   applicationFactory,
@@ -109,7 +110,7 @@ context('Visit "Risks and needs" section', () => {
 
   //  Scenario: import OASys data
   // ----------------------------------------------
-  it('returns me to the expected page on save', function test() {
+  it('takes me to the vulnerability page on save', function test() {
     const taskListPage = Page.verifyOnPage(TaskListPage)
 
     //  When I follow the link to the first page in the "Risks and needs" section
@@ -120,8 +121,8 @@ context('Visit "Risks and needs" section', () => {
     //  When I choose to import and save the data
     page.clickSubmit()
 
-    //  Then we are taken to the Task List page (temporarily)
-    Page.verifyOnPage(TaskListPage)
+    //  Then we are taken to the vulnerability page
+    Page.verifyOnPage(VulnerabilityPage, this.application)
   })
 
   //  Scenario: there is no OASys data

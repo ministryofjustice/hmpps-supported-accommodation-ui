@@ -99,7 +99,7 @@ export default class RiskToSelfGuidance implements TaskListPage {
   }
 
   next() {
-    return ''
+    return 'vulnerability'
   }
 
   errors() {
