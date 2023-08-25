@@ -9,7 +9,7 @@ export default class CurrentRiskPage extends ApplyPage {
       `${nameOrPlaceholderCopy(application.person, 'The person')}'s current risks`,
       application,
       'risk-to-self',
-      'current-risks',
+      'current-risk',
     )
   }
 
@@ -18,7 +18,7 @@ export default class CurrentRiskPage extends ApplyPage {
       paths.applications.pages.show({
         id: application.id,
         task: 'risk-to-self',
-        page: 'current-risks',
+        page: 'current-risk',
       }),
     )
   }

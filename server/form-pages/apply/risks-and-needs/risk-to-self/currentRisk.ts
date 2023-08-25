@@ -7,7 +7,7 @@ import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 type CurrentRisksBody = Record<string, never>
 
 @Page({
-  name: 'current-risks',
+  name: 'current-risk',
   bodyProperties: [],
 })
 export default class CurrentRisk implements TaskListPage {
@@ -27,7 +27,7 @@ export default class CurrentRisk implements TaskListPage {
   }
 
   next() {
-    return 'current-risks'
+    return 'current-risk'
   }
 
   errors() {
