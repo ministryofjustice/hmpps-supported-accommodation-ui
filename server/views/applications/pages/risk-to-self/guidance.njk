@@ -70,8 +70,10 @@
 
         {{ govukButton({
               text: "Continue",
-              href: paths.applications.show({
-                    id: page.application.id   
+              href: paths.applications.pages.show({
+                    id: page.application.id,
+                    task: 'risk-to-self',
+                    page: 'vulnerability'
                   })
               }) 
           }}
