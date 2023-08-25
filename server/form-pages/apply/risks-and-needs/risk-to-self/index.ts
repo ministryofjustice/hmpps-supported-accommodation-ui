@@ -3,11 +3,11 @@
 import { Task } from '../../../utils/decorators'
 import RiskToSelfGuidance from './riskToSelfGuidance'
 import Vulnerability from './vulnerability'
-import CurrentRisks from './currentRisks'
+import CurrentRisk from './currentRisk'
 
 @Task({
   name: 'Review risk to self information',
   slug: 'risk-to-self',
-  pages: [RiskToSelfGuidance, Vulnerability, CurrentRisks],
+  pages: [RiskToSelfGuidance, Vulnerability, CurrentRisk],
 })
 export default class RiskToSelf {}
