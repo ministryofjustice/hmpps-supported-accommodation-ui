@@ -13,6 +13,43 @@ describe('Acct', () => {
     })
   })
 
+  describe('acct data', () => {
+    describe('when there is acct data on the application', () => {
+      it('assigns them to the accts field on the page', () => {
+        const applicationWithData = applicationFactory.build({
+          person: personFactory.build({ name: 'Roger Smith' }),
+          data: {
+            'risk-to-self': {
+              'acct-data': [
+                {
+                  referringInstitution: 'institution',
+                  'createdDate-day': '1',
+                  'createdDate-month': '2',
+                  'createdDate-year': '2012',
+                  'expiryDate-day': '10',
+                  'expiryDate-month': '10',
+                  'expiryDate-year': '2013',
+                  acctDetails: 'detail info',
+                },
+              ],
+            },
+          },
+        })
+
+        const page = new Acct({}, applicationWithData)
+
+        expect(page.accts).toEqual([
+          {
+            referringInstitution: 'institution',
+            createdDate: '01/02/2012',
+            expiryDate: '10/10/2013',
+            acctDetails: 'detail info',
+          },
+        ])
+      })
+    })
+  })
+
   itShouldHaveNextValue(new Acct({}, application), 'additional-information')
   itShouldHavePreviousValue(new Acct({}, application), 'historical-risk')
 
