@@ -1,6 +1,57 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% extends "./_risk-to-self-screen.njk" %}
 {% set pageName = "acct" %}
 
 {% block questions %}
   <h1 class="govuk-heading-l">{{ page.title }}</h1>
+
+  <p class="govuk-body">An ACCT is a tailored plan to support someone in prison 
+    at risk of self harm or suicide.</p>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+  {% for acct in page.accts %}
+
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: acct.referringInstitution
+        }
+      },
+      rows: [
+        {
+          key: {
+            text: "Started:"
+          },
+          value: {
+            html: acct.createdDate
+          }
+        },
+        {
+          key: {
+            text: "Ended:"
+          },
+          value: {
+            html: acct.expiryDate
+          }
+        },
+        {
+          key: {
+            text: "Details"
+          },
+          value: {
+            html: acct.acctDetails
+          }
+        }
+      ]
+    }) }}
+
+  {% endfor %}
+
+  {{ govukButton({
+    text: "Select ACCT notes",
+    classes: "govuk-button--secondary",
+    href: paths.applications.pages.show({ id: applicationId, task: 'risk-to-self', page: 'acct-data' })
+  }) }}
+
 {% endblock %}
