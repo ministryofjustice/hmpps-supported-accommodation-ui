@@ -1,0 +1,12 @@
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% macro formPageDateInput(params, context) %}
+  {{
+      govukDateInput(
+        mergeObjects(
+          params,
+          { id: params.fieldName, namePrefix: params.fieldName, errorMessage: context.errors[params.fieldName], value: context[params.fieldName] }
+        )
+      )
+  }}
+{% endmacro %}

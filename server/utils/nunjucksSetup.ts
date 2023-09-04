@@ -11,6 +11,7 @@ import { initialiseName } from './utils'
 import { dashboardTableRows } from './applicationUtils'
 import * as TaskListUtils from './taskListUtils'
 import * as OasysImportUtils from './oasysImportUtils'
+import { dateFieldValues } from './formUtils'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -70,4 +71,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     njkEnv.addGlobal('tagManagerId', tagManagerId.trim())
     njkEnv.addGlobal('tagManagerUrl', `https://www.googletagmanager.com/ns.html?id=${tagManagerId.trim()}`)
   }
+
+  njkEnv.addGlobal('dateFieldValues', dateFieldValues)
 }
