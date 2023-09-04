@@ -1,4 +1,5 @@
 import errorLookups from '../../server/i18n/en/errors.json'
+import { DateFormats } from '../../server/utils/dateUtils'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
@@ -50,5 +51,12 @@ export default abstract class Page {
 
   checkCheckboxByLabel(option: string): void {
     cy.get(`input[value="${option}"]`).check()
+  }
+
+  completeDateInputs(prefix: string, date: string): void {
+    const parsedDate = DateFormats.isoToDateObj(date)
+    cy.get(`#${prefix}-day`).type(parsedDate.getDate().toString())
+    cy.get(`#${prefix}-month`).type(`${parsedDate.getMonth() + 1}`)
+    cy.get(`#${prefix}-year`).type(parsedDate.getFullYear().toString())
   }
 }

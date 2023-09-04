@@ -6,15 +6,19 @@
 //  Background:
 //    Given an application exists
 //    And I am logged in
-//    And I am on the ACCT page
+//    And I am on the "ACCT" page
 //
-//  Scenario: view ACCT questions
+//  Scenario: there are existing ACCTs in the application
+//    Then I see a list of the existing ACCTs on the "ACCT" page
+//
+//  Scenario: there are no existing ACCTs in the application
 //    Then I see the "ACCT" page
 //
-//  Scenario: complete page and navigate to next page in health needs task
-//    When I complete the ACCT page
-//    And I continue to the next task / page
-//    Then I see the "additional information" page
+//  Scenario: when I go to select another ACCT
+//    Then I see the "ACCT data" page
+//
+//  Scenario: When I continue to the next task / page
+//    Then I see the "Additional Information" page
 
 import AcctPage from '../../../../pages/apply/risks-and-needs/risk-to-self/acctPage'
 import AdditionalInformationPage from '../../../../pages/apply/risks-and-needs/risk-to-self/additionalInformationPage'
@@ -30,13 +34,21 @@ context('Visit "Risks and needs" section', () => {
     cy.task('stubAuthUser')
 
     cy.fixture('applicationData.json').then(applicationData => {
-      applicationData['risk-to-self'] = {}
+      delete applicationData['risk-to-self']
       const application = applicationFactory.build({
         id: 'abc123',
         person,
         data: applicationData,
       })
       cy.wrap(application).as('application')
+    })
+
+    cy.fixture('applicationData.json').then(applicationData => {
+      const applicationWithData = {
+        ...this.application,
+        data: applicationData,
+      }
+      cy.wrap(applicationWithData).as('applicationWithData')
     })
   })
 
@@ -55,15 +67,26 @@ context('Visit "Risks and needs" section', () => {
     AcctPage.visit(this.application)
   })
 
-  //  Scenario: view ACCT questions
+  //  Scenario: there are no existing ACCTs in the application
   //    Then I see the "ACCT" page
   it('presents ACCT page', function test() {
     Page.verifyOnPage(AcctPage, this.application)
   })
 
+  //  Scenario: there are existing ACCTs in the application
+  //    Then I see a list of existing ACCTs on the "ACCT" page
+  it('presents ACCT page with existing ACCTs', function test() {
+    // When there is already imported data
+    cy.task('stubApplicationGet', { application: this.applicationWithData })
+
+    AcctPage.visit(this.applicationWithData)
+
+    const page = new AcctPage(this.applicationWithData)
+    page.hasListOfAccts()
+  })
+
   //  Scenario: complete page and navigate to next page in health needs task
-  //    When I complete the ACCT page
-  //    And I continue to the next task / page
+  //    When I continue to the next task / page
   //    Then I see the "additional information" page
   it('navigates to the next page (additional information)', function test() {
     AcctPage.visit(this.application)

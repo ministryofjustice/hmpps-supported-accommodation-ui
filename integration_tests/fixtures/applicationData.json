@@ -126,6 +126,18 @@
     "historical-risk": {
       "historicalRiskDetail": "example answer historical risk ",
       "dateOfOasysImport": "2023-08-31"
-    }
+    },
+    "acct-data": [
+      {
+        "createdDate-day": "1",
+        "createdDate-month": "2",
+        "createdDate-year": "2012",
+        "expiryDate-day": "10",
+        "expiryDate-month": "10",
+        "expiryDate-year": "2013",
+        "referringInstitution": "HMPPS prison",
+        "acctDetails": "ACCT details"
+      }
+    ]
   }
 }

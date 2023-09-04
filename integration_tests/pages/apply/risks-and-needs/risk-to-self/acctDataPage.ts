@@ -2,9 +2,9 @@ import { Cas2Application as Application } from '../../../../../server/@types/sha
 import ApplyPage from '../../applyPage'
 import paths from '../../../../../server/paths/apply'
 
-export default class AcctPage extends ApplyPage {
+export default class AcctDataPage extends ApplyPage {
   constructor(private readonly application: Application) {
-    super('Assessment, Care in Custody and Teamwork (ACCT)', application, 'risk-to-self', 'acct')
+    super('Add an ACCT entry', application, 'risk-to-self', 'acct-data')
   }
 
   static visit(application: Application): void {
@@ -12,15 +12,15 @@ export default class AcctPage extends ApplyPage {
       paths.applications.pages.show({
         id: application.id,
         task: 'risk-to-self',
-        page: 'acct',
+        page: 'acct-data',
       }),
     )
   }
 
-  hasListOfAccts(): void {
-    cy.get('.govuk-summary-card__title').contains('HMPPS prison')
-    cy.get('.govuk-summary-list').contains('01/02/2012')
-    cy.get('.govuk-summary-list').contains('10/10/2013')
-    cy.get('.govuk-summary-list').contains('ACCT details')
+  addACCTInformation(): void {
+    this.completeDateInputs('createdDate', '2022-07-15')
+    this.completeDateInputs('expiryDate', '2023-07-15')
+    this.getTextInputByIdAndEnterDetails('referringInstitution', 'HMPPS prison')
+    this.getTextInputByIdAndEnterDetails('acctDetails', 'some detail')
   }
 }

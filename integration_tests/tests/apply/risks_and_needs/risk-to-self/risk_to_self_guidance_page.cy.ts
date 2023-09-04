@@ -146,7 +146,7 @@ context('Visit "Risks and needs" section', () => {
     taskListPage.visitTask('Review risk to self information')
 
     //  Then we are redirected to the Vulnerability page
-    cy.get('h1').contains('vulnerability')
+    Page.verifyOnPage(VulnerabilityPage, this.application)
   })
 
   //  Scenario: there is no OASys data
