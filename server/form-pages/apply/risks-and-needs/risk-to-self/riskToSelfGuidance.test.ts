@@ -6,6 +6,7 @@ import { personFactory, applicationFactory, oasysRiskToSelfFactory } from '../..
 import RiskToSelfGuidance, { RiskToSelfTaskData } from './riskToSelfGuidance'
 import PersonService from '../../../../services/personService'
 import Vulnerability from './vulnerability'
+import { AcctDataBody } from './acctData'
 
 jest.mock('./vulnerability')
 
@@ -155,6 +156,30 @@ describe('RiskToSelfGuidance', () => {
           applicationWithData.data['risk-to-self'].vulnerability,
           applicationWithData,
         )
+      })
+      describe('when the Vulnerability page has not been answered', () => {
+        it('returns the Vulnerability page', async () => {
+          const riskToSelfData = {
+            'risk-to-self': { 'acct-data': [{ acctDetails: 'some answer' }] },
+          } as Partial<AcctDataBody>
+
+          const applicationWithData = applicationFactory.build({
+            person: personFactory.build({ name: 'Roger Smith' }),
+            data: riskToSelfData,
+          })
+
+          const vulnerabilityPageConstructor = jest.fn()
+
+          ;(Vulnerability as jest.Mock).mockImplementation(() => {
+            return vulnerabilityPageConstructor
+          })
+
+          expect(RiskToSelfGuidance.initialize({}, applicationWithData, 'some-token', dataServices)).resolves.toEqual(
+            vulnerabilityPageConstructor,
+          )
+
+          expect(Vulnerability).toHaveBeenCalledWith({}, applicationWithData)
+        })
       })
     })
   })

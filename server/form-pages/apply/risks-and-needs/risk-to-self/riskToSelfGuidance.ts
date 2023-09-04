@@ -90,7 +90,7 @@ export default class RiskToSelfGuidance implements TaskListPage {
       }
       return new RiskToSelfGuidance(body, application, oasys, taskDataJson)
     }
-    return new Vulnerability(application.data['risk-to-self'].vulnerability, application)
+    return new Vulnerability(application.data['risk-to-self'].vulnerability ?? {}, application)
   }
 
   private static getTaskData(oasysSections: OASysRiskToSelf): Partial<RiskToSelfTaskData> {
