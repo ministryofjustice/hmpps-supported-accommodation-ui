@@ -3,7 +3,7 @@ import differenceInDays from 'date-fns/differenceInDays'
 import formatDistanceStrict from 'date-fns/formatDistanceStrict'
 import type { ObjectWithDateParts } from '@approved-premises/ui'
 
-import { DateFormats, InvalidDateStringError } from './dateUtils'
+import { DateFormats, InvalidDateStringError, dateAndTimeInputsAreValidDates } from './dateUtils'
 
 jest.mock('date-fns/isPast')
 jest.mock('date-fns/formatDistanceStrict')
@@ -156,6 +156,62 @@ describe('DateFormats', () => {
       })
       expect(formatDistanceStrict).toHaveBeenCalledWith(date1, date2, { unit: 'day' })
       expect(differenceInDays).toHaveBeenCalledWith(date1, date2)
+    })
+  })
+
+  describe('dateAndTimeInputsToUiDate', () => {
+    it('converts a date and time input object to a human readable date', () => {
+      const dateTimeInputs = { 'key-day': '1', 'key-month': '11', 'key-year': '2022' }
+
+      expect(DateFormats.dateAndTimeInputsToUiDate(dateTimeInputs, 'key')).toEqual('01/11/2022')
+    })
+
+    it('throws an error if an object without date inputs for the key is entered', () => {
+      expect(() => DateFormats.dateAndTimeInputsToUiDate({}, 'key')).toThrow(InvalidDateStringError)
+    })
+  })
+
+  describe('dateAndTimeInputsAreValidDates', () => {
+    it('returns true when the date is valid', () => {
+      const obj: ObjectWithDateParts<'date'> = {
+        'date-year': '2022',
+        'date-month': '12',
+        'date-day': '11',
+      }
+
+      const result = dateAndTimeInputsAreValidDates(obj, 'date')
+
+      expect(result).toEqual(true)
+    })
+
+    it('returns false when the date is invalid', () => {
+      const obj: ObjectWithDateParts<'date'> = {
+        'date-year': '99',
+        'date-month': '99',
+        'date-day': '99',
+      }
+
+      const result = dateAndTimeInputsAreValidDates(obj, 'date')
+
+      expect(result).toEqual(false)
+    })
+
+    it('returns false when the year is not 4 digits', () => {
+      const obj: ObjectWithDateParts<'date'> = {
+        'date-year': '22',
+        'date-month': '12',
+        'date-day': '11',
+      }
+
+      const result = dateAndTimeInputsAreValidDates(obj, 'date')
+
+      expect(result).toEqual(false)
+    })
+
+    it('returns false when empty object passed in', () => {
+      const result = dateAndTimeInputsAreValidDates(undefined, 'date')
+
+      expect(result).toEqual(false)
     })
   })
 })

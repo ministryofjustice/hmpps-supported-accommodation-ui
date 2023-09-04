@@ -28,11 +28,10 @@ export class DateFormats {
   static dateObjtoUIDate(date: Date, options: { format: 'short' | 'medium' | 'long' } = { format: 'long' }) {
     if (options.format === 'long') {
       return format(date, 'cccc d MMMM y')
-    } 
+    }
     if (options.format === 'medium') {
       return format(date, 'd MMMM y')
-    }
-    else {
+    } else {
       return format(date, 'dd/LL/y')
     }
   }
@@ -96,6 +95,19 @@ export class DateFormats {
     return dateInputObj
   }
 
+    /**
+   * Converts input for a GDS date input https://design-system.service.gov.uk/components/date-input/
+   * into a human readable date for the user
+   * @param dateInputObj an object with date parts (i.e. `-month` `-day` `-year`), which come from a `govukDateInput`.
+   * @param key the key that prefixes each item in the dateInputObj, also the name of the property which the date object will be returned in the return value.
+   * @returns a friendly date.
+   */
+    static dateAndTimeInputsToUiDate(dateInputObj: Record<string, string>, key: string | number, format = 'short' as 'short' | 'long' | 'medium') {
+      const iso8601Date = DateFormats.dateAndTimeInputsToIsoString(dateInputObj, key)[key]
+  
+      return DateFormats.isoDateToUIDate(iso8601Date, { format: format })
+    }
+
   /**
    * @param date1 first day to compare.
    * @param date2 second day to compare.
@@ -104,6 +116,32 @@ export class DateFormats {
   static differenceInDays(date1: Date, date2: Date): DifferenceInDays {
     return { ui: formatDistanceStrict(date1, date2, { unit: 'day' }), number: differenceInDays(date1, date2) }
   }
+}
+
+export const dateAndTimeInputsAreValidDates = <K extends string | number>(
+  dateInputObj: ObjectWithDateParts<K>,
+  key: K,
+): boolean => {
+
+  if (!dateInputObj) {
+    return false
+  }
+
+  const inputYear = dateInputObj[`${key}-year`] as string
+
+  if (inputYear && inputYear.length !== 4) return false
+
+  const dateString = DateFormats.dateAndTimeInputsToIsoString(dateInputObj, key)
+
+  try {
+    DateFormats.isoToDateObj(dateString[key])
+  } catch (err) {
+    if (err instanceof InvalidDateStringError) {
+      return false
+    }
+  }
+
+  return true
 }
 
 export class InvalidDateStringError extends Error {}

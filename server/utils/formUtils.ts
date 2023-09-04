@@ -1,5 +1,5 @@
 import * as nunjucks from 'nunjucks'
-import { RadioItem, CheckboxItem } from '@approved-premises/ui'
+import { RadioItem, CheckboxItem, ErrorMessages } from '@approved-premises/ui'
 
 export const escape = (text: string): string => {
   const escapeFilter = new nunjucks.Environment().getFilter('escape')
@@ -27,4 +27,25 @@ export function convertKeyValuePairToCheckboxItems<T>(
       checked: checkedItems.includes(key),
     }
   })
+}
+
+export const dateFieldValues = (fieldName: string, context: Record<string, unknown>, errors: ErrorMessages = {}) => {
+  const errorClass = errors[fieldName] ? 'govuk-input--error' : ''
+  return [
+    {
+      classes: `govuk-input--width-2 ${errorClass}`,
+      name: 'day',
+      value: context[`${fieldName}-day`],
+    },
+    {
+      classes: `govuk-input--width-2 ${errorClass}`,
+      name: 'month',
+      value: context[`${fieldName}-month`],
+    },
+    {
+      classes: `govuk-input--width-4 ${errorClass}`,
+      name: 'year',
+      value: context[`${fieldName}-year`],
+    },
+  ]
 }
