@@ -1,0 +1,89 @@
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% extends "../layout.njk" %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="{{ columnClasses | default("govuk-grid-column-two-thirds") }}">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-4">{{ page.title }}</h1>
+      <p class="govuk-body">An Assessment, Care in Custody and Teamwork (ACCT) 
+          is a tailored plan to support someone in prison at risk of self harm or suicide.</p>
+      <form action="{{ paths.applications.updateList({ id: applicationId }) }}?_method=PUT" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+        <input type="hidden" name="pageName" value="{{ page.name }}"/>
+        <input type="hidden" name="taskName" value="{{ page.taskName }}"/>
+
+        {{ showErrorSummary(errorSummary) }}
+
+        {{ 
+          formPageDateInput( {
+            fieldName: "createdDate",
+            fieldset: {
+              legend: {
+                text: page.questions.createdDate.question,
+                classes: "govuk-fieldset__legend--m"
+              }
+            },
+            items: dateFieldValues('createdDate', errors)
+            }, 
+            fetchContext()) 
+          }}
+
+        {{ 
+          formPageDateInput( {
+            fieldName: "expiryDate",
+            fieldset: {
+              legend: {
+                text: page.questions.expiryDate.question,
+                classes: "govuk-fieldset__legend--m"
+              }
+            },
+            items: dateFieldValues('expiryDate', errors)
+            }, 
+            fetchContext()) 
+          }}
+
+        {{
+            formPageInput(
+              {
+                label: { 
+                  text: page.questions.referringInstitution.question,
+                  classes: "govuk-label--m" 
+                },
+                classes: "govuk-input--width-20",
+                fieldName: "referringInstitution",
+                hint: {
+                  text: page.questions.referringInstitution.hint
+                }
+              },
+              fetchContext()
+            )
+        }}
+
+        {{
+            formPageTextArea(
+              {
+                fieldName: "acctDetails",
+                label: {
+                  text: page.questions.acctDetail.question,
+                  classes: "govuk-label--m"
+                }
+              },
+              fetchContext()
+            )
+        }}
+
+        {% block button %}
+
+          {{ govukButton({
+                text: "Save and add ACCT"
+            }) }}
+
+        {% endblock %}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
