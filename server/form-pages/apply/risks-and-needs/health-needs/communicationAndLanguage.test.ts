@@ -99,7 +99,7 @@ describe('CommunicationAndLanguage', () => {
 
       describe('and _communicationDetail_ is UNANSWERED', () => {
         it('includes a validation error for _communicationDetail_', () => {
-          expect(page.errors()).toHaveProperty('communicationDetail', 'Provide details of their additional needs')
+          expect(page.errors()).toHaveProperty('communicationDetail', 'Describe their communication needs')
         })
       })
     })
@@ -109,7 +109,10 @@ describe('CommunicationAndLanguage', () => {
 
       describe('and _interpretationDetail_ is UNANSWERED', () => {
         it('includes a validation error for _interpretationDetail_', () => {
-          expect(page.errors()).toHaveProperty('interpretationDetail', 'Specify the language needing interpretation')
+          expect(page.errors()).toHaveProperty(
+            'interpretationDetail',
+            'Specify the language the interpreter is needed for',
+          )
         })
       })
     })
@@ -119,7 +122,10 @@ describe('CommunicationAndLanguage', () => {
 
       describe('and _supportDetail_ is UNANSWERED', () => {
         it('includes a validation error for _supportDetail_', () => {
-          expect(page.errors()).toHaveProperty('supportDetail', 'Provide details of the support needed')
+          expect(page.errors()).toHaveProperty(
+            'supportDetail',
+            'Describe the support needed to see, hear, speak or understand',
+          )
         })
       })
     })
