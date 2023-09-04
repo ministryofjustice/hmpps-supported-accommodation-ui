@@ -137,4 +137,29 @@ export default class ApplicationsController {
       }
     }
   }
+
+  appendToList() {
+    return async (req: Request, res: Response) => {
+      const { pageName, taskName } = req.body
+      const Page = getPage(taskName, pageName, 'applications')
+      const page = await this.applicationService.initializePage(Page, req, this.dataServices)
+
+      try {
+        await this.applicationService.appendToList(page, req)
+        const next = page.next()
+        if (next) {
+          res.redirect(paths.applications.pages.show({ id: req.params.id, task: taskName, page: page.next() }))
+        } else {
+          res.redirect(paths.applications.show({ id: req.params.id }))
+        }
+      } catch (err) {
+        catchValidationErrorOrPropogate(
+          req,
+          res,
+          err,
+          paths.applications.pages.show({ id: req.params.id, task: taskName, page: pageName }),
+        )
+      }
+    }
+  }
 }

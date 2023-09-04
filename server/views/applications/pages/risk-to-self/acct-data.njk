@@ -10,7 +10,7 @@
       <h1 class="govuk-heading-l govuk-!-margin-bottom-4">{{ page.title }}</h1>
       <p class="govuk-body">An Assessment, Care in Custody and Teamwork (ACCT) 
           is a tailored plan to support someone in prison at risk of self harm or suicide.</p>
-      <form action="{{ paths.applications.updateList({ id: applicationId }) }}?_method=PUT" method="post">
+      <form action="{{ paths.applications.appendToList({ id: applicationId }) }}?_method=PUT" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
         <input type="hidden" name="pageName" value="{{ page.name }}"/>
         <input type="hidden" name="taskName" value="{{ page.taskName }}"/>

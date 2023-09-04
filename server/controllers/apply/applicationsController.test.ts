@@ -38,9 +38,9 @@ describe('applicationsController', () => {
       personService,
       applicationService,
     })
+
     request = createMock<Request>({ user: { token } })
     response = createMock<Response>({})
-    jest.clearAllMocks()
   })
 
   describe('index', () => {
@@ -215,6 +215,80 @@ describe('applicationsController', () => {
       expect(applicationService.findApplication).toHaveBeenCalledWith(request.user.token, request.params.id)
       expect(getResponses).toHaveBeenCalledWith(application)
       expect(response.render).toHaveBeenCalledWith('applications/confirm', { pageHeading: 'Application confirmation' })
+    })
+  })
+
+  describe('appendToList', () => {
+    const page = createMock<TaskListPage>({})
+
+    beforeEach(() => {
+      request.body = {
+        exampleField: 'example answer',
+        pageName: 'example-page',
+        taskName: 'example-task',
+      }
+      request.params = {
+        id: 'abc123',
+      }
+
+      const PageConstructor = jest.fn()
+      ;(getPage as jest.Mock).mockReturnValue(PageConstructor)
+
+      applicationService.initializePage.mockResolvedValue(page)
+    })
+
+    describe('when the page has a next page', () => {
+      it('saves data and calls next function', async () => {
+        page.next.mockReturnValue('next-page')
+
+        applicationService.appendToList.mockResolvedValue()
+
+        const requestHandler = applicationsController.appendToList()
+
+        await requestHandler({ ...request }, response)
+
+        expect(applicationService.appendToList).toHaveBeenCalledWith(page, request)
+
+        expect(response.redirect).toHaveBeenCalledWith(
+          paths.applications.pages.show({ id: request.params.id, task: 'example-task', page: 'next-page' }),
+        )
+      })
+    })
+
+    describe('when the page does not have a next page', () => {
+      it('redirects to the task list page', async () => {
+        page.next.mockReturnValue('')
+
+        applicationService.appendToList.mockResolvedValue()
+
+        const requestHandler = applicationsController.appendToList()
+
+        await requestHandler({ ...request }, response)
+
+        expect(applicationService.appendToList).toHaveBeenCalledWith(page, request)
+
+        expect(response.redirect).toHaveBeenCalledWith(paths.applications.show({ id: request.params.id }))
+      })
+    })
+
+    describe('when there are errors', () => {
+      it('passes error to error handler', async () => {
+        const err = new Error()
+        applicationService.appendToList.mockImplementation(() => {
+          throw err
+        })
+
+        const requestHandler = applicationsController.appendToList()
+
+        await requestHandler({ ...request }, response)
+
+        expect(catchValidationErrorOrPropogate).toHaveBeenCalledWith(
+          request,
+          response,
+          err,
+          paths.applications.pages.show({ id: request.params.id, task: 'example-task', page: 'example-page' }),
+        )
+      })
     })
   })
 

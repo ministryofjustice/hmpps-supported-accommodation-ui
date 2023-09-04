@@ -76,6 +76,39 @@ export default class ApplicationService {
     await client.update(application.id, getApplicationUpdateData(application))
   }
 
+  async appendToList(page: TaskListPage, request: Request) {
+    const errors = page.errors()
+
+    if (Object.keys(errors).length) {
+      throw new ValidationError<typeof page>(errors)
+    } else {
+      const application = await this.findApplication(request.user.token, request.params.id)
+      const client = this.applicationClientFactory(request.user.token)
+
+      const pageName = getPageName(page.constructor)
+      const taskName = getTaskName(page.constructor)
+
+      /* eslint-disable no-underscore-dangle */
+      delete request.body._csrf
+      delete request.body.pageName
+      delete request.body.taskName
+
+      if (this.isAppendingToList(application, taskName, pageName)) {
+        application.data[taskName][pageName].push(request.body)
+      } else {
+        application.data = application.data || {}
+        application.data[taskName] = application.data[taskName] || {}
+        application.data[taskName][pageName] = [{ ...request.body }]
+      }
+
+      await client.update(application.id, getApplicationUpdateData(application))
+    }
+  }
+
+  private isAppendingToList(application: Application, taskName: string, pageName: string) {
+    return application.data && application.data[taskName] && application.data[taskName][pageName]
+  }
+
   async initializePage(
     Page: TaskListPageInterface,
     request: Request,

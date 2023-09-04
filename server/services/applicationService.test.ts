@@ -155,6 +155,84 @@ describe('ApplicationService', () => {
     })
   })
 
+  describe('appendToList', () => {
+    const application = applicationFactory.build({ data: null })
+    const token = 'some-token'
+    const request = createMock<Request>({
+      params: { id: application.id, task: 'some-task', page: 'some-page' },
+      user: { token },
+    })
+    const applicationData = createMock<UpdateCas2Application>()
+
+    beforeEach(() => {
+      applicationClient.find.mockResolvedValue(application)
+    })
+
+    describe('when there are no validation errors', () => {
+      let page: DeepMocked<TaskListPage>
+
+      beforeEach(() => {
+        page = createMock<TaskListPage>({
+          errors: () => {
+            return {} as TaskListErrors<TaskListPage>
+          },
+          body: { foo: 'bar' },
+        })
+        ;(getPageName as jest.Mock).mockReturnValue('some-page')
+        ;(getTaskName as jest.Mock).mockReturnValue('some-task')
+      })
+
+      it('does not throw an error', () => {
+        expect(async () => {
+          await service.appendToList(page, request)
+        }).not.toThrow(ValidationError)
+      })
+
+      it('saves data to the api', async () => {
+        await service.appendToList(page, request)
+
+        expect(applicationClientFactory).toHaveBeenCalledWith(token)
+        expect(applicationClient.update).toHaveBeenCalledWith(application.id, applicationData)
+      })
+
+      it('updates an in-progress application', async () => {
+        application.data = { 'some-task': { 'some-page': [{ question: 'answer' }] } }
+        const requestWithBody = createMock<Request>({
+          body: { newQuestion: 'new answer' },
+          params: { id: application.id, task: 'some-task', page: 'some-page' },
+          user: { token },
+        })
+
+        await service.appendToList(page, requestWithBody)
+
+        expect(getApplicationUpdateData).toHaveBeenCalledWith({
+          ...application,
+          data: {
+            'some-task': {
+              'some-page': [{ question: 'answer' }, { newQuestion: 'new answer' }],
+            },
+          },
+        })
+      })
+    })
+
+    describe('When there validation errors', () => {
+      it('throws an error if there is a validation error', async () => {
+        const errors = createMock<TaskListErrors<TaskListPage>>({ knowOralHearingDate: 'error' })
+        const page = createMock<TaskListPage>({
+          errors: () => errors,
+        })
+
+        expect.assertions(1)
+        try {
+          await service.appendToList(page, request)
+        } catch (e) {
+          expect(e).toEqual(new ValidationError(errors))
+        }
+      })
+    })
+  })
+
   describe('initializePage', () => {
     let request: DeepMocked<Request>
 

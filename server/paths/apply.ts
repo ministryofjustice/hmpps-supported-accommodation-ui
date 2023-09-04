@@ -20,6 +20,7 @@ const paths = {
       update: pagesPath,
     },
     update: singleApplicationPath,
+    appendToList: singleApplicationPath.path('list'),
   },
 }
 
