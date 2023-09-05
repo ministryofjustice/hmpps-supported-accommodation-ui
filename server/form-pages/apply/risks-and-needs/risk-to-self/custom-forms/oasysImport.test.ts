@@ -1,11 +1,11 @@
 import { createMock } from '@golevelup/ts-jest'
 import type { DataServices } from '@approved-premises/ui'
-import { DateFormats } from '../../../../utils/dateUtils'
-import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../shared-examples'
-import { personFactory, applicationFactory, oasysRiskToSelfFactory } from '../../../../testutils/factories/index'
+import { DateFormats } from '../../../../../utils/dateUtils'
+import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../../shared-examples'
+import { personFactory, applicationFactory, oasysRiskToSelfFactory } from '../../../../../testutils/factories/index'
 import OasysImport, { RiskToSelfTaskData } from './oasysImport'
-import PersonService from '../../../../services/personService'
-import Vulnerability from './vulnerability'
+import PersonService from '../../../../../services/personService'
+import Vulnerability from '../vulnerability'
 import { AcctDataBody } from './acctData'
 
 jest.mock('../vulnerability')

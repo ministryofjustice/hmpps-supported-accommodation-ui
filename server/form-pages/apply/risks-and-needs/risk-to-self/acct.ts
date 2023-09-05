@@ -2,7 +2,7 @@ import type { TaskListErrors } from '@approved-premises/ui'
 import { Cas2Application as Application } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
-import { AcctDataBody } from './acctData'
+import { AcctDataBody } from './custom-forms/acctData'
 import { DateFormats } from '../../../../utils/dateUtils'
 
 type AcctBody = Record<string, never>

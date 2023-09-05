@@ -1,5 +1,5 @@
-import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../shared-examples'
-import { personFactory, applicationFactory } from '../../../../testutils/factories/index'
+import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../../shared-examples'
+import { personFactory, applicationFactory } from '../../../../../testutils/factories/index'
 import AcctData from './acctData'
 
 describe('AcctData', () => {

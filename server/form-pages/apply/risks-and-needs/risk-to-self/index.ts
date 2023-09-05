@@ -2,11 +2,11 @@
 
 import { Task } from '../../../utils/decorators'
 import Acct from './acct'
-import AcctData from './acctData'
+import AcctData from './custom-forms/acctData'
 import AdditionalInformation from './additionalInformation'
 import CurrentRisk from './currentRisk'
 import HistoricalRisk from './historicalRisk'
-import OasysImport from './oasysImport'
+import OasysImport from './custom-forms/oasysImport'
 import Vulnerability from './vulnerability'
 
 @Task({

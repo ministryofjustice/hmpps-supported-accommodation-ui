@@ -1,10 +1,10 @@
 import type { DataServices, TaskListErrors } from '@approved-premises/ui'
 import { Cas2Application as Application, Cas2Application, OASysRiskToSelf } from '@approved-premises/api'
-import { Page } from '../../../utils/decorators'
-import TaskListPage from '../../../taskListPage'
-import { DateFormats } from '../../../../utils/dateUtils'
-import { nameOrPlaceholderCopy } from '../../../../utils/utils'
-import Vulnerability from './vulnerability'
+import { Page } from '../../../../utils/decorators'
+import TaskListPage from '../../../../taskListPage'
+import { DateFormats } from '../../../../../utils/dateUtils'
+import { nameOrPlaceholderCopy } from '../../../../../utils/utils'
+import Vulnerability from '../vulnerability'
 
 type GuidanceBody = Record<string, never>
 
