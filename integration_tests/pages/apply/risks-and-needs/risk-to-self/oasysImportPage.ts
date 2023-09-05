@@ -3,13 +3,13 @@ import ApplyPage from '../../applyPage'
 import paths from '../../../../../server/paths/apply'
 import { nameOrPlaceholderCopy } from '../../../../../server/utils/utils'
 
-export default class RiskToSelfGuidancePage extends ApplyPage {
+export default class OasysImportPage extends ApplyPage {
   constructor(private readonly application: Application) {
     super(
       `Import ${nameOrPlaceholderCopy(application.person, 'The person')}'s risk to self data from OASys`,
       application,
       'risk-to-self',
-      'guidance',
+      'oasys-import',
     )
   }
 

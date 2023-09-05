@@ -26,10 +26,10 @@ export type RiskToSelfTaskData = {
 }
 
 @Page({
-  name: 'guidance',
+  name: 'oasys-import',
   bodyProperties: [],
 })
-export default class RiskToSelfGuidance implements TaskListPage {
+export default class OasysImport implements TaskListPage {
   personName = nameOrPlaceholderCopy(this.application.person)
 
   title = `Import ${this.personName}'s risk to self data from OASys`
@@ -80,7 +80,7 @@ export default class RiskToSelfGuidance implements TaskListPage {
       try {
         oasys = await dataServices.personService.getOasysRiskToSelf(token, application.person.crn)
 
-        taskDataJson = JSON.stringify(RiskToSelfGuidance.getTaskData(oasys))
+        taskDataJson = JSON.stringify(OasysImport.getTaskData(oasys))
       } catch (e) {
         if (e.status === 404) {
           oasys = null
@@ -88,7 +88,7 @@ export default class RiskToSelfGuidance implements TaskListPage {
           throw e
         }
       }
-      return new RiskToSelfGuidance(body, application, oasys, taskDataJson)
+      return new OasysImport(body, application, oasys, taskDataJson)
     }
     return new Vulnerability(application.data['risk-to-self'].vulnerability ?? {}, application)
   }

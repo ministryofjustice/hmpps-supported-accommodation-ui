@@ -3,14 +3,14 @@ import type { DataServices } from '@approved-premises/ui'
 import { DateFormats } from '../../../../utils/dateUtils'
 import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../shared-examples'
 import { personFactory, applicationFactory, oasysRiskToSelfFactory } from '../../../../testutils/factories/index'
-import RiskToSelfGuidance, { RiskToSelfTaskData } from './riskToSelfGuidance'
+import OasysImport, { RiskToSelfTaskData } from './oasysImport'
 import PersonService from '../../../../services/personService'
 import Vulnerability from './vulnerability'
 import { AcctDataBody } from './acctData'
 
-jest.mock('./vulnerability')
+jest.mock('../vulnerability')
 
-describe('RiskToSelfGuidance', () => {
+describe('OasysImport', () => {
   const application = applicationFactory.build({ person: personFactory.build({ name: 'Roger Smith' }) })
   const oasys = oasysRiskToSelfFactory.build({
     dateCompleted: DateFormats.dateObjToIsoDateTime(new Date(2023, 7, 29)),
@@ -32,7 +32,7 @@ describe('RiskToSelfGuidance', () => {
 
   describe('title', () => {
     it('personalises the page title', () => {
-      const page = new RiskToSelfGuidance({}, application, oasys, '')
+      const page = new OasysImport({}, application, oasys, '')
 
       expect(page.title).toEqual("Import Roger Smith's risk to self data from OASys")
     })
@@ -74,12 +74,7 @@ describe('RiskToSelfGuidance', () => {
 
         ;(dataServices.personService.getOasysRiskToSelf as jest.Mock).mockResolvedValue(oasys)
 
-        const page = (await RiskToSelfGuidance.initialize(
-          {},
-          application,
-          'some-token',
-          dataServices,
-        )) as RiskToSelfGuidance
+        const page = (await OasysImport.initialize({}, application, 'some-token', dataServices)) as OasysImport
 
         expect(page.taskData).toBe(JSON.stringify(taskData))
         expect(page.hasOasysRecord).toBe(true)
@@ -93,12 +88,7 @@ describe('RiskToSelfGuidance', () => {
 
           ;(dataServices.personService.getOasysRiskToSelf as jest.Mock).mockResolvedValue(oasysIncomplete)
 
-          const page = (await RiskToSelfGuidance.initialize(
-            {},
-            application,
-            'some-token',
-            dataServices,
-          )) as RiskToSelfGuidance
+          const page = (await OasysImport.initialize({}, application, 'some-token', dataServices)) as OasysImport
 
           expect(page.oasysCompleted).toBe(null)
         })
@@ -109,12 +99,7 @@ describe('RiskToSelfGuidance', () => {
       it('sets hasOasysRecord to false when a 404 is returned', async () => {
         ;(dataServices.personService.getOasysRiskToSelf as jest.Mock).mockRejectedValue({ status: 404 })
 
-        const page = (await RiskToSelfGuidance.initialize(
-          {},
-          application,
-          'some-token',
-          dataServices,
-        )) as RiskToSelfGuidance
+        const page = (await OasysImport.initialize({}, application, 'some-token', dataServices)) as OasysImport
 
         expect(page.hasOasysRecord).toBe(false)
         expect(page.oasysCompleted).toBe(undefined)
@@ -127,7 +112,7 @@ describe('RiskToSelfGuidance', () => {
           throw error
         })
 
-        expect(RiskToSelfGuidance.initialize({}, application, 'some-token', dataServices)).rejects.toThrow(error)
+        expect(OasysImport.initialize({}, application, 'some-token', dataServices)).rejects.toThrow(error)
       })
     })
 
@@ -148,7 +133,7 @@ describe('RiskToSelfGuidance', () => {
           return vulnerabilityPageConstructor
         })
 
-        expect(RiskToSelfGuidance.initialize({}, applicationWithData, 'some-token', dataServices)).resolves.toEqual(
+        expect(OasysImport.initialize({}, applicationWithData, 'some-token', dataServices)).resolves.toEqual(
           vulnerabilityPageConstructor,
         )
 
@@ -174,7 +159,7 @@ describe('RiskToSelfGuidance', () => {
             return vulnerabilityPageConstructor
           })
 
-          expect(RiskToSelfGuidance.initialize({}, applicationWithData, 'some-token', dataServices)).resolves.toEqual(
+          expect(OasysImport.initialize({}, applicationWithData, 'some-token', dataServices)).resolves.toEqual(
             vulnerabilityPageConstructor,
           )
 
@@ -184,12 +169,12 @@ describe('RiskToSelfGuidance', () => {
     })
   })
 
-  itShouldHaveNextValue(new RiskToSelfGuidance({}, application, oasys, ''), 'vulnerability')
-  itShouldHavePreviousValue(new RiskToSelfGuidance({}, application, oasys, ''), 'taskList')
+  itShouldHaveNextValue(new OasysImport({}, application, oasys, ''), 'vulnerability')
+  itShouldHavePreviousValue(new OasysImport({}, application, oasys, ''), 'taskList')
 
   describe('errors', () => {
     it('returns empty object', () => {
-      const page = new RiskToSelfGuidance({}, application, oasys, '')
+      const page = new OasysImport({}, application, oasys, '')
 
       expect(page.errors()).toEqual({})
     })
@@ -197,7 +182,7 @@ describe('RiskToSelfGuidance', () => {
 
   describe('response', () => {
     it('returns empty object', () => {
-      const page = new RiskToSelfGuidance({}, application, oasys, '')
+      const page = new OasysImport({}, application, oasys, '')
 
       expect(page.response()).toEqual({})
     })

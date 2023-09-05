@@ -1,4 +1,4 @@
-//  Feature: Referrer completes 'Risk to self: guidance' page
+//  Feature: Referrer completes 'Risk to self: OASys import' page
 //    So that I can complete the first page of the "Risk to self" task
 //    As a referrer
 //    I want to confirm that I've understood the guidance on that page
@@ -14,7 +14,7 @@
 //
 //  Scenario: there is OASys data
 //    When I follow the link to the first page in the "Risks and needs" section
-//    Then I see the "risk to self guidance" page
+//    Then I see the "OASys import" page
 //    And it is populated with OASys data
 //
 //  Scenario: import OASys data
@@ -28,10 +28,10 @@
 //
 //  Scenario: there is no OASys data
 //    When I follow the link to the first page in the "Risks and needs" section
-//    Then I see the "risk to self guidance" page
+//    Then I see the "OASys import" page
 //    And I see that there is no OASys data
 
-import RiskToSelfGuidancePage from '../../../../pages/apply/risks-and-needs/risk-to-self/riskToSelfGuidancePage'
+import OasysImportPage from '../../../../pages/apply/risks-and-needs/risk-to-self/oasysImportPage'
 import VulnerabilityPage from '../../../../pages/apply/risks-and-needs/risk-to-self/vulnerabilityPage'
 import Page from '../../../../pages/page'
 import TaskListPage from '../../../../pages/apply/taskListPage'
@@ -105,7 +105,7 @@ context('Visit "Risks and needs" section', () => {
     taskListPage.visitTask('Review risk to self information')
 
     //  Then I see the "risk to self guidance" page
-    const page = Page.verifyOnPage(RiskToSelfGuidancePage, this.application)
+    const page = Page.verifyOnPage(OasysImportPage, this.application)
 
     //  and it's populated with data
     page.checkOasysInfo(this.application)
@@ -119,7 +119,7 @@ context('Visit "Risks and needs" section', () => {
     //  When I follow the link to the first page in the "Risks and needs" section
     taskListPage.visitTask('Review risk to self information')
     //  Then I see the "risk to self guidance" page
-    const page = Page.verifyOnPage(RiskToSelfGuidancePage, this.application)
+    const page = Page.verifyOnPage(OasysImportPage, this.application)
 
     //  When I choose to import and save the data
     page.clickSubmit()
@@ -162,7 +162,7 @@ context('Visit "Risks and needs" section', () => {
     taskListPage.visitTask('Review risk to self information')
 
     //  Then I see the "risk to self guidance" page
-    const page = Page.verifyOnPage(RiskToSelfGuidancePage, this.application)
+    const page = Page.verifyOnPage(OasysImportPage, this.application)
 
     //  And I see that there is no OASys data
     page.displaysNoOASysNotificationBanner(this.application)
