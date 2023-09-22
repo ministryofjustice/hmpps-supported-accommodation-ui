@@ -1,0 +1,54 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "../layout.njk" %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block beforeContent%}
+  {{ govukBackLink({
+      text: "Back",
+      href: paths.applications.show({ id: page.application.id })
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-width-container">
+      <h1 class="govuk-heading-xl">
+        {{ page.title }}
+      </h1>
+
+      {% for section in checkYourAnswersSections(page.application) %}
+        <h2 class="govuk-heading-l">{{ section.title }}</h2>
+        {% for task in section.tasks %}
+          <div class="main-box" data-cy-check-your-answers-section="{{ task.id }}">
+            <h3 class="box-title govuk-heading-m">
+              {{ task.title }}
+            </h3>
+            <div class="box-content">
+              {{
+                govukSummaryList({
+                  rows: task.rows
+                })
+              }}
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+      <form action="{{ paths.applications.pages.update({ id: applicationId, task: task.id, page: page.name }) }}?_method=PUT" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+        <input type="hidden" name="reviewed" value="1"/>
+
+        {{ govukButton({
+          text: "Continue",
+          preventDoubleClick: true
+        }) }}
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
