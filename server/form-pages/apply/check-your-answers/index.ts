@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 
-import Review from './review'
+import CheckYourAnswersPage from './check-your-answers/checkYourAnswers'
 import { Section, Task } from '../../utils/decorators'
 
 @Task({
   name: 'Check your answers',
   slug: 'check-your-answers',
-  pages: [Review],
+  pages: [CheckYourAnswersPage],
 })
 @Section({
   title: 'Check your answers',

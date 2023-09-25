@@ -29,11 +29,8 @@ describe('RiskManagementArrangements', () => {
       )
 
       expect(page.response()).toEqual({
-        'Is Roger Smith subject to any of these multi-agency risk management arrangements upon release?': [
-          'Multi-Agency Public Protection Arrangements (MAPPA)',
-          'Multi-Agency Risk Assessment Conference (MARAC)',
-          'Integrated Offender Management (IOM)',
-        ],
+        'Is Roger Smith subject to any of these multi-agency risk management arrangements upon release?':
+          'Multi-Agency Public Protection Arrangements (MAPPA), Multi-Agency Risk Assessment Conference (MARAC), Integrated Offender Management (IOM)',
         'Provide MAPPA details': 'mappa details',
         'Provide MARAC details': 'marac details',
         'Provide IOM details': 'iom details',
@@ -49,9 +46,8 @@ describe('RiskManagementArrangements', () => {
       )
 
       expect(page.response()).toEqual({
-        'Is Roger Smith subject to any of these multi-agency risk management arrangements upon release?': [
+        'Is Roger Smith subject to any of these multi-agency risk management arrangements upon release?':
           'No, this person does not have risk management arrangements',
-        ],
       })
     })
   })

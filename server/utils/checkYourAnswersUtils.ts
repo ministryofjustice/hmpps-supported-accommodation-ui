@@ -1,25 +1,25 @@
 import { Cas2Application as Application } from '@approved-premises/api'
-import { SummaryListItem, Task, FormSection, TextItem, HtmlItem } from '@approved-premises/ui'
+import { SummaryListItem, UiTask, FormSection, TextItem, HtmlItem } from '@approved-premises/ui'
 import Apply from '../form-pages/apply/index'
 import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
 import TaskListPage, { TaskListPageInterface } from 'server/form-pages/taskListPage'
+import { SessionDataError, UnknownPageError } from './errors'
 
-const checkYourAnswersSections = (application: Application) =>
+export const checkYourAnswersSections = (application: Application) =>
   reviewSections(application, getTaskResponsesAsSummaryListItems)
 
-const getTaskResponsesAsSummaryListItems = (task: Task, application: Application): Array<SummaryListItem> => {
+const getTaskResponsesAsSummaryListItems = (task: UiTask, application: Application): Array<SummaryListItem> => {
   const items: Array<SummaryListItem> = []
 
-  forPagesInTask(application, task, (page, pageName) => {
+  forPagesWithResponsesInTask(application, task, (page, pageName) => {
     const response = page.response()
 
     Object.keys(response).forEach(key => {
       const value =
-        typeof response[key] === 'string' || response[key] instanceof String
+        typeof response[key] === 'string' || response[key] instanceof String || response[key] === undefined
           ? ({ html: formatLines(response[key] as string) } as HtmlItem)
           : ({ html: embeddedSummaryListItem(response[key] as Array<Record<string, unknown>>) } as HtmlItem)
-
       items.push(summaryListItemForResponse(key, value, task, pageName, application))
     })
   })
@@ -29,7 +29,7 @@ const getTaskResponsesAsSummaryListItems = (task: Task, application: Application
 
 const reviewSections = (
   application: Application,
-  rowFunction: (task: Task, application: Application) => Array<SummaryListItem>,
+  rowFunction: (task: UiTask, application: Application) => Array<SummaryListItem>,
 ) => {
   const nonCheckYourAnswersSections = getApplySections(true)
 
@@ -53,16 +53,16 @@ const getApplySections = (excludeCheckYourAnswers: boolean = false): Array<FormS
   return excludeCheckYourAnswers ? sections.filter(section => section.name !== CheckYourAnswers.name) : sections
 }
 
-const forPagesInTask = (
+const forPagesWithResponsesInTask = (
   application: Application,
-  task: Task,
+  task: UiTask,
   callback: (page: TaskListPage, pageName: string) => void,
 ): void => {
   const pageNames = Object.keys(task.pages)
   let pageName = pageNames?.[0]
 
   while (pageName) {
-    const Page = getPage(task.id, pageName, isAssessment(application))
+    const Page = getPage(task.id, pageName)
     const body = application?.data?.[task.id]?.[pageName]
 
     // if (!body) {
@@ -71,17 +71,18 @@ const forPagesInTask = (
 
     const page = new Page(body, application)
 
-    // if (Object.keys(page.errors()).length) {
-    //   throw new SessionDataError(`Errors for page ${task.id}:${pageName}`)
-    // }
-
-    callback(page, pageName)
+    if (Object.keys(page.errors()).length) {
+      throw new SessionDataError(`Errors for page ${task.id}:${pageName}`)
+    }
+    if (Object.keys(page.response()).length > 0) {
+      callback(page, pageName)
+    }
     pageName = page.next()
   }
 }
 
-const getPage = (taskName: string, pageName: string, isAnAssessment?: boolean): TaskListPageInterface => {
-  const pageList = isAnAssessment ? Assess.pages[taskName] : Apply.pages[taskName]
+const getPage = (taskName: string, pageName: string): TaskListPageInterface => {
+  const pageList = Apply.pages[taskName]
 
   const Page = pageList[pageName]
 
@@ -99,12 +100,7 @@ const formatLines = (text: string): string => {
 
   const normalizedText = normalizeText(text)
 
-  const paragraphs = normalizedText.split('\n\n').map(paragraph =>
-    paragraph
-      .split('\n')
-      .map(line => escape(line))
-      .join('<br />'),
-  )
+  const paragraphs = normalizedText.split('\n\n').map(paragraph => paragraph.split('\n').join('<br />'))
 
   if (paragraphs.length === 1) {
     return paragraphs[0]
@@ -148,7 +144,7 @@ const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): strin
 const summaryListItemForResponse = (
   key: string,
   value: TextItem | HtmlItem,
-  task: Task,
+  task: UiTask,
   pageName: string,
   application: Application,
 ) => {

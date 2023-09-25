@@ -91,9 +91,7 @@ export default class RiskManagementArrangements implements TaskListPage {
 
   response() {
     const response: Record<string, string | Array<string>> = {
-      [this.questions.arrangements.question]: this.body.arrangements.map(
-        arrangement => arrangementOptions[arrangement],
-      ),
+      [this.questions.arrangements.question]: this.body.arrangements.toString(),
     }
 
     if (!this.body.arrangements.includes('no')) {
