@@ -281,5 +281,42 @@ export default function generateQuestions(name: string): Record<string, unknown>
         },
       },
     },
+    'risk-to-self': {
+      vulnerability: {
+        vulnerabilityDetail: {
+          question: `Describe ${name}'s current circumstances, issues and needs related to vulnerability`,
+        },
+        dateOfOasysImport: '2023-08-31',
+        confirmation: 'confirmed',
+      },
+      'current-risk': {
+        currentRiskDetail: 'example answer current risk',
+        dateOfOasysImport: '2023-08-31',
+        confirmation: 'confirmed',
+      },
+      'historical-risk': {
+        historicalRiskDetail: 'example answer historical risk ',
+        dateOfOasysImport: '2023-08-31',
+        confirmation: 'confirmed',
+      },
+      acct: {},
+      'acct-data': [
+        {
+          'createdDate-day': '1',
+          'createdDate-month': '2',
+          'createdDate-year': '2012',
+          isOngoing: 'no',
+          'closedDate-day': '10',
+          'closedDate-month': '10',
+          'closedDate-year': '2013',
+          referringInstitution: 'HMPPS prison',
+          acctDetails: 'ACCT details',
+        },
+      ],
+      'additional-information': {
+        hasAdditionalInformation: 'yes',
+        additionalInformationDetail: 'some information',
+      },
+    },
   }
 }
