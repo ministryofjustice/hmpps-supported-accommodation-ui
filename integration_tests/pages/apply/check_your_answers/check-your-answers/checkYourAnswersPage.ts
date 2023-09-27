@@ -48,7 +48,11 @@ export default class CheckYourAnswersPage extends ApplyPage {
             .contains(questions[questionKey].question)
             .parent()
             .within(() => {
-              cy.get('dd').contains(questions[questionKey].answers[this.application.data[task][pageKey][questionKey]])
+              if (questions[questionKey].answers !== undefined) {
+                cy.get('dd').contains(questions[questionKey].answers[this.application.data[task][pageKey][questionKey]])
+              } else {
+                cy.get('dd').should('have.value', this.application.data[task][pageKey][questionKey])
+              }
             })
         })
       })

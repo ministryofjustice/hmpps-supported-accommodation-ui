@@ -152,5 +152,134 @@ export default function generateQuestions(name: string): Record<string, unknown>
         },
       },
     },
+    'health-needs': {
+      'substance-misuse': {
+        usesIllegalSubstances: { question: 'Do they take any illegal substances?', answers: { yes: 'Yes', no: 'No' } },
+        substanceMisuseHistory: { question: 'What substances do they take?' },
+        substanceMisuseDetail: {
+          question: 'How often do they take these substances, by what method, and how much?',
+        },
+        engagedWithDrugAndAlcoholService: {
+          question: 'Are they engaged with a drug and alcohol service?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        drugAndAlcoholServiceDetail: { question: 'Name the drug and alcohol service' },
+        requiresSubstituteMedication: {
+          question: 'Do they require any substitute medication for misused substances?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        substituteMedicationDetail: { question: 'What substitute medication do they take?' },
+      },
+      'physical-health': {
+        hasPhyHealthNeeds: { question: 'Do they have any physical health needs?', answers: { yes: 'Yes', no: 'No' } },
+        needsDetail: { question: 'Please describe their needs.' },
+        isReceivingTreatment: {
+          question: 'Are they currently receiving any medical treatment for their physical health needs?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        treatmentDetail: { question: 'Describe the treatment they receive for physical health needs' },
+        hasPhyHealthMedication: {
+          question: 'Are they currently receiving any medication for their physical health needs?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        medicationDetail: { question: 'Describe the medication they receive for physical health needs' },
+        canLiveIndependently: { question: 'Can they live independently?', answers: { yes: 'Yes', no: 'No' } },
+        indyLivingDetail: { question: 'Describe why they are unable to live independently' },
+        requiresAdditionalSupport: {
+          question: 'Do they require any additional support?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        addSupportDetail: { question: 'Please describe the types of support.' },
+      },
+      'mental-health': {
+        hasMentalHealthNeeds: { question: 'Do they have any mental health needs?', answers: { yes: 'Yes', no: 'No' } },
+        needsDetail: { question: 'Please describe their mental health needs.' },
+        isEngagedWithCommunity: {
+          question: 'Are they engaged with any community mental health services?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        servicesDetail: { question: 'Please state which services.' },
+        hasPrescribedMedication: {
+          question: 'Are they prescribed any medication for their mental health?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        isInPossessionOfMeds: {
+          question: 'Are they in possession of their medication?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        medicationDetail: { question: 'Please list any medications.' },
+        medicationIssues: { question: 'Please list any issues they have with taking their medication' },
+      },
+      'communication-and-language': {
+        hasCommunicationNeeds: {
+          question: 'Do they have any additional communication needs?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        communicationDetail: { question: 'Please describe their communication needs.' },
+        requiresInterpreter: { question: 'Do they need an interpreter?', answers: { yes: 'Yes', no: 'No' } },
+        interpretationDetail: { question: 'What language do they need an interpreter for?' },
+        hasSupportNeeds: {
+          question: 'Do they need any support to see, hear, speak, or understand?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        supportDetail: { question: 'Please describe their support needs.' },
+      },
+      'learning-difficulties': {
+        hasLearningNeeds: {
+          question: 'Do they have any additional needs relating to learning difficulties or neurodiversity?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        needsDetail: { question: 'Please describe their additional needs.' },
+        isVulnerable: {
+          question: 'Are they vulnerable as a result of this condition?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        vulnerabilityDetail: { question: 'Please describe their level of vulnerability.' },
+        hasDifficultyInteracting: {
+          question: 'Do they have difficulties interacting with other people as a result of this condition?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        interactionDetail: { question: 'Please describe these difficulties.' },
+        requiresAdditionalSupport: { question: 'Is additional support required?', answers: { yes: 'Yes', no: 'No' } },
+        addSupportDetail: { question: 'Please describe the type of support.' },
+      },
+      'brain-injury': {
+        hasBrainInjury: {
+          question: 'Do they have a brain injury?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        injuryDetail: { question: 'Please describe their brain injury and needs.' },
+        isVulnerable: {
+          question: 'Are they vulnerable as a result of this injury?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        vulnerabilityDetail: { question: 'Please describe their level of vulnerability.' },
+        hasDifficultyInteracting: {
+          question: 'Do they have difficulties interacting with other people as a result of this injury?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        interactionDetail: { question: 'Please describe these difficulties.' },
+        requiresAdditionalSupport: { question: 'Is additional support required?', answers: { yes: 'Yes', no: 'No' } },
+        addSupportDetail: { question: 'Please describe the type of support.' },
+      },
+      'other-health': {
+        hasLongTermHealthCondition: {
+          question: 'Are they managing any long term health conditions?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        healthConditionDetail: {
+          question: 'Please describe the long term health conditions.',
+        },
+        hasHadStroke: { question: 'Have they experienced a stroke?', answers: { yes: 'Yes', no: 'No' } },
+        hasSeizures: { question: 'Do they experience seizures?', answers: { yes: 'Yes', no: 'No' } },
+        seizuresDetail: {
+          question: 'Please describe the type and any treatment.',
+        },
+        beingTreatedForCancer: {
+          question: 'Are they currently receiving regular treatment for cancer?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+      },
+    },
   }
 }
