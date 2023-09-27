@@ -52,5 +52,6 @@ context('Check your answers page', () => {
     page.shouldShowFundingInformationAnswers()
     page.shouldShowEqualityAndDiversityAnswers()
     page.shouldShowHealthNeedsAnswers()
+    page.shouldShowRiskToSelfAnswers()
   })
 })

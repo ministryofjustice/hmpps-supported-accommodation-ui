@@ -286,36 +286,24 @@ export default function generateQuestions(name: string): Record<string, unknown>
         vulnerabilityDetail: {
           question: `Describe ${name}'s current circumstances, issues and needs related to vulnerability`,
         },
-        dateOfOasysImport: '2023-08-31',
-        confirmation: 'confirmed',
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
       },
       'current-risk': {
-        currentRiskDetail: 'example answer current risk',
-        dateOfOasysImport: '2023-08-31',
-        confirmation: 'confirmed',
+        currentRiskDetail: { question: `Describe ${name}'s current issues and needs related to self harm and suicide` },
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
       },
       'historical-risk': {
-        historicalRiskDetail: 'example answer historical risk ',
-        dateOfOasysImport: '2023-08-31',
-        confirmation: 'confirmed',
+        historicalRiskDetail: {
+          question: `Describe ${name}'s historical issues and needs related to self harm and suicide`,
+        },
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
       },
       acct: {},
-      'acct-data': [
-        {
-          'createdDate-day': '1',
-          'createdDate-month': '2',
-          'createdDate-year': '2012',
-          isOngoing: 'no',
-          'closedDate-day': '10',
-          'closedDate-month': '10',
-          'closedDate-year': '2013',
-          referringInstitution: 'HMPPS prison',
-          acctDetails: 'ACCT details',
-        },
-      ],
       'additional-information': {
         hasAdditionalInformation: 'yes',
-        additionalInformationDetail: 'some information',
+        additionalInformationDetail: {
+          question: `Is there anything else to include about ${name}'s risk to self?`,
+        },
       },
     },
   }

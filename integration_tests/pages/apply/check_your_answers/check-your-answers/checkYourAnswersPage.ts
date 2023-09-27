@@ -31,6 +31,11 @@ export default class CheckYourAnswersPage extends ApplyPage {
     this.shouldShowQuestionsAndAnswers('health-needs')
   }
 
+  shouldShowRiskToSelfAnswers(): void {
+    this.shouldShowCheckYourAnswersTitle('risk-to-self', 'Add risk to self information')
+    this.shouldShowQuestionsAndAnswers('risk-to-self')
+  }
+
   shouldShowCheckYourAnswersTitle(taskName: string, taskTitle: string) {
     cy.get(`[data-cy-check-your-answers-section="${taskName}"]`).within(() => {
       cy.get('.box-title').should('contain', taskTitle)
