@@ -1,4 +1,4 @@
-export default function generateQuestions(name: string): Record<string, unknown> {
+export default function getQuestions(name: string): Record<string, unknown> {
   return {
     'confirm-eligibility': {
       'confirm-eligibility': {
@@ -304,6 +304,82 @@ export default function generateQuestions(name: string): Record<string, unknown>
         additionalInformationDetail: {
           question: `Is there anything else to include about ${name}'s risk to self?`,
         },
+      },
+    },
+    'risk-of-serious-harm': {
+      summary: {
+        status: 'retrieved',
+        overallRisk: 'High',
+        riskToChildren: 'High',
+        riskToPublic: 'Very High',
+        riskToKnownAdult: 'Medium',
+        riskToStaff: 'Low',
+        lastUpdated: '2023-09-18',
+        additionalComments: 'some comments',
+      },
+      'risk-to-others': {
+        whoIsAtRisk: {
+          question: 'Who is at risk?',
+        },
+        natureOfRisk: {
+          question: 'What is the nature of the risk?',
+        },
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+      },
+      'risk-factors': {
+        circumstancesLikelyToIncreaseRisk: {
+          question: 'What circumstances are likely to increase risk?',
+        },
+        whenIsRiskLikelyToBeGreatest: {
+          question: 'When is the risk likely to be greatest?',
+          hint: 'Consider the timescale and indicate whether risk is immediate or not.',
+        },
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+      },
+      'reducing-risk': {
+        factorsLikelyToReduceRisk: {
+          question: 'What factors are likely to reduce risk?',
+          hint: 'Describe factors, actions and events which might reduce or contain the level of risk now and in the future.',
+        },
+        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+      },
+      'risk-management-arrangements': {
+        arrangements: {
+          question: `Is ${name} subject to any of these multi-agency risk management arrangements upon release?`,
+          hint: 'Select all that apply',
+          answers: {
+            mappa: 'MAPPA',
+            marac: 'MARAC',
+            iom: 'IOM',
+          },
+        },
+        mappaDetails: {
+          question: 'Provide MAPPA details',
+          hint: 'Specify whether the MAPPA is Category 2 or Category 3. Include lead contact details where possible.',
+        },
+        maracDetails: {
+          question: 'Provide MARAC details',
+          hint: 'Include lead contact details where possible.',
+        },
+        iomDetails: {
+          question: 'Provide IOM details',
+          hint: 'Include lead contact details where possible.',
+        },
+      },
+      'cell-share-information': {
+        hasCellShareComments: {
+          question: 'Are there any comments to add about cell sharing?',
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        cellShareInformationDetail: { question: 'Cell sharing information' },
+      },
+      'behaviour-notes': {},
+      'additional-risk-information': {
+        hasAdditionalInformation: {
+          question: `Is there any other risk information for ${name}?`,
+          answers: { yes: 'Yes', no: 'No' },
+        },
+        additionalInformationDetail: { question: 'Additional information' },
       },
     },
   }

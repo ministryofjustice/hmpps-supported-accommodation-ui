@@ -5,55 +5,87 @@ import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
 import TaskListPage, { TaskListPageInterface } from 'server/form-pages/taskListPage'
 import { SessionDataError, UnknownPageError } from './errors'
-import generateQuestions from '../form-pages/utils/questions'
+import getQuestions from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
+
+export const checkYourAnswersSections = (application: Application) => {
+  const sectionsWithAnswers = getSectionsWithAnswers()
+
+  return sectionsWithAnswers.map(section => {
+    return {
+      title: section.title,
+      tasks: section.tasks.map(task => {
+        return {
+          id: task.id,
+          title: task.title,
+          rows: getTaskResponsesAsSummaryListItems(task.id, application),
+        }
+      }),
+    }
+  })
+}
 
 export const getTaskResponsesAsSummaryListItems = (task: string, application: Application): Array<SummaryListItem> => {
   const items: Array<SummaryListItem> = []
 
-  const questions = generateQuestions(nameOrPlaceholderCopy(application.person))
+  const questions = getQuestions(nameOrPlaceholderCopy(application.person))
 
   const pagesKeys = Object.keys(application.data[task])
 
   pagesKeys.forEach(pageKey => {
-    const questionKeys = Object.keys(application.data[task][pageKey])
-    questionKeys.forEach(questionKey => {
-      let summaryListItem = {
-        key: { text: questions[task][pageKey][questionKey].question },
-        value: { text: questions[task][pageKey][questionKey].answers[application.data[task][pageKey][questionKey]] },
+    if (task === 'risk-of-serious-harm' && pageKey === 'summary') {
+      //handle
+    } else {
+      const questionKeys = Object.keys(application.data[task][pageKey])
+      // ignore if page contains no questions, or an oasys import date
+      if (questionKeys.length && questionKeys[0] !== 'oasysImportDate') {
+        questionKeys.forEach(questionKey => {
+          const questionText = questions[task][pageKey]?.[questionKey].question || pageKey
+          const answer = getAnswerUsingKeyIfPredefined(application, questions, task, pageKey, questionKey)
+          // if answer is string, format lines, if it's an array of objects, handle otherwise
+          const value =
+            typeof answer === 'string' || answer instanceof String
+              ? ({ html: formatLines(answer as string) } as HtmlItem)
+              : ({ html: embeddedSummaryListItem(answer as Array<Record<string, unknown>>) } as HtmlItem)
+          items.push(summaryListItemForResponse(questionText, value, task, pageKey, application))
+        })
       }
-      items.push(summaryListItem)
-    })
+    }
   })
 
   return items
 }
 
-// const reviewSections = (
-//   application: Application,
-//   rowFunction: (task: UiTask, application: Application) => Array<SummaryListItem>,
-// ) => {
-//   const nonCheckYourAnswersSections = getApplySections(true)
+const getAnswerUsingKeyIfPredefined = (
+  application: Application,
+  questions: Record<string, unknown>,
+  task: string,
+  pageKey: string,
+  questionKey: string | number,
+): string | Array<Record<string, unknown>> => {
+  if (questions[task][pageKey]?.[questionKey].answers) {
+    // handle case where answers are an array of strings e.g. risk management arrangements
+    if (Array.isArray(application.data[task][pageKey][questionKey])) {
+      const answerKeys = application.data[task][pageKey][questionKey]
+      const textAnswers: Array<string> = []
+      answerKeys.forEach((answerKey: string) => {
+        textAnswers.push(questions[task][pageKey][questionKey].answers[answerKey])
+      })
+      return textAnswers.join()
+    }
+    return questions[task][pageKey][questionKey].answers[application.data[task][pageKey][questionKey]]
+  } else if (questionKey !== '0') {
+    return application.data[task][pageKey][questionKey]
+  } else {
+    return application.data[task][pageKey]
+  }
+}
 
-//   return nonCheckYourAnswersSections.map(section => {
-//     return {
-//       title: section.title,
-//       tasks: section.tasks.map(task => {
-//         return {
-//           id: task.id,
-//           title: task.title,
-//           rows: rowFunction(task, application),
-//         }
-//       }),
-//     }
-//   })
-// }
+const getSectionsWithAnswers = (): Array<FormSection> => {
+  const sections = Apply.sections
 
-// const getApplySections = (excludeCheckYourAnswers: boolean = false): Array<FormSection> => {
-//   const sections = Apply.sections
-
-//   return excludeCheckYourAnswers ? sections.filter(section => section.name !== CheckYourAnswers.name) : sections
-// }
+  return sections.filter(section => section.name !== CheckYourAnswers.name)
+}
 
 // const forPagesWithResponsesInTask = (
 //   application: Application,
@@ -95,74 +127,74 @@ export const getTaskResponsesAsSummaryListItems = (task: string, application: Ap
 //   return Page as TaskListPageInterface
 // }
 
-// const formatLines = (text: string): string => {
-//   if (!text) {
-//     return ''
-//   }
+const formatLines = (text: string): string => {
+  if (!text) {
+    return ''
+  }
 
-//   const normalizedText = normalizeText(text)
+  const normalizedText = normalizeText(text)
 
-//   const paragraphs = normalizedText.split('\n\n').map(paragraph => paragraph.split('\n').join('<br />'))
+  const paragraphs = normalizedText.split('\n\n').map(paragraph => paragraph.split('\n').join('<br />'))
 
-//   if (paragraphs.length === 1) {
-//     return paragraphs[0]
-//   }
-//   return `<p>${paragraphs.join('</p><p>')}</p>`
-// }
+  if (paragraphs.length === 1) {
+    return paragraphs[0]
+  }
+  return `<p>${paragraphs.join('</p><p>')}</p>`
+}
 
-// function normalizeText(text: string): string {
-//   let output = text.trim()
+function normalizeText(text: string): string {
+  let output = text.trim()
 
-//   output = output.replace(/(\r\n)/g, '\n')
-//   output = output.replace(/(\r)/g, '\n')
-//   output = output.replace(/(\n){2,}/g, '\n\n')
+  output = output.replace(/(\r\n)/g, '\n')
+  output = output.replace(/(\r)/g, '\n')
+  output = output.replace(/(\n){2,}/g, '\n\n')
 
-//   return output
-// }
+  return output
+}
 
-// const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): string => {
-//   let response = ''
+const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): string => {
+  let response = ''
 
-//   answers.forEach(answer => {
-//     response += '<dl class="govuk-summary-list govuk-summary-list--embedded">'
-//     Object.keys(answer).forEach(key => {
-//       response += `
-//           <div class="govuk-summary-list__row govuk-summary-list__row--embedded">
-//             <dt class="govuk-summary-list__key govuk-summary-list__key--embedded">
-//              ${escape(key)}
-//             </dt>
-//             <dd class="govuk-summary-list__value govuk-summary-list__value--embedded">
-//             ${escape(answer[key] as string)}
-//             </dd>
-//           </div>
-//           `
-//     })
-//     response += '</dl>'
-//   })
+  answers.forEach(answer => {
+    response += '<dl class="govuk-summary-list govuk-summary-list--embedded">'
+    Object.keys(answer).forEach(key => {
+      response += `
+          <div class="govuk-summary-list__row govuk-summary-list__row--embedded">
+            <dt class="govuk-summary-list__key govuk-summary-list__key--embedded">
+             ${escape(key)}
+            </dt>
+            <dd class="govuk-summary-list__value govuk-summary-list__value--embedded">
+            ${escape(answer[key] as string)}
+            </dd>
+          </div>
+          `
+    })
+    response += '</dl>'
+  })
 
-//   return response
-// }
+  return response
+}
 
-// const summaryListItemForResponse = (
-//   key: string,
-//   value: TextItem | HtmlItem,
-//   task: UiTask,
-//   pageName: string,
-//   application: Application,
-// ) => {
-//   return {
-//     key: {
-//       text: key,
-//     },
-//     value,
-//     actions: {
-//       items: [
-//         {
-//           href: paths.applications.pages.show({ task: task.id, page: pageName, id: application.id }),
-//           text: 'Change',
-//           visuallyHiddenText: key,
-//         },
-//       ],
-//     },
-//   }
-// }
+const summaryListItemForResponse = (
+  key: string,
+  value: TextItem | HtmlItem,
+  task: string,
+  pageName: string,
+  application: Application,
+) => {
+  return {
+    key: {
+      text: key,
+    },
+    value,
+    actions: {
+      items: [
+        {
+          href: paths.applications.pages.show({ task: task, page: pageName, id: application.id }),
+          text: 'Change',
+          visuallyHiddenText: key,
+        },
+      ],
+    },
+  }
+}
