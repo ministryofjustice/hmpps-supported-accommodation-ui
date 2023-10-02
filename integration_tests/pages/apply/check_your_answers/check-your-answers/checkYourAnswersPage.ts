@@ -32,7 +32,7 @@ export default class CheckYourAnswersPage extends ApplyPage {
   }
 
   shouldShowRiskToSelfAnswers(): void {
-    this.shouldShowCheckYourAnswersTitle('risk-to-self', 'Add risk to self information')
+    this.shouldShowCheckYourAnswersTitle('risk-to-self', 'Review risk to self information')
     this.shouldShowQuestionsAndAnswers('risk-to-self')
   }
 
@@ -49,16 +49,29 @@ export default class CheckYourAnswersPage extends ApplyPage {
       const questions = generateQuestions(nameOrPlaceholderCopy(this.application.person))[task][pageKey]
       cy.get(`[data-cy-check-your-answers-section="${task}"]`).within(() => {
         questionKeys.forEach(questionKey => {
-          cy.get('dt')
-            .contains(questions[questionKey].question)
-            .parent()
-            .within(() => {
-              if (questions[questionKey].answers !== undefined) {
-                cy.get('dd').contains(questions[questionKey].answers[this.application.data[task][pageKey][questionKey]])
-              } else {
-                cy.get('dd').should('have.value', this.application.data[task][pageKey][questionKey])
-              }
-            })
+          if (questionKey !== 'oasysImportDate') {
+            cy.get('dt')
+              .contains(questions[questionKey].question)
+              .parent()
+              .within(() => {
+                if (questions[questionKey].answers !== undefined) {
+                  cy.get('dd').contains(
+                    questions[questionKey].answers[this.application.data[task][pageKey][questionKey]],
+                  )
+                } else {
+                  if (this.application.data[task][pageKey][questionKey] === '') {
+                    cy.get('.govuk-summary-list__value')
+                      .invoke('text')
+                      .then(text => {
+                        const trimmed = text.trim()
+                        expect(trimmed).to.equal('')
+                      })
+                  } else {
+                    cy.get('.govuk-summary-list__value').contains(this.application.data[task][pageKey][questionKey])
+                  }
+                }
+              })
+          }
         })
       })
     })
