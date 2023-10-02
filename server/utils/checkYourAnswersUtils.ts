@@ -1,10 +1,8 @@
 import { Cas2Application as Application } from '@approved-premises/api'
-import { SummaryListItem, UiTask, FormSection, TextItem, HtmlItem } from '@approved-premises/ui'
+import { SummaryListItem, FormSection, TextItem, HtmlItem } from '@approved-premises/ui'
 import Apply from '../form-pages/apply/index'
 import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
-import TaskListPage, { TaskListPageInterface } from 'server/form-pages/taskListPage'
-import { SessionDataError, UnknownPageError } from './errors'
 import getQuestions from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
 
@@ -18,14 +16,14 @@ export const checkYourAnswersSections = (application: Application) => {
         return {
           id: task.id,
           title: task.title,
-          rows: getTaskResponsesAsSummaryListItems(task.id, application),
+          rows: getTaskAnswersAsSummaryListItems(task.id, application),
         }
       }),
     }
   })
 }
 
-export const getTaskResponsesAsSummaryListItems = (task: string, application: Application): Array<SummaryListItem> => {
+export const getTaskAnswersAsSummaryListItems = (task: string, application: Application): Array<SummaryListItem> => {
   const items: Array<SummaryListItem> = []
 
   const questions = getQuestions(nameOrPlaceholderCopy(application.person))
@@ -33,52 +31,80 @@ export const getTaskResponsesAsSummaryListItems = (task: string, application: Ap
   const pagesKeys = Object.keys(application.data[task])
 
   pagesKeys.forEach(pageKey => {
-    if (task === 'risk-of-serious-harm' && pageKey === 'summary') {
-      //handle
-    } else {
-      const questionKeys = Object.keys(application.data[task][pageKey])
-      // ignore if page contains no questions, or an oasys import date
-      if (questionKeys.length && questionKeys[0] !== 'oasysImportDate') {
-        questionKeys.forEach(questionKey => {
-          const questionText = questions[task][pageKey]?.[questionKey].question || pageKey
-          const answer = getAnswerUsingKeyIfPredefined(application, questions, task, pageKey, questionKey)
-          // if answer is string, format lines, if it's an array of objects, handle otherwise
-          const value =
-            typeof answer === 'string' || answer instanceof String
-              ? ({ html: formatLines(answer as string) } as HtmlItem)
-              : ({ html: embeddedSummaryListItem(answer as Array<Record<string, unknown>>) } as HtmlItem)
-          items.push(summaryListItemForResponse(questionText, value, task, pageKey, application))
-        })
-      }
-    }
+    addPageAnswersToItemsArray(items, application, task, pageKey, questions)
   })
 
   return items
 }
 
-const getAnswerUsingKeyIfPredefined = (
+const addPageAnswersToItemsArray = (
+  items: Array<SummaryListItem>,
+  application: Application,
+  task: string,
+  pageKey: string,
+  questions: Record<string, unknown>,
+) => {
+  if (task === 'risk-of-serious-harm' && pageKey === 'summary') {
+    //handle
+  } else {
+    const questionKeys = Object.keys(application.data[task][pageKey])
+    if (containsQuestions(questionKeys)) {
+      questionKeys.forEach(questionKey => {
+        const item = summaryListItemForQuestion(application, questions, task, questionKey, pageKey)
+        items.push(item)
+      })
+    }
+  }
+}
+
+const containsQuestions = (questionKeys: Array<string>): boolean => {
+  if (!questionKeys.length || (questionKeys.length === 1 && questionKeys[0] === 'oasysImportDate')) {
+    return false
+  }
+  return true
+}
+
+const getAnswer = (
   application: Application,
   questions: Record<string, unknown>,
   task: string,
   pageKey: string,
   questionKey: string | number,
 ): string | Array<Record<string, unknown>> => {
-  if (questions[task][pageKey]?.[questionKey].answers) {
-    // handle case where answers are an array of strings e.g. risk management arrangements
+  if (areDefinedAnswers(questions, task, pageKey, questionKey)) {
     if (Array.isArray(application.data[task][pageKey][questionKey])) {
-      const answerKeys = application.data[task][pageKey][questionKey]
-      const textAnswers: Array<string> = []
-      answerKeys.forEach((answerKey: string) => {
-        textAnswers.push(questions[task][pageKey][questionKey].answers[answerKey])
-      })
-      return textAnswers.join()
+      return arrayAnswersAsString(application, questions, task, pageKey, questionKey)
     }
     return questions[task][pageKey][questionKey].answers[application.data[task][pageKey][questionKey]]
-  } else if (questionKey !== '0') {
-    return application.data[task][pageKey][questionKey]
-  } else {
+  } else if (questionKey === '0') {
     return application.data[task][pageKey]
+  } else {
+    return application.data[task][pageKey][questionKey]
   }
+}
+
+const arrayAnswersAsString = (
+  application: Application,
+  questions: Record<string, unknown>,
+  task: string,
+  pageKey: string,
+  questionKey: string | number,
+): string => {
+  const answerKeys = application.data[task][pageKey][questionKey]
+  const textAnswers: Array<string> = []
+  answerKeys.forEach((answerKey: string) => {
+    textAnswers.push(questions[task][pageKey][questionKey].answers[answerKey])
+  })
+  return textAnswers.join()
+}
+
+const areDefinedAnswers = (
+  questions: Record<string, unknown>,
+  task: string,
+  pageKey: string,
+  questionKey: string | number,
+): boolean => {
+  return questions[task][pageKey]?.[questionKey].answers
 }
 
 const getSectionsWithAnswers = (): Array<FormSection> => {
@@ -86,46 +112,6 @@ const getSectionsWithAnswers = (): Array<FormSection> => {
 
   return sections.filter(section => section.name !== CheckYourAnswers.name)
 }
-
-// const forPagesWithResponsesInTask = (
-//   application: Application,
-//   task: UiTask,
-//   callback: (page: TaskListPage, pageName: string) => void,
-// ): void => {
-//   const pageNames = Object.keys(task.pages)
-//   let pageName = pageNames?.[0]
-
-//   while (pageName) {
-//     const Page = getPage(task.id, pageName)
-//     const body = application?.data?.[task.id]?.[pageName]
-
-//     // if (!body) {
-//     //   throw new SessionDataError(`No data for page ${task.id}:${pageName}`)
-//     // }
-
-//     const page = new Page(body, application)
-
-//     if (Object.keys(page.errors()).length) {
-//       throw new SessionDataError(`Errors for page ${task.id}:${pageName}`)
-//     }
-//     if (Object.keys(page.response()).length > 0) {
-//       callback(page, pageName)
-//     }
-//     pageName = page.next()
-//   }
-// }
-
-// const getPage = (taskName: string, pageName: string): TaskListPageInterface => {
-//   const pageList = Apply.pages[taskName]
-
-//   const Page = pageList[pageName]
-
-//   if (!Page) {
-//     throw new UnknownPageError(pageName)
-//   }
-
-//   return Page as TaskListPageInterface
-// }
 
 const formatLines = (text: string): string => {
   if (!text) {
@@ -175,24 +161,31 @@ const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): strin
   return response
 }
 
-const summaryListItemForResponse = (
-  key: string,
-  value: TextItem | HtmlItem,
-  task: string,
-  pageName: string,
+const summaryListItemForQuestion = (
   application: Application,
+  questions: Record<string, unknown>,
+  task: string,
+  questionKey: string,
+  pageKey: string,
 ) => {
+  const questionText = questions[task][pageKey]?.[questionKey].question || pageKey
+  const answer = getAnswer(application, questions, task, pageKey, questionKey)
+  const value =
+    typeof answer === 'string' || answer instanceof String
+      ? ({ html: formatLines(answer as string) } as HtmlItem)
+      : ({ html: embeddedSummaryListItem(answer as Array<Record<string, unknown>>) } as HtmlItem)
+
   return {
     key: {
-      text: key,
+      text: questionText,
     },
     value,
     actions: {
       items: [
         {
-          href: paths.applications.pages.show({ task: task, page: pageName, id: application.id }),
+          href: paths.applications.pages.show({ task: task, page: pageKey, id: application.id }),
           text: 'Change',
-          visuallyHiddenText: key,
+          visuallyHiddenText: questionText,
         },
       ],
     },
