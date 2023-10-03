@@ -54,21 +54,17 @@ export default class CheckYourAnswersPage extends ApplyPage {
               .contains(questions[questionKey].question)
               .parent()
               .within(() => {
-                if (questions[questionKey].answers !== undefined) {
+                if (questions[questionKey].answers) {
                   cy.get('dd').contains(
                     questions[questionKey].answers[this.application.data[task][pageKey][questionKey]],
                   )
                 } else {
-                  if (this.application.data[task][pageKey][questionKey] === '') {
-                    cy.get('.govuk-summary-list__value')
-                      .invoke('text')
-                      .then(text => {
-                        const trimmed = text.trim()
-                        expect(trimmed).to.equal('')
-                      })
-                  } else {
-                    cy.get('.govuk-summary-list__value').contains(this.application.data[task][pageKey][questionKey])
-                  }
+                  cy.get('.govuk-summary-list__value')
+                    .invoke('text')
+                    .then(text => {
+                      const trimmed = text.trim()
+                      expect(trimmed).to.equal(this.application.data[task][pageKey][questionKey])
+                    })
                 }
               })
           }
