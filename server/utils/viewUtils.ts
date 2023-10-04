@@ -1,9 +1,4 @@
-import * as nunjucks from 'nunjucks'
-
-export const escape = (text: string): string => {
-  const escapeFilter = new nunjucks.Environment().getFilter('escape')
-  return escapeFilter(text).val
-}
+import { escape } from './formUtils'
 
 export const formatLines = (text: string): string => {
   if (!text) {

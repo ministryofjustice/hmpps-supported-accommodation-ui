@@ -6,6 +6,7 @@ import paths from '../paths/apply'
 import getQuestions from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
 import { formatLines } from './viewUtils'
+import { escape } from './formUtils'
 
 export const checkYourAnswersSections = (application: Application) => {
   const sectionsWithAnswers = getSectionsWithAnswers()
@@ -38,7 +39,7 @@ export const getTaskAnswersAsSummaryListItems = (task: string, application: Appl
   return items
 }
 
-const addPageAnswersToItemsArray = (
+export const addPageAnswersToItemsArray = (
   items: Array<SummaryListItem>,
   application: Application,
   task: string,
@@ -58,14 +59,7 @@ const addPageAnswersToItemsArray = (
   }
 }
 
-const containsQuestions = (questionKeys: Array<string>): boolean => {
-  if (!questionKeys.length || (questionKeys.length === 1 && questionKeys[0] === 'oasysImportDate')) {
-    return false
-  }
-  return true
-}
-
-const getAnswer = (
+export const getAnswer = (
   application: Application,
   questions: Record<string, unknown>,
   task: string,
@@ -84,7 +78,7 @@ const getAnswer = (
   }
 }
 
-const arrayAnswersAsString = (
+export const arrayAnswersAsString = (
   application: Application,
   questions: Record<string, unknown>,
   task: string,
@@ -99,22 +93,7 @@ const arrayAnswersAsString = (
   return textAnswers.join()
 }
 
-const areDefinedAnswers = (
-  questions: Record<string, unknown>,
-  task: string,
-  pageKey: string,
-  questionKey: string | number,
-): boolean => {
-  return questions[task][pageKey]?.[questionKey].answers
-}
-
-const getSectionsWithAnswers = (): Array<FormSection> => {
-  const sections = Apply.sections
-
-  return sections.filter(section => section.name !== CheckYourAnswers.name)
-}
-
-const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): string => {
+export const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): string => {
   let response = ''
 
   answers.forEach(answer => {
@@ -166,4 +145,26 @@ export const summaryListItemForQuestion = (
       ],
     },
   }
+}
+
+const containsQuestions = (questionKeys: Array<string>): boolean => {
+  if (!questionKeys.length || (questionKeys.length === 1 && questionKeys[0] === 'oasysImportDate')) {
+    return false
+  }
+  return true
+}
+
+const areDefinedAnswers = (
+  questions: Record<string, unknown>,
+  task: string,
+  pageKey: string,
+  questionKey: string | number,
+): boolean => {
+  return questions[task][pageKey]?.[questionKey].answers
+}
+
+const getSectionsWithAnswers = (): Array<FormSection> => {
+  const sections = Apply.sections
+
+  return sections.filter(section => section.name !== CheckYourAnswers.name)
 }

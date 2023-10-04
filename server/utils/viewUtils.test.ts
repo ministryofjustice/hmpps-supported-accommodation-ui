@@ -1,27 +1,13 @@
 import * as viewUtilsModule from './viewUtils'
+import * as formUtilsModule from './formUtils'
 
-const { escape } = viewUtilsModule
 const { formatLines } = viewUtilsModule
-
-describe('escape', () => {
-  it('escapes HTML tags', () => {
-    expect(escape('<b>Formatted text</b>')).toEqual('&lt;b&gt;Formatted text&lt;/b&gt;')
-  })
-
-  it('escapes reserved characters', () => {
-    expect(escape('"Quoted text"')).toEqual('&quot;Quoted text&quot;')
-  })
-
-  it('returns the empty string when given null', () => {
-    expect(escape(null)).toEqual('')
-  })
-})
 
 describe('formatLines', () => {
   let escapeSpy: jest.SpyInstance<string, [text: string]>
 
   beforeEach(() => {
-    escapeSpy = jest.spyOn(viewUtilsModule, 'escape')
+    escapeSpy = jest.spyOn(formUtilsModule, 'escape')
     escapeSpy.mockClear()
   })
 
