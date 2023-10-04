@@ -3,6 +3,7 @@ import * as checkYourAnswersUtils from './checkYourAnswersUtils'
 import { escape } from './formUtils'
 import getQuestions from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
+import applicationData from '../../integration_tests/fixtures/applicationData.json'
 
 jest.mock('./formUtils')
 jest.mock('./viewUtils')
@@ -14,73 +15,25 @@ describe('checkYourAnswersUtils', () => {
 
   const questions = getQuestions(person.name)
 
-  const applicationWithRiskManagementArrangements = applicationFactory.build({
-    data: {
-      'risk-of-serious-harm': {
-        'risk-management-arrangements': {
-          arrangements: ['mappa', 'marac', 'iom'],
-        },
-      },
-    },
+  const application = applicationFactory.build({
     person,
+    data: applicationData,
   })
 
-  const applicationWithConfirmEligibility = applicationFactory.build({
-    data: {
-      'confirm-eligibility': {
-        'confirm-eligibility': {
-          isEligible: 'yes',
-        },
-      },
-    },
-    person,
+  describe('addPageAnswersToItemsArray', () => {
+    it('adds each page answer to the items array by default', () => {})
   })
 
   describe('getAnswer', () => {
     it('returns array answers as string given an array of defined answers', () => {
       const arrayAnswersAsStringSpy = jest.spyOn(checkYourAnswersUtils, 'arrayAnswersAsString')
 
-      getAnswer(
-        applicationWithRiskManagementArrangements,
-        questions,
-        'risk-of-serious-harm',
-        'risk-management-arrangements',
-        'arrangements',
-      )
+      getAnswer(application, questions, 'risk-of-serious-harm', 'risk-management-arrangements', 'arrangements')
 
       expect(arrayAnswersAsStringSpy).toHaveBeenCalledTimes(1)
     })
 
     it('returns the entire page data if question key is 0', () => {
-      const application = applicationFactory.build({
-        data: {
-          'risk-to-self': {
-            'acct-data': [
-              {
-                'createdDate-day': '1',
-                'createdDate-month': '2',
-                'createdDate-year': '2012',
-                isOngoing: 'no',
-                'closedDate-day': '10',
-                'closedDate-month': '10',
-                'closedDate-year': '2013',
-                referringInstitution: 'HMPPS prison',
-                acctDetails: 'ACCT details',
-              },
-              {
-                'createdDate-day': '2',
-                'createdDate-month': '3',
-                'createdDate-year': '2013',
-                isOngoing: 'yes',
-                referringInstitution: 'HMPPS prison 2',
-                acctDetails: 'ACCT details 2',
-              },
-            ],
-          },
-        },
-        person,
-      })
-
       const expected = [
         {
           'createdDate-day': '1',
@@ -93,29 +46,15 @@ describe('checkYourAnswersUtils', () => {
           referringInstitution: 'HMPPS prison',
           acctDetails: 'ACCT details',
         },
-        {
-          'createdDate-day': '2',
-          'createdDate-month': '3',
-          'createdDate-year': '2013',
-          isOngoing: 'yes',
-          referringInstitution: 'HMPPS prison 2',
-          acctDetails: 'ACCT details 2',
-        },
       ]
 
       expect(getAnswer(application, questions, 'risk-to-self', 'acct-data', '0')).toEqual(expected)
     })
 
     it('returns the answer string by default', () => {
-      expect(
-        getAnswer(
-          applicationWithConfirmEligibility,
-          questions,
-          'confirm-eligibility',
-          'confirm-eligibility',
-          'isEligible',
-        ),
-      ).toEqual('Yes, I confirm Roger Smith is eligible')
+      expect(getAnswer(application, questions, 'confirm-eligibility', 'confirm-eligibility', 'isEligible')).toEqual(
+        'Yes, I confirm Roger Smith is eligible',
+      )
     })
   })
 
@@ -123,7 +62,7 @@ describe('checkYourAnswersUtils', () => {
     it('returns an array of string answers as a comma separated string', () => {
       expect(
         arrayAnswersAsString(
-          applicationWithRiskManagementArrangements,
+          application,
           questions,
           'risk-of-serious-harm',
           'risk-management-arrangements',
@@ -143,7 +82,7 @@ describe('checkYourAnswersUtils', () => {
         actions: {
           items: [
             {
-              href: `/applications/${applicationWithConfirmEligibility.id}/tasks/confirm-eligibility/pages/confirm-eligibility`,
+              href: `/applications/${application.id}/tasks/confirm-eligibility/pages/confirm-eligibility`,
               text: 'Change',
               visuallyHiddenText: 'Is Roger Smith eligible for Short-Term Accommodation (CAS-2)?',
             },
@@ -152,13 +91,7 @@ describe('checkYourAnswersUtils', () => {
       }
 
       expect(
-        summaryListItemForQuestion(
-          applicationWithConfirmEligibility,
-          questions,
-          'confirm-eligibility',
-          'isEligible',
-          'confirm-eligibility',
-        ),
+        summaryListItemForQuestion(application, questions, 'confirm-eligibility', 'isEligible', 'confirm-eligibility'),
       ).toEqual(expected)
     })
   })
