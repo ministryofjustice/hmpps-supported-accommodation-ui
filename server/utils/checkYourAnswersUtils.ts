@@ -5,6 +5,7 @@ import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
 import getQuestions from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
+import { formatLines } from './viewUtils'
 
 export const checkYourAnswersSections = (application: Application) => {
   const sectionsWithAnswers = getSectionsWithAnswers()
@@ -113,31 +114,6 @@ const getSectionsWithAnswers = (): Array<FormSection> => {
   return sections.filter(section => section.name !== CheckYourAnswers.name)
 }
 
-const formatLines = (text: string): string => {
-  if (!text) {
-    return ''
-  }
-
-  const normalizedText = normalizeText(text)
-
-  const paragraphs = normalizedText.split('\n\n').map(paragraph => paragraph.split('\n').join('<br />'))
-
-  if (paragraphs.length === 1) {
-    return paragraphs[0]
-  }
-  return `<p>${paragraphs.join('</p><p>')}</p>`
-}
-
-function normalizeText(text: string): string {
-  let output = text.trim()
-
-  output = output.replace(/(\r\n)/g, '\n')
-  output = output.replace(/(\r)/g, '\n')
-  output = output.replace(/(\n){2,}/g, '\n\n')
-
-  return output
-}
-
 const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): string => {
   let response = ''
 
@@ -161,7 +137,7 @@ const embeddedSummaryListItem = (answers: Array<Record<string, unknown>>): strin
   return response
 }
 
-const summaryListItemForQuestion = (
+export const summaryListItemForQuestion = (
   application: Application,
   questions: Record<string, unknown>,
   task: string,

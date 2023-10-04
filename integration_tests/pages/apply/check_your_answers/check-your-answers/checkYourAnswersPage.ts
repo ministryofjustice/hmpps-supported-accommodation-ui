@@ -49,7 +49,9 @@ export default class CheckYourAnswersPage extends ApplyPage {
       const questions = generateQuestions(nameOrPlaceholderCopy(this.application.person))[task][pageKey]
       cy.get(`[data-cy-check-your-answers-section="${task}"]`).within(() => {
         questionKeys.forEach(questionKey => {
-          if (questionKey !== 'oasysImportDate') {
+          if (questionKey === '0') {
+            // handle
+          } else if (questionKey !== 'oasysImportDate') {
             cy.get('dt')
               .contains(questions[questionKey].question)
               .parent()
