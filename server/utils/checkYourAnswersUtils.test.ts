@@ -4,11 +4,18 @@ import { escape } from './formUtils'
 import getQuestions from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
 import applicationData from '../../integration_tests/fixtures/applicationData.json'
+import { SummaryListItem } from '@approved-premises/ui'
 
 jest.mock('./formUtils')
 jest.mock('./viewUtils')
 
-const { arrayAnswersAsString, embeddedSummaryListItem, getAnswer, summaryListItemForQuestion } = checkYourAnswersUtils
+const {
+  addPageAnswersToItemsArray,
+  arrayAnswersAsString,
+  embeddedSummaryListItem,
+  getAnswer,
+  summaryListItemForQuestion,
+} = checkYourAnswersUtils
 
 describe('checkYourAnswersUtils', () => {
   const person = personFactory.build({ name: 'Roger Smith' })
@@ -21,7 +28,61 @@ describe('checkYourAnswersUtils', () => {
   })
 
   describe('addPageAnswersToItemsArray', () => {
-    it('adds each page answer to the items array by default', () => {})
+    it('adds each page answer to the items array by default', () => {
+      const items: Array<SummaryListItem> = []
+
+      const expected = [
+        {
+          key: { text: 'Is there any other risk information for Roger Smith?' },
+          value: { html: 'Yes' },
+          actions: {
+            items: [
+              {
+                href: `/applications/${application.id}/tasks/risk-of-serious-harm/pages/additional-risk-information`,
+                text: 'Change',
+                visuallyHiddenText: 'Is there any other risk information for Roger Smith?',
+              },
+            ],
+          },
+        },
+        {
+          key: { text: 'Additional information' },
+          value: { html: 'some information' },
+          actions: {
+            items: [
+              {
+                href: `/applications/${application.id}/tasks/risk-of-serious-harm/pages/additional-risk-information`,
+                text: 'Change',
+                visuallyHiddenText: 'Additional information',
+              },
+            ],
+          },
+        },
+      ]
+
+      ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
+
+      addPageAnswersToItemsArray(items, application, 'risk-of-serious-harm', 'additional-risk-information', questions)
+
+      expect(items).toEqual(expected)
+    })
+
+    it(`does not add to items array if question keys don't refer to questions`, () => {
+      const items: Array<SummaryListItem> = []
+
+      addPageAnswersToItemsArray(items, application, 'risk-to-self', 'oasys-import', questions)
+
+      expect(items).toEqual([])
+    })
+
+    it('does not duplicate items for array answers', () => {
+      const items: Array<SummaryListItem> = []
+
+      addPageAnswersToItemsArray(items, application, 'risk-to-self', 'acct-data', questions)
+
+      console.log({ items })
+      expect(items.length).toEqual(2)
+    })
   })
 
   describe('getAnswer', () => {
@@ -45,6 +106,14 @@ describe('checkYourAnswersUtils', () => {
           'closedDate-year': '2013',
           referringInstitution: 'HMPPS prison',
           acctDetails: 'ACCT details',
+        },
+        {
+          'createdDate-day': '2',
+          'createdDate-month': '3',
+          'createdDate-year': '2013',
+          isOngoing: 'yes',
+          referringInstitution: 'HMPPS prison 2',
+          acctDetails: 'ACCT details 2',
         },
       ]
 

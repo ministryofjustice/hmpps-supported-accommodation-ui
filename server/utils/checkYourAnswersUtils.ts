@@ -46,19 +46,17 @@ export const addPageAnswersToItemsArray = (
   pageKey: string,
   questions: Record<string, unknown>,
 ) => {
-  if (task === 'risk-of-serious-harm' && pageKey === 'summary') {
-    //handle
-  } else {
-    const questionKeys = Object.keys(application.data[task][pageKey])
-    if (containsQuestions(questionKeys)) {
-      questionKeys.forEach(questionKey => {
-        if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
-          return
-        }
-        const item = summaryListItemForQuestion(application, questions, task, questionKey, pageKey)
-        items.push(item)
-      })
-    }
+  const questionKeys = Object.keys(application.data[task][pageKey])
+  //TEST ME
+  if (containsQuestions(questionKeys)) {
+    questionKeys.forEach(questionKey => {
+      //TEST ME
+      // if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
+      //   return
+      // }
+      const item = summaryListItemForQuestion(application, questions, task, questionKey, pageKey)
+      items.push(item)
+    })
   }
 }
 
