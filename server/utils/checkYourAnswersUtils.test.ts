@@ -1,5 +1,5 @@
 import { applicationFactory, personFactory } from '../testutils/factories'
-import { arrayAnswersAsString, embeddedSummaryListItem, summaryListItemForQuestion } from './checkYourAnswersUtils'
+import * as checkYourAnswersUtils from './checkYourAnswersUtils'
 import { escape } from './formUtils'
 import getQuestions from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
@@ -7,30 +7,123 @@ import { formatLines } from './viewUtils'
 jest.mock('./formUtils')
 jest.mock('./viewUtils')
 
+const { arrayAnswersAsString, embeddedSummaryListItem, getAnswer, summaryListItemForQuestion } = checkYourAnswersUtils
+
 describe('checkYourAnswersUtils', () => {
   const person = personFactory.build({ name: 'Roger Smith' })
 
   const questions = getQuestions(person.name)
 
-  describe('arrayAnswersAsString', () => {
-    it('returns an array of string answers as a comma separated string', () => {
+  const applicationWithRiskManagementArrangements = applicationFactory.build({
+    data: {
+      'risk-of-serious-harm': {
+        'risk-management-arrangements': {
+          arrangements: ['mappa', 'marac', 'iom'],
+        },
+      },
+    },
+    person,
+  })
+
+  const applicationWithConfirmEligibility = applicationFactory.build({
+    data: {
+      'confirm-eligibility': {
+        'confirm-eligibility': {
+          isEligible: 'yes',
+        },
+      },
+    },
+    person,
+  })
+
+  describe('getAnswer', () => {
+    it('returns array answers as string given an array of defined answers', () => {
+      const arrayAnswersAsStringSpy = jest.spyOn(checkYourAnswersUtils, 'arrayAnswersAsString')
+
+      getAnswer(
+        applicationWithRiskManagementArrangements,
+        questions,
+        'risk-of-serious-harm',
+        'risk-management-arrangements',
+        'arrangements',
+      )
+
+      expect(arrayAnswersAsStringSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('returns the entire page data if question key is 0', () => {
       const application = applicationFactory.build({
         data: {
-          'risk-of-serious-harm': {
-            'risk-management-arrangements': {
-              arrangements: ['mappa', 'marac', 'iom'],
-              mappaDetails: 'mappa details',
-              maracDetails: 'marac details',
-              iomDetails: 'iom details',
-            },
+          'risk-to-self': {
+            'acct-data': [
+              {
+                'createdDate-day': '1',
+                'createdDate-month': '2',
+                'createdDate-year': '2012',
+                isOngoing: 'no',
+                'closedDate-day': '10',
+                'closedDate-month': '10',
+                'closedDate-year': '2013',
+                referringInstitution: 'HMPPS prison',
+                acctDetails: 'ACCT details',
+              },
+              {
+                'createdDate-day': '2',
+                'createdDate-month': '3',
+                'createdDate-year': '2013',
+                isOngoing: 'yes',
+                referringInstitution: 'HMPPS prison 2',
+                acctDetails: 'ACCT details 2',
+              },
+            ],
           },
         },
         person,
       })
 
+      const expected = [
+        {
+          'createdDate-day': '1',
+          'createdDate-month': '2',
+          'createdDate-year': '2012',
+          isOngoing: 'no',
+          'closedDate-day': '10',
+          'closedDate-month': '10',
+          'closedDate-year': '2013',
+          referringInstitution: 'HMPPS prison',
+          acctDetails: 'ACCT details',
+        },
+        {
+          'createdDate-day': '2',
+          'createdDate-month': '3',
+          'createdDate-year': '2013',
+          isOngoing: 'yes',
+          referringInstitution: 'HMPPS prison 2',
+          acctDetails: 'ACCT details 2',
+        },
+      ]
+
+      expect(getAnswer(application, questions, 'risk-to-self', 'acct-data', '0')).toEqual(expected)
+    })
+
+    it('returns the answer string by default', () => {
+      expect(
+        getAnswer(
+          applicationWithConfirmEligibility,
+          questions,
+          'confirm-eligibility',
+          'confirm-eligibility',
+          'isEligible',
+        ),
+      ).toEqual('Yes, I confirm Roger Smith is eligible')
+    })
+  })
+
+  describe('arrayAnswersAsString', () => {
+    it('returns an array of string answers as a comma separated string', () => {
       expect(
         arrayAnswersAsString(
-          application,
+          applicationWithRiskManagementArrangements,
           questions,
           'risk-of-serious-harm',
           'risk-management-arrangements',
@@ -44,24 +137,13 @@ describe('checkYourAnswersUtils', () => {
     it('returns a summary list item for a given question', () => {
       ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
 
-      const application = applicationFactory.build({
-        data: {
-          'confirm-eligibility': {
-            'confirm-eligibility': {
-              isEligible: 'yes',
-            },
-          },
-        },
-        person,
-      })
-
       const expected = {
         key: { text: 'Is Roger Smith eligible for Short-Term Accommodation (CAS-2)?' },
         value: { html: 'Yes, I confirm Roger Smith is eligible' },
         actions: {
           items: [
             {
-              href: `/applications/${application.id}/tasks/confirm-eligibility/pages/confirm-eligibility`,
+              href: `/applications/${applicationWithConfirmEligibility.id}/tasks/confirm-eligibility/pages/confirm-eligibility`,
               text: 'Change',
               visuallyHiddenText: 'Is Roger Smith eligible for Short-Term Accommodation (CAS-2)?',
             },
@@ -70,7 +152,13 @@ describe('checkYourAnswersUtils', () => {
       }
 
       expect(
-        summaryListItemForQuestion(application, questions, 'confirm-eligibility', 'isEligible', 'confirm-eligibility'),
+        summaryListItemForQuestion(
+          applicationWithConfirmEligibility,
+          questions,
+          'confirm-eligibility',
+          'isEligible',
+          'confirm-eligibility',
+        ),
       ).toEqual(expected)
     })
   })

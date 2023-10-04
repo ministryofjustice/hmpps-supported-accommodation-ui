@@ -52,6 +52,9 @@ export const addPageAnswersToItemsArray = (
     const questionKeys = Object.keys(application.data[task][pageKey])
     if (containsQuestions(questionKeys)) {
       questionKeys.forEach(questionKey => {
+        if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
+          return
+        }
         const item = summaryListItemForQuestion(application, questions, task, questionKey, pageKey)
         items.push(item)
       })
@@ -64,7 +67,7 @@ export const getAnswer = (
   questions: Record<string, unknown>,
   task: string,
   pageKey: string,
-  questionKey: string | number,
+  questionKey: string,
 ): string | Array<Record<string, unknown>> => {
   if (areDefinedAnswers(questions, task, pageKey, questionKey)) {
     if (Array.isArray(application.data[task][pageKey][questionKey])) {
@@ -78,12 +81,19 @@ export const getAnswer = (
   }
 }
 
+const isArrayIndex = (questionKey: string): boolean => {
+  if (!isNaN(Number(questionKey))) {
+    return true
+  }
+  return false
+}
+
 export const arrayAnswersAsString = (
   application: Application,
   questions: Record<string, unknown>,
   task: string,
   pageKey: string,
-  questionKey: string | number,
+  questionKey: string,
 ): string => {
   const answerKeys = application.data[task][pageKey][questionKey]
   const textAnswers: Array<string> = []
@@ -158,7 +168,7 @@ const areDefinedAnswers = (
   questions: Record<string, unknown>,
   task: string,
   pageKey: string,
-  questionKey: string | number,
+  questionKey: string,
 ): boolean => {
   return questions[task][pageKey]?.[questionKey].answers
 }
