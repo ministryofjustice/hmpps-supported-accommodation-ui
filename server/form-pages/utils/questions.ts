@@ -1,4 +1,4 @@
-export default function getQuestions(name: string): Record<string, unknown> {
+export const getQuestions = (name: string): Record<string, unknown> => {
   return {
     'confirm-eligibility': {
       'confirm-eligibility': {

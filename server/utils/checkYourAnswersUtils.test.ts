@@ -1,21 +1,35 @@
 import { applicationFactory, personFactory } from '../testutils/factories'
 import * as checkYourAnswersUtils from './checkYourAnswersUtils'
 import { escape } from './formUtils'
-import getQuestions from '../form-pages/utils/questions'
+import * as getQuestionsUtil from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
 import applicationData from '../../integration_tests/fixtures/applicationData.json'
 import { SummaryListItem } from '@approved-premises/ui'
+
+const mockQuestions = {
+  task1: {
+    page1: { question1: { question: 'A question', answers: { yes: 'Yes', no: 'No' } } },
+    page2: { question2: { question: 'Another question' } },
+  },
+  task2: {
+    page1: { question1: { question: 'question 3', answers: { yes: 'Yes', no: 'No' } } },
+    page2: { question2: { question: 'question 4' } },
+  },
+}
 
 jest.mock('./formUtils')
 jest.mock('./viewUtils')
 
 const {
+  getTaskAnswersAsSummaryListItems,
   addPageAnswersToItemsArray,
   arrayAnswersAsString,
   embeddedSummaryListItem,
   getAnswer,
   summaryListItemForQuestion,
 } = checkYourAnswersUtils
+
+const { getQuestions } = getQuestionsUtil
 
 describe('checkYourAnswersUtils', () => {
   const person = personFactory.build({ name: 'Roger Smith' })
@@ -25,6 +39,57 @@ describe('checkYourAnswersUtils', () => {
   const application = applicationFactory.build({
     person,
     data: applicationData,
+  })
+
+  describe('getTaskAnswersAsSummaryListItems', () => {
+    it('returns an array of summary list items for a given task', () => {
+      jest.spyOn(getQuestionsUtil, 'getQuestions').mockImplementationOnce(jest.fn(() => mockQuestions))
+      ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
+
+      const application = applicationFactory.build({
+        data: {
+          task1: {
+            page1: {
+              question1: 'no',
+            },
+            page2: {
+              question2: 'some answer',
+            },
+          },
+        },
+      })
+
+      const expected = [
+        {
+          key: { text: 'A question' },
+          value: { html: 'No' },
+          actions: {
+            items: [
+              {
+                href: `/applications/${application.id}/tasks/task1/pages/page1`,
+                text: 'Change',
+                visuallyHiddenText: 'A question',
+              },
+            ],
+          },
+        },
+        {
+          key: { text: 'Another question' },
+          value: { html: 'some answer' },
+          actions: {
+            items: [
+              {
+                href: `/applications/${application.id}/tasks/task1/pages/page2`,
+                text: 'Change',
+                visuallyHiddenText: 'Another question',
+              },
+            ],
+          },
+        },
+      ]
+
+      expect(getTaskAnswersAsSummaryListItems('task1', application)).toEqual(expected)
+    })
   })
 
   describe('addPageAnswersToItemsArray', () => {
@@ -75,13 +140,12 @@ describe('checkYourAnswersUtils', () => {
       expect(items).toEqual([])
     })
 
-    it('does not duplicate items for array answers', () => {
+    it('does not duplicate embedded list item for array answers', () => {
       const items: Array<SummaryListItem> = []
 
       addPageAnswersToItemsArray(items, application, 'risk-to-self', 'acct-data', questions)
 
-      console.log({ items })
-      expect(items.length).toEqual(2)
+      expect(items.length).toEqual(1)
     })
   })
 

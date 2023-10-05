@@ -3,7 +3,7 @@ import { SummaryListItem, FormSection, TextItem, HtmlItem } from '@approved-prem
 import Apply from '../form-pages/apply/index'
 import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
-import getQuestions from '../form-pages/utils/questions'
+import { getQuestions } from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
 import { formatLines } from './viewUtils'
 import { escape } from './formUtils'
@@ -50,10 +50,9 @@ export const addPageAnswersToItemsArray = (
   //TEST ME
   if (containsQuestions(questionKeys)) {
     questionKeys.forEach(questionKey => {
-      //TEST ME
-      // if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
-      //   return
-      // }
+      if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
+        return
+      }
       const item = summaryListItemForQuestion(application, questions, task, questionKey, pageKey)
       items.push(item)
     })
