@@ -191,7 +191,7 @@
       "cellShareInformationDetail": "some information"
     },
     "behaviour-notes": {},
-    "behaviour-notes-data": [{ "behaviourDetail": "some detail" }],
+    "behaviour-notes-data": [{ "behaviourDetail": "some detail" }, { "behaviourDetail": "some detail 2" }],
     "additional-risk-information": {
       "hasAdditionalInformation": "yes",
       "additionalInformationDetail": "some information"

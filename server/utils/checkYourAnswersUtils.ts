@@ -8,6 +8,8 @@ import { nameOrPlaceholderCopy } from './utils'
 import { formatLines } from './viewUtils'
 import { escape } from './formUtils'
 import { getPage } from './applications/getPage'
+import { AcctDataBody } from '../form-pages/apply/risks-and-needs/risk-to-self/custom-forms/acctData'
+import { BehaviourNotesDataBody } from '../form-pages/apply/risks-and-needs/risk-of-serious-harm/custom-forms/behaviourNotesData'
 
 export const checkYourAnswersSections = (application: Application) => {
   const sectionsWithAnswers = getSectionsWithAnswers()
@@ -16,20 +18,183 @@ export const checkYourAnswersSections = (application: Application) => {
     return {
       title: section.title,
       tasks: section.tasks.map(task => {
-        const pagesKeys = Object.keys(application.data?.[task.id])
         return {
           id: task.id,
           title: task.title,
-          cards: pagesKeys.map(page => getCardsForPage(page, task.id, application)).flat(),
+          cards: getCardsForTask(task.id, application),
         }
       }),
     }
   })
 }
 
+const getCardsForTask = (task: string, application: Application): Array<SummaryListWithCard> => {
+  const pagesKeys = Object.keys(application.data?.[task])
+
+  switch (task) {
+    case 'equality-and-diversity-monitoring':
+      return [
+        {
+          card: {
+            title: {
+              text: 'Equality and diversity monitoring questions',
+            },
+          },
+          rows: pagesKeys.map(page => getPageAnswersAsSummaryListRows(page, task, application)).flat(),
+        },
+      ]
+    case 'risk-to-self':
+      return [
+        {
+          card: {
+            title: {
+              text: 'Vulnerability',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('vulnerability', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'Current risk',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('current-risk', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'Historical risk',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('historical-risk', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'ACCT notes',
+            },
+          },
+          rows: getAcctNotesAsRows(application),
+        },
+      ]
+
+    case 'risk-of-serious-harm':
+      return [
+        {
+          card: {
+            title: {
+              text: 'RoSH summary',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('summary', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'RoSH questions',
+            },
+          },
+          rows: ['risk-to-others', 'risk-factors', 'reducing-risk']
+            .map(page => getPageAnswersAsSummaryListRows(page, task, application))
+            .flat(),
+        },
+        {
+          card: {
+            title: {
+              text: 'Risk management arrangements',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('risk-management-arrangements', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'Cell share information',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('cell-share-information', task, application),
+        },
+        {
+          card: {
+            title: {
+              text: 'Behaviour notes',
+            },
+          },
+          rows: getBehaviourNotesAsRows(application),
+        },
+        {
+          card: {
+            title: {
+              text: 'Additional risk information',
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows('additional-risk-information', task, application),
+        },
+      ]
+
+    default:
+      return pagesKeys.map(page => {
+        const Page = getPage(task, page, 'applications')
+        const body = application.data?.[task]?.[page]
+        const formPage = new Page(body, application)
+
+        return {
+          card: {
+            title: {
+              text: formPage.title,
+            },
+          },
+          rows: getPageAnswersAsSummaryListRows(page, task, application),
+        }
+      })
+  }
+}
+
+const getAcctNotesAsRows = (application: Application): Array<SummaryListItem> => {
+  const accts = application.data?.['risk-to-self']['acct-data'] as Array<AcctDataBody>
+
+  if (accts && accts.length > 0) {
+    return accts.map(acct => {
+      return {
+        key: {
+          html: `${acct.referringInstitution}<br><span class="govuk-!-font-weight-regular">${
+            acct.isOngoing === 'yes' ? 'Ongoing' : 'Closed'
+          }</span><br><span class="govuk-!-font-weight-regular">Created: ${
+            acct['createdDate-day'] + acct['createdDate-month'] + acct['createdDate-year']
+          }<br> Expiry: ${
+            acct['closedDate-day'] ? acct['closedDate-day'] + acct['closedDate-month'] + acct['closedDate-year'] : ''
+          }</span>`,
+        },
+        value: {
+          text: acct.acctDetails,
+        },
+      }
+    })
+  }
+
+  return []
+}
+
+const getBehaviourNotesAsRows = (application: Application): Array<SummaryListItem> => {
+  const notes = application.data?.['risk-of-serious-harm']['behaviour-notes-data'] as Array<BehaviourNotesDataBody>
+  if (notes && notes.length > 0) {
+    return notes.map((note, index) => {
+      return {
+        key: {
+          text: `Behaviour note ${index + 1}`,
+        },
+        value: {
+          text: note.behaviourDetail,
+        },
+      }
+    })
+  }
+
+  return []
+}
+
 const getCardsForPage = (page: string, task: string, application: Application): Array<SummaryListWithCard> => {
-  console.log('here in get cards')
-  console.log(page)
   const Page = getPage(task, page, 'applications')
   const body = application.data?.[task]?.[page]
   const formPage = new Page(body, application)
@@ -90,12 +255,12 @@ export const getAnswer = (
     if (Array.isArray(application.data[task][pageKey][questionKey])) {
       return arrayAnswersAsString(application, questions, task, pageKey, questionKey)
     }
-    return questions[task][pageKey][questionKey].answers[application.data[task][pageKey][questionKey]]
+    return questions[task][pageKey][questionKey]?.answers[application.data[task][pageKey][questionKey]] || ''
   }
   if (questionKey === '0') {
-    return application.data[task][pageKey]
+    return application.data[task][pageKey] || ''
   }
-  return application.data[task][pageKey][questionKey]
+  return application.data[task][pageKey][questionKey] || ''
 }
 
 const isArrayIndex = (questionKey: string): boolean => {
@@ -115,7 +280,7 @@ export const arrayAnswersAsString = (
   const answerKeys = application.data[task][pageKey][questionKey]
   const textAnswers: Array<string> = []
   answerKeys.forEach((answerKey: string) => {
-    textAnswers.push(questions[task][pageKey][questionKey].answers[answerKey])
+    textAnswers.push(questions[task][pageKey][questionKey]?.answers[answerKey])
   })
   return textAnswers.join()
 }
@@ -150,7 +315,7 @@ export const summaryListItemForQuestion = (
   questionKey: string,
   pageKey: string,
 ) => {
-  const questionText = questions[task][pageKey]?.[questionKey].question || pageKey
+  const questionText = questions[task][pageKey]?.[questionKey]?.question || pageKey
   const answer = getAnswer(application, questions, task, pageKey, questionKey)
   const value =
     typeof answer === 'string' || answer instanceof String
@@ -187,7 +352,7 @@ const areDefinedAnswers = (
   pageKey: string,
   questionKey: string,
 ): boolean => {
-  return questions[task][pageKey]?.[questionKey].answers
+  return questions[task][pageKey]?.[questionKey]?.answers
 }
 
 const getSectionsWithAnswers = (): Array<FormSection> => {
