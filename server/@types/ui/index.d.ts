@@ -10,11 +10,12 @@ export type UiTask = {
   title: string
   pages: Record<string, unknown>
 }
-export type FormSection = {
-  title: string
-  name: string
-  tasks: Array<UiTask>
-}
+
+// export type FormSection = {
+//   title: string
+//   name: string
+//   tasks: Array<UiTask>
+// }
 
 export type FormSections = Array<FormSection>
 
@@ -141,6 +142,20 @@ export interface SummaryListItem {
   key: TextItem | HtmlItem
   value: TextItem | HtmlItem
   actions?: { items: Array<SummaryListActionItem> }
+}
+
+export interface SummaryList {
+  classes?: string
+  attributes?: HtmlAttributes
+  rows: Array<SummaryListItem>
+}
+
+export type SummaryListWithCard = SummaryList & {
+  card: {
+    title: { text: string }
+    actions?: SummaryListActions
+    attributes?: HtmlAttributes
+  }
 }
 
 export type Task = {

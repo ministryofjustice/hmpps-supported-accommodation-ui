@@ -1,5 +1,5 @@
 import { Cas2Application as Application } from '@approved-premises/api'
-import { SummaryListItem, FormSection, TextItem, HtmlItem } from '@approved-premises/ui'
+import { SummaryListItem, FormSection, TextItem, HtmlItem, SummaryListWithCard } from '@approved-premises/ui'
 import Apply from '../form-pages/apply/index'
 import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
@@ -7,6 +7,7 @@ import { getQuestions } from '../form-pages/utils/questions'
 import { nameOrPlaceholderCopy } from './utils'
 import { formatLines } from './viewUtils'
 import { escape } from './formUtils'
+import { getPage } from './applications/getPage'
 
 export const checkYourAnswersSections = (application: Application) => {
   const sectionsWithAnswers = getSectionsWithAnswers()
@@ -15,31 +16,50 @@ export const checkYourAnswersSections = (application: Application) => {
     return {
       title: section.title,
       tasks: section.tasks.map(task => {
+        const pagesKeys = Object.keys(application.data?.[task.id])
         return {
           id: task.id,
           title: task.title,
-          rows: getTaskAnswersAsSummaryListItems(task.id, application),
+          cards: pagesKeys.map(page => getCardsForPage(page, task.id, application)).flat(),
         }
       }),
     }
   })
 }
 
-export const getTaskAnswersAsSummaryListItems = (task: string, application: Application): Array<SummaryListItem> => {
-  const items: Array<SummaryListItem> = []
+const getCardsForPage = (page: string, task: string, application: Application): Array<SummaryListWithCard> => {
+  console.log('here in get cards')
+  console.log(page)
+  const Page = getPage(task, page, 'applications')
+  const body = application.data?.[task]?.[page]
+  const formPage = new Page(body, application)
+  return [
+    {
+      card: {
+        title: {
+          text: formPage.title,
+        },
+      },
+      rows: getPageAnswersAsSummaryListRows(page, task, application),
+    },
+  ]
+}
+
+export const getPageAnswersAsSummaryListRows = (
+  page: string,
+  task: string,
+  application: Application,
+): Array<SummaryListItem> => {
+  const rows: Array<SummaryListItem> = []
 
   const questions = getQuestions(nameOrPlaceholderCopy(application.person))
 
-  const pagesKeys = Object.keys(application.data[task])
+  addPageAnswersToRowsArray(rows, application, task, page, questions)
 
-  pagesKeys.forEach(pageKey => {
-    addPageAnswersToItemsArray(items, application, task, pageKey, questions)
-  })
-
-  return items
+  return rows
 }
 
-export const addPageAnswersToItemsArray = (
+export const addPageAnswersToRowsArray = (
   items: Array<SummaryListItem>,
   application: Application,
   task: string,
@@ -47,7 +67,7 @@ export const addPageAnswersToItemsArray = (
   questions: Record<string, unknown>,
 ) => {
   const questionKeys = Object.keys(application.data[task][pageKey])
-  //TEST ME
+  // TEST ME
   if (containsQuestions(questionKeys)) {
     questionKeys.forEach(questionKey => {
       if (isArrayIndex(questionKey) && Number(questionKey) > 0) {
@@ -71,15 +91,15 @@ export const getAnswer = (
       return arrayAnswersAsString(application, questions, task, pageKey, questionKey)
     }
     return questions[task][pageKey][questionKey].answers[application.data[task][pageKey][questionKey]]
-  } else if (questionKey === '0') {
-    return application.data[task][pageKey]
-  } else {
-    return application.data[task][pageKey][questionKey]
   }
+  if (questionKey === '0') {
+    return application.data[task][pageKey]
+  }
+  return application.data[task][pageKey][questionKey]
 }
 
 const isArrayIndex = (questionKey: string): boolean => {
-  if (!isNaN(Number(questionKey))) {
+  if (!Number.isNaN(Number(questionKey))) {
     return true
   }
   return false
@@ -145,7 +165,7 @@ export const summaryListItemForQuestion = (
     actions: {
       items: [
         {
-          href: paths.applications.pages.show({ task: task, page: pageKey, id: application.id }),
+          href: paths.applications.pages.show({ task, page: pageKey, id: application.id }),
           text: 'Change',
           visuallyHiddenText: questionText,
         },
@@ -171,7 +191,7 @@ const areDefinedAnswers = (
 }
 
 const getSectionsWithAnswers = (): Array<FormSection> => {
-  const sections = Apply.sections
+  const { sections } = Apply
 
   return sections.filter(section => section.name !== CheckYourAnswers.name)
 }

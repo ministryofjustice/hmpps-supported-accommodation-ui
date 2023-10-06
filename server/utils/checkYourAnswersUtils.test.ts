@@ -1,10 +1,10 @@
+import { SummaryListItem } from '@approved-premises/ui'
 import { applicationFactory, personFactory } from '../testutils/factories'
 import * as checkYourAnswersUtils from './checkYourAnswersUtils'
 import { escape } from './formUtils'
 import * as getQuestionsUtil from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
 import applicationData from '../../integration_tests/fixtures/applicationData.json'
-import { SummaryListItem } from '@approved-premises/ui'
 
 const mockQuestions = {
   task1: {
@@ -21,12 +21,12 @@ jest.mock('./formUtils')
 jest.mock('./viewUtils')
 
 const {
-  getTaskAnswersAsSummaryListItems,
-  addPageAnswersToItemsArray,
+  getTaskAnswersAsSummaryLists: getTaskAnswersAsSummaryListItems,
+  addPageAnswersAsRowsArray: addPageAnswersToItemsArray,
   arrayAnswersAsString,
   embeddedSummaryListItem,
   getAnswer,
-  summaryListItemForQuestion,
+  summaryListRowsForQuestion: summaryListItemForQuestion,
 } = checkYourAnswersUtils
 
 const { getQuestions } = getQuestionsUtil
@@ -46,7 +46,7 @@ describe('checkYourAnswersUtils', () => {
       jest.spyOn(getQuestionsUtil, 'getQuestions').mockImplementationOnce(jest.fn(() => mockQuestions))
       ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
 
-      const application = applicationFactory.build({
+      const applicationWithMockData = applicationFactory.build({
         data: {
           task1: {
             page1: {
@@ -66,7 +66,7 @@ describe('checkYourAnswersUtils', () => {
           actions: {
             items: [
               {
-                href: `/applications/${application.id}/tasks/task1/pages/page1`,
+                href: `/applications/${applicationWithMockData.id}/tasks/task1/pages/page1`,
                 text: 'Change',
                 visuallyHiddenText: 'A question',
               },
@@ -79,7 +79,7 @@ describe('checkYourAnswersUtils', () => {
           actions: {
             items: [
               {
-                href: `/applications/${application.id}/tasks/task1/pages/page2`,
+                href: `/applications/${applicationWithMockData.id}/tasks/task1/pages/page2`,
                 text: 'Change',
                 visuallyHiddenText: 'Another question',
               },
@@ -88,7 +88,7 @@ describe('checkYourAnswersUtils', () => {
         },
       ]
 
-      expect(getTaskAnswersAsSummaryListItems('task1', application)).toEqual(expected)
+      expect(getTaskAnswersAsSummaryListItems('task1', applicationWithMockData)).toEqual(expected)
     })
   })
 

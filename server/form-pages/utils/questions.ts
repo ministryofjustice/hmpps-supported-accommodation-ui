@@ -2,6 +2,7 @@ export const getQuestions = (name: string): Record<string, unknown> => {
   return {
     'confirm-eligibility': {
       'confirm-eligibility': {
+        title: 'Eligibility',
         isEligible: {
           question: `Is ${name} eligible for Short-Term Accommodation (CAS-2)?`,
           answers: {
@@ -13,6 +14,7 @@ export const getQuestions = (name: string): Record<string, unknown> => {
     },
     'funding-information': {
       'funding-source': {
+        title: 'Funding information for CAS-2 placement',
         fundingSource: {
           question: `How will ${name} pay for their accommodation and service charge?`,
           answers: {
@@ -384,3 +386,5 @@ export const getQuestions = (name: string): Record<string, unknown> => {
     },
   }
 }
+
+export default getQuestions

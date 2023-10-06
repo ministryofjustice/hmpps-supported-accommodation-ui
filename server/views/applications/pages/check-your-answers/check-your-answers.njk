@@ -28,11 +28,11 @@
               {{ task.title }}
             </h3>
             <div class="box-content">
-              {{
-                govukSummaryList({
-                  rows: task.rows
-                })
-              }}
+              {% for card in task.cards %}
+                {{
+                  govukSummaryList(card)
+                }}
+              {% endfor %}
             </div>
           </div>
         {% endfor %}
