@@ -33,11 +33,14 @@ export default class ApplicationService {
 
     const result = {
       inProgress: [],
+      submitted: [],
     } as GroupedApplications
 
     allApplications.map(async application => {
       if (application.status === 'inProgress') {
         result.inProgress.push(application)
+      } else if (application.status === 'submitted') {
+        result.submitted.push(application)
       }
     })
 

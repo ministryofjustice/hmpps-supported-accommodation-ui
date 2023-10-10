@@ -8,10 +8,11 @@ import express from 'express'
 import applicationPaths from '../paths/apply'
 import config from '../config'
 import { initialiseName } from './utils'
-import { dashboardTableRows } from './applicationUtils'
+import { inProgressApplicationTableRows, submittedApplicationTableRows } from './applicationUtils'
 import * as TaskListUtils from './taskListUtils'
 import * as OasysImportUtils from './oasysImportUtils'
 import { dateFieldValues } from './formUtils'
+import { checkYourAnswersSections } from './checkYourAnswersUtils'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -62,7 +63,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('paths', { ...applicationPaths })
   njkEnv.addGlobal('TaskListUtils', TaskListUtils)
 
-  njkEnv.addGlobal('dashboardTableRows', dashboardTableRows)
+  njkEnv.addGlobal('inProgressApplicationTableRows', inProgressApplicationTableRows)
+  njkEnv.addGlobal('submittedApplicationTableRows', submittedApplicationTableRows)
 
   const {
     analytics: { tagManagerId },
@@ -73,4 +75,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   }
 
   njkEnv.addGlobal('dateFieldValues', dateFieldValues)
+  njkEnv.addGlobal('checkYourAnswersSections', checkYourAnswersSections)
 }

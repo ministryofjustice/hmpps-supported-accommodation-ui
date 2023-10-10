@@ -35,9 +35,9 @@ rosh-widget__risk--low
 {% endmacro %}
 
 {% if params and params.status == 'retrieved' %}
-  <div class="rosh-widget {{ getOverallRiskLevelClass(params.overallRisk) }}">
+  <div class="rosh-widget {{ getOverallRiskLevelClass(params.value.overallRisk) }}">
     <h3 class="govuk-heading-m">
-      <strong>{{ getRiskLevelText(params.overallRisk) | upper }}</strong> RoSH</h3>
+      <strong>{{ getRiskLevelText(params.value.overallRisk) | upper }}</strong> RoSH</h3>
     <p class="govuk-body-m">Risk of serious harm</p>
 
     <table class="govuk-table rosh-widget__table">
@@ -50,19 +50,19 @@ rosh-widget__risk--low
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <th class="govuk-table__header">Children</th>
-          <td class="govuk-table__cell {{ getRiskLevelClass(params.riskToChildren) }}">{{ getRiskLevelText(params.riskToChildren) | default("No data") }}</td>
+          <td class="govuk-table__cell {{ getRiskLevelClass(params.value.riskToChildren) }}">{{ getRiskLevelText(params.value.riskToChildren) | default("No data") }}</td>
         </tr>
         <tr>
           <th class="govuk-table__header">Public</th>
-          <td class="govuk-table__cell {{ getRiskLevelClass(params.riskToPublic) }}">{{ getRiskLevelText(params.riskToPublic) | default("No data") }}</td>
+          <td class="govuk-table__cell {{ getRiskLevelClass(params.value.riskToPublic) }}">{{ getRiskLevelText(params.value.riskToPublic) | default("No data") }}</td>
         </tr>
         <tr>
           <th class="govuk-table__header">Known adult</th>
-          <td class="govuk-table__cell {{ getRiskLevelClass(params.riskToKnownAdult) }}">{{ getRiskLevelText(params.riskToKnownAdult) | default("No data") }}</td>
+          <td class="govuk-table__cell {{ getRiskLevelClass(params.value.riskToKnownAdult) }}">{{ getRiskLevelText(params.value.riskToKnownAdult) | default("No data") }}</td>
         </tr>
         <tr>
           <th class="govuk-table__header">Staff</th>
-          <td class="govuk-table__cell {{ getRiskLevelClass(params.riskToStaff) }}">{{ getRiskLevelText(params.riskToStaff) | default("No data") }}</td>
+          <td class="govuk-table__cell {{ getRiskLevelClass(params.value.riskToStaff) }}">{{ getRiskLevelText(params.value.riskToStaff) | default("No data") }}</td>
         </tr>
       </tbody>
     </table>

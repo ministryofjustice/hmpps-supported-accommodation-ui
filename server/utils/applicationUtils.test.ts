@@ -1,8 +1,8 @@
 import { applicationFactory } from '../testutils/factories'
-import { dashboardTableRows } from './applicationUtils'
+import { inProgressApplicationTableRows } from './applicationUtils'
 import { fullPersonFactory } from '../testutils/factories/person'
 
-describe('dashboardTableRows', () => {
+describe('inProgressApplicationTableRows', () => {
   it('returns an array of applications as table rows', async () => {
     const applicationA = applicationFactory.build({
       person: fullPersonFactory.build({ name: 'A' }),
@@ -13,7 +13,7 @@ describe('dashboardTableRows', () => {
       createdAt: '2022-11-11T21:47:28Z',
     })
 
-    const result = dashboardTableRows([applicationA, applicationB])
+    const result = inProgressApplicationTableRows([applicationA, applicationB])
 
     expect(result).toEqual([
       [

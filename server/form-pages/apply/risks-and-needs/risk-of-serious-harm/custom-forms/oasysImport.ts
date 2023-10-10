@@ -81,15 +81,14 @@ export default class OasysImport implements TaskListPage {
     token: string,
     dataServices: DataServices,
   ) {
-    let oasys
-    let risks
+    let oasys: OASysRiskOfSeriousHarm
+    let risks: RoshRisksEnvelope
     let taskDataJson
 
     if (!application.data['risk-of-serious-harm']) {
       try {
         oasys = await dataServices.personService.getOasysRosh(token, application.person.crn)
         risks = await dataServices.personService.getRoshRisks(token, application.person.crn)
-
         taskDataJson = JSON.stringify(OasysImport.getTaskData(oasys, risks))
       } catch (e) {
         if (e.status === 404) {

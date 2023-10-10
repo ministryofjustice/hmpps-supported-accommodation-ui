@@ -2,8 +2,8 @@ import { Cas2Application as Application } from '../../../../../server/@types/sha
 import ApplyPage from '../../applyPage'
 import { nameOrPlaceholderCopy } from '../../../../../server/utils/utils'
 import paths from '../../../../../server/paths/apply'
-import { RoshRisks } from '../../../../../server/@types/shared/models/RoshRisks'
 import { DateFormats } from '../../../../../server/utils/dateUtils'
+import { RoshRisksEnvelope } from '../../../../../server/@types/shared/models/RoshRisksEnvelope'
 
 export default class RoshSummaryPage extends ApplyPage {
   constructor(private readonly application: Application) {
@@ -25,22 +25,26 @@ export default class RoshSummaryPage extends ApplyPage {
     )
   }
 
-  shouldShowRiskData = (risks: RoshRisks, oasysImportDate: string): void => {
+  shouldShowRiskData = (risks: RoshRisksEnvelope, oasysImportDate: string): void => {
     cy.get('p').contains(
       `Imported from OASys on ${DateFormats.isoDateToUIDate(oasysImportDate, {
         format: 'medium',
-      })}, last updated on ${DateFormats.isoDateToUIDate(risks.lastUpdated, {
+      })}, last updated on ${DateFormats.isoDateToUIDate(risks.value.lastUpdated, {
         format: 'medium',
       })}`,
     )
 
-    cy.get('h3').contains(`${risks.overallRisk.toLocaleUpperCase()} RoSH`)
+    cy.get('h3').contains(`${risks.value.overallRisk.toLocaleUpperCase()} RoSH`)
 
     cy.get('.rosh-widget__table').within($row => {
-      cy.wrap($row).get('th').contains('Children').get('td').contains(risks.riskToChildren, { matchCase: false })
-      cy.wrap($row).get('th').contains('Public').get('td').contains(risks.riskToPublic, { matchCase: false })
-      cy.wrap($row).get('th').contains('Known adult').get('td').contains(risks.riskToKnownAdult, { matchCase: false })
-      cy.wrap($row).get('th').contains('Staff').get('td').contains(risks.riskToStaff, { matchCase: false })
+      cy.wrap($row).get('th').contains('Children').get('td').contains(risks.value.riskToChildren, { matchCase: false })
+      cy.wrap($row).get('th').contains('Public').get('td').contains(risks.value.riskToPublic, { matchCase: false })
+      cy.wrap($row)
+        .get('th')
+        .contains('Known adult')
+        .get('td')
+        .contains(risks.value.riskToKnownAdult, { matchCase: false })
+      cy.wrap($row).get('th').contains('Staff').get('td').contains(risks.value.riskToStaff, { matchCase: false })
     })
   }
 

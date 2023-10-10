@@ -24,8 +24,42 @@
             label: "In progress",
             id: "applications",
             panel: {
-              html: applicationsTable("In progress", dashboardTableRows(applications.inProgress))
-              }
+              html: applicationsTable(
+                "In progress", 
+                [
+                  {
+                    text: "Person"
+                  },
+                  {
+                    text: "Case reference number (CRN)"
+                  },
+                  {
+                    text: "Date started"
+                  }
+                ],
+                inProgressApplicationTableRows(applications.inProgress)
+              )
+            }
+          },
+          {
+            label: "Submitted",
+            id: "submitted",
+            panel: {
+              html: applicationsTable(
+              "Submitted", 
+              [
+                {
+                  text: "Person"
+                },
+                {
+                  text: "Case reference number (CRN)"
+                },
+                {
+                  text: "Date submitted"
+                }
+              ],
+              submittedApplicationTableRows(applications.submitted))
+            }
           }
         ]
         })

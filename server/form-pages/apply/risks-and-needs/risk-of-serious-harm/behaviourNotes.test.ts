@@ -31,4 +31,39 @@ describe('BehaviourNotes', () => {
       expect(page.errors()).toEqual({})
     })
   })
+
+  describe('behaviourNotes', () => {
+    it('adds a redirect link to the data', () => {
+      const applicationWithNotes = applicationFactory.build({
+        id: 'abc123',
+        data: {
+          'risk-of-serious-harm': {
+            'behaviour-notes-data': [
+              {
+                behaviourDetail: 'some detail 1',
+              },
+              {
+                behaviourDetail: 'some detail 2',
+              },
+            ],
+          },
+        },
+      })
+
+      const page = new BehaviourNotes({}, applicationWithNotes)
+
+      expect(page.behaviourNotes).toEqual([
+        {
+          removeLink:
+            '/applications/abc123/tasks/risk-of-serious-harm/pages/behaviour-notes-data/0/removeFromList?redirectPage=behaviour-notes',
+          behaviourDetail: 'some detail 1',
+        },
+        {
+          removeLink:
+            '/applications/abc123/tasks/risk-of-serious-harm/pages/behaviour-notes-data/1/removeFromList?redirectPage=behaviour-notes',
+          behaviourDetail: 'some detail 2',
+        },
+      ])
+    })
+  })
 })

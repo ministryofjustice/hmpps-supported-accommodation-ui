@@ -65,6 +65,7 @@ describe('ApplicationService', () => {
     const token = 'SOME_TOKEN'
     const applications: GroupedApplications = {
       inProgress: applicationSummaryFactory.buildList(1, { status: 'inProgress' }),
+      submitted: applicationSummaryFactory.buildList(1, { status: 'submitted' }),
     }
 
     it('fetches all applications', async () => {
@@ -74,6 +75,7 @@ describe('ApplicationService', () => {
 
       expect(result).toEqual({
         inProgress: applications.inProgress,
+        submitted: applications.submitted,
       })
 
       expect(applicationClientFactory).toHaveBeenCalledWith(token)

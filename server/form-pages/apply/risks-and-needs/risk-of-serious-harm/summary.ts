@@ -1,12 +1,12 @@
 import type { TaskListErrors } from '@approved-premises/ui'
-import { Cas2Application as Application, RiskEnvelopeStatus, RoshRisks } from '@approved-premises/api'
+import { Cas2Application as Application, RiskEnvelopeStatus, RoshRisksEnvelope } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { DateFormats } from '../../../../utils/dateUtils'
 import { getOasysImportDateFromApplication } from '../../../utils'
 
-type SummaryBody = RoshRisks & {
+export type SummaryBody = RoshRisksEnvelope & {
   status: RiskEnvelopeStatus
   oasysImportDate: string
   additionalComments?: string
@@ -14,16 +14,7 @@ type SummaryBody = RoshRisks & {
 
 @Page({
   name: 'summary',
-  bodyProperties: [
-    'status',
-    'overallRisk',
-    'riskToChildren',
-    'riskToPublic',
-    'riskToKnownAdult',
-    'riskToStaff',
-    'lastUpdated',
-    'additionalComments',
-  ],
+  bodyProperties: ['status', 'oasysImportDate', 'value', 'additionalComments'],
 })
 export default class Summary implements TaskListPage {
   documentTitle = 'Risk of serious harm (RoSH) summary for the person'
@@ -32,7 +23,7 @@ export default class Summary implements TaskListPage {
 
   body: SummaryBody
 
-  risks: Record<string, string> = {}
+  risks: RoshRisksEnvelope & { lastUpdated: string }
 
   questions = { additionalComments: 'Additional comments (optional)' }
 
@@ -46,15 +37,15 @@ export default class Summary implements TaskListPage {
     if (this.body.status === 'retrieved') {
       this.risks = {
         ...this.body,
-        lastUpdated: this.body.lastUpdated
-          ? DateFormats.isoDateToUIDate(this.body.lastUpdated, { format: 'medium' })
+        lastUpdated: this.body.value?.lastUpdated
+          ? DateFormats.isoDateToUIDate(this.body.value.lastUpdated, { format: 'medium' })
           : null,
       }
     }
   }
 
   previous() {
-    return 'oasys-import'
+    return 'taskList'
   }
 
   next() {
@@ -68,10 +59,17 @@ export default class Summary implements TaskListPage {
   }
 
   response() {
-    if (this.body.additionalComments) {
-      const { additionalComments, ...response } = this.body
-      return { ...response, [this.questions.additionalComments]: this.body.additionalComments }
+    const riskRatings = this.body.value
+    const response = {
+      'Over all risk rating': riskRatings?.overallRisk || 'Unknown',
+      'Risk to children': riskRatings?.riskToChildren || 'Unknown',
+      'Risk to known adult': riskRatings?.riskToKnownAdult || 'Unknown',
+      'Risk to public': riskRatings?.riskToPublic || 'Unknown',
+      'Risk to staff': riskRatings?.riskToStaff || 'Unknown',
     }
-    return this.body
+    if (this.body.additionalComments) {
+      response[this.questions.additionalComments] = this.body.additionalComments
+    }
+    return response
   }
 }

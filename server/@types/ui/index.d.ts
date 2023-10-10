@@ -128,7 +128,9 @@ export type Divider = { divider: string }
 
 export interface GroupedApplications {
   inProgress: Array<ApplicationSummary>
+  submitted: Array<ApplicationSummary>
 }
+
 export type CheckboxItem =
   | {
       text: string
@@ -136,3 +138,30 @@ export type CheckboxItem =
       checked?: boolean
     }
   | Divider
+
+export interface SummaryListItem {
+  key: TextItem | HtmlItem
+  value: TextItem | HtmlItem
+  actions?: { items: Array<SummaryListActionItem> }
+}
+
+export type Task = {
+  id: string
+  title: string
+  actionText: string
+  pages: Record<string, unknown>
+}
+
+export type FormSection = {
+  title: string
+  name: string
+  tasks: Array<Task>
+}
+
+export interface TextItem {
+  text: string
+}
+
+export interface HtmlItem {
+  html: string
+}

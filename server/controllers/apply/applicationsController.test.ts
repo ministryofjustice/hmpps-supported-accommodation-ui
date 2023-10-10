@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from 'express'
 import { DeepMocked, createMock } from '@golevelup/ts-jest'
 import { Cas2Application as Application } from '@approved-premises/api'
-import { ErrorsAndUserInput } from '@approved-premises/ui'
+import { ErrorsAndUserInput, GroupedApplications } from '@approved-premises/ui'
 
 import { getPage } from '../../utils/applications/getPage'
 import TaskListPage from '../../form-pages/taskListPage'
-import { applicationFactory, personFactory } from '../../testutils/factories'
+import { applicationFactory, applicationSummaryFactory, personFactory } from '../../testutils/factories'
 import { catchValidationErrorOrPropogate, fetchErrorsAndUserInput } from '../../utils/validation'
 import ApplicationsController from './applicationsController'
 import { PersonService, ApplicationService, TaskListService } from '../../services'
@@ -29,7 +29,7 @@ describe('applicationsController', () => {
 
   let applicationsController: ApplicationsController
 
-  const applications = { inProgress: applicationFactory.buildList(3) }
+  const applications = { inProgress: applicationSummaryFactory.buildList(3), submitted: [] } as GroupedApplications
 
   applicationService.getAllForLoggedInUser.mockResolvedValue(applications)
 

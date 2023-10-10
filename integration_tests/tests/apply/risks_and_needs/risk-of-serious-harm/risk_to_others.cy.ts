@@ -10,6 +10,7 @@
 //
 //  Scenario: view 'risk to others' page
 //    Then I see the "risk to others" page
+//    And I can click through to the RoSH summary
 //
 //  Scenario: view 'risk to others' page with auto-populated OASyS data
 //    Then I see the "risk to others" page
@@ -74,7 +75,10 @@ context('Visit "risk to others" page', () => {
 
   it('presents risk to others page', function test() {
     //    Then I see the "risk to others" page
-    Page.verifyOnPage(RiskToOthersPage, this.application)
+    const page = Page.verifyOnPage(RiskToOthersPage, this.application)
+
+    // And I can click through to the RoSH summary
+    page.shouldContainRoshSummaryLink()
   })
 
   //  Scenario: view 'risk to others' page with auto-populated OASyS data

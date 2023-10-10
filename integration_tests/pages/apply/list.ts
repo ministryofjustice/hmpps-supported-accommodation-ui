@@ -5,22 +5,27 @@ import { nameOrPlaceholderCopy } from '../../../server/utils/utils'
 
 export default class ListPage extends Page {
   constructor(
-    private readonly inProgressApplications: Array<Cas2ApplicationSummary>,
+    private readonly applications: Array<Cas2ApplicationSummary>,
     name: string,
   ) {
     super('Short-Term Accommodation (CAS-2) applications', name)
   }
 
-  static visit(inProgressApplications: Array<Cas2ApplicationSummary>): ListPage {
+  static visit(applications: Array<Cas2ApplicationSummary>): ListPage {
     cy.visit(paths.applications.index.pattern)
 
-    const person = inProgressApplications[0]?.person as FullPerson
+    const person = applications[0]?.person as FullPerson
 
-    return new ListPage(inProgressApplications, person?.name)
+    return new ListPage(applications, person?.name)
   }
 
   shouldShowInProgressApplications(): void {
-    this.shouldShowApplications(this.inProgressApplications)
+    this.shouldShowApplications(this.applications)
+  }
+
+  shouldShowSubmittedApplications(): void {
+    cy.get('a').contains('Submitted').click()
+    this.shouldShowApplications(this.applications)
   }
 
   clickApplication(application: Application) {
