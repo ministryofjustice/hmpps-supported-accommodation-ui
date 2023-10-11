@@ -1,9 +1,9 @@
+import { SummaryListItem } from '@approved-premises/ui'
 import { applicationFactory, personFactory } from '../testutils/factories'
 import * as checkYourAnswersUtils from './checkYourAnswersUtils'
 import * as getQuestionsUtil from '../form-pages/utils/questions'
 import { formatLines } from './viewUtils'
 import applicationData from '../../integration_tests/fixtures/applicationData.json'
-import { SummaryListItem, UiTask } from '@approved-premises/ui'
 
 const mockQuestions = {
   task1: {
@@ -64,7 +64,7 @@ describe('checkYourAnswersUtils', () => {
   })
 
   describe('getTaskAnswersAsSummaryListItems', () => {
-    it('returns an array of summary list items for a given task, with a spacing item between pages', () => {
+    it('returns an array of summary list items for a given task', () => {
       jest.spyOn(getQuestionsUtil, 'getQuestions').mockImplementationOnce(jest.fn(() => mockQuestions))
       ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
 
@@ -94,10 +94,6 @@ describe('checkYourAnswersUtils', () => {
               },
             ],
           },
-        },
-        {
-          key: { text: '' },
-          value: { html: '' },
         },
         {
           key: { text: 'Another question' },
@@ -149,10 +145,6 @@ describe('checkYourAnswersUtils', () => {
             ],
           },
         },
-        {
-          key: { text: '' },
-          value: { html: '' },
-        },
       ]
 
       ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
@@ -163,7 +155,6 @@ describe('checkYourAnswersUtils', () => {
         task: 'risk-of-serious-harm',
         pageKey: 'additional-risk-information',
         questions,
-        lastPageInTask: false,
       })
 
       expect(items).toEqual(expected)
@@ -178,10 +169,61 @@ describe('checkYourAnswersUtils', () => {
         task: 'risk-to-self',
         pageKey: 'oasys-import',
         questions,
-        lastPageInTask: true,
       })
 
       expect(items).toEqual([])
+    })
+
+    it('does not add questions to the items array if there is no answer', () => {
+      const mockQuestions = {
+        task1: {
+          page1: {
+            question1: { question: 'A question', answers: { yes: 'Yes', no: 'No' } },
+            question2: { question: 'Another question' },
+          },
+        },
+      }
+
+      const application = applicationFactory.build({
+        data: {
+          task1: {
+            page1: {
+              question1: 'no',
+              question2: '',
+            },
+          },
+        },
+      })
+
+      ;(formatLines as jest.MockedFunction<typeof formatLines>).mockImplementation(text => text)
+
+      const expected = [
+        {
+          key: { text: 'A question' },
+          value: { html: 'No' },
+          actions: {
+            items: [
+              {
+                href: `/applications/${application.id}/tasks/task1/pages/page1`,
+                text: 'Change',
+                visuallyHiddenText: 'A question',
+              },
+            ],
+          },
+        },
+      ]
+
+      const items: Array<SummaryListItem> = []
+
+      addPageAnswersToItemsArray({
+        items,
+        application,
+        task: 'task1',
+        pageKey: 'page1',
+        questions: mockQuestions,
+      })
+
+      expect(items).toEqual(expected)
     })
   })
 

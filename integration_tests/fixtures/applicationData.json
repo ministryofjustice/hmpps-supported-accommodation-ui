@@ -157,7 +157,6 @@
   "risk-of-serious-harm": {
     "oasys-import": { "oasysImportDate": "2023-09-21T15:47:51.430Z" },
     "summary": {
-      "dateOfOasysImport": "2023-09-21T15:47:51.430Z",
       "status": "retrieved",
       "value": {
         "overallRisk": "High",

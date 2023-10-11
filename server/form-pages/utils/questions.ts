@@ -286,17 +286,28 @@ export const getQuestions = (name: string): Record<string, unknown> => {
         vulnerabilityDetail: {
           question: `Describe ${name}'s current circumstances, issues and needs related to vulnerability`,
         },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       'current-risk': {
-        currentRiskDetail: { question: `Describe ${name}'s current issues and needs related to self harm and suicide` },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        currentRiskDetail: {
+          question: `Describe ${name}'s current issues and needs related to self harm and suicide`,
+        },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       'historical-risk': {
         historicalRiskDetail: {
           question: `Describe ${name}'s historical issues and needs related to self harm and suicide`,
         },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       acct: {},
       'additional-information': {
@@ -325,7 +336,10 @@ export const getQuestions = (name: string): Record<string, unknown> => {
         natureOfRisk: {
           question: 'What is the nature of the risk?',
         },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       'risk-factors': {
         circumstancesLikelyToIncreaseRisk: {
@@ -335,14 +349,20 @@ export const getQuestions = (name: string): Record<string, unknown> => {
           question: 'When is the risk likely to be greatest?',
           hint: 'Consider the timescale and indicate whether risk is immediate or not.',
         },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       'reducing-risk': {
         factorsLikelyToReduceRisk: {
           question: 'What factors are likely to reduce risk?',
           hint: 'Describe factors, actions and events which might reduce or contain the level of risk now and in the future.',
         },
-        confirmation: { question: 'I confirm this information is relevant and up to date.' },
+        confirmation: {
+          question: 'I confirm this information is relevant and up to date.',
+          answers: { confirmed: 'Confirmed' },
+        },
       },
       'risk-management-arrangements': {
         arrangements: {

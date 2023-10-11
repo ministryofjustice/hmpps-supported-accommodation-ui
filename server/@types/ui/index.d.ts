@@ -152,12 +152,6 @@ export type Task = {
   pages: Record<string, unknown>
 }
 
-export type FormSection = {
-  title: string
-  name: string
-  tasks: Array<Task>
-}
-
 export interface TextItem {
   text: string
 }

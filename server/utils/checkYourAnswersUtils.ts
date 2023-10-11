@@ -30,16 +30,15 @@ export const getTaskAnswersAsSummaryListItems = (task: string, application: Appl
 
   const questions = getQuestions(nameOrPlaceholderCopy(application.person))
 
-  const pagesKeys = Object.keys(application.data[task])
+  const pagesKeys = getPages(application, task)
 
-  pagesKeys.forEach((pageKey, index) => {
+  pagesKeys.forEach(pageKey => {
     addPageAnswersToItemsArray({
       items,
       application,
       task,
       pageKey,
       questions,
-      lastPageInTask: index + 1 === pagesKeys.length,
     })
   })
 
@@ -52,20 +51,14 @@ export const addPageAnswersToItemsArray = (params: {
   task: string
   pageKey: string
   questions: Record<string, unknown>
-  lastPageInTask: boolean
 }) => {
-  const { items, application, task, pageKey, questions, lastPageInTask } = params
+  const { items, application, task, pageKey, questions } = params
   const questionKeys = Object.keys(application.data[task][pageKey])
   if (containsQuestions(questionKeys)) {
     questionKeys.forEach(questionKey => {
-      if (!['confirmation', 'status'].includes(questionKey)) {
-        const item = summaryListItemForQuestion(application, questions, task, pageKey, questionKey)
-        items.push(item)
-      }
+      const item = summaryListItemForQuestion(application, questions, task, pageKey, questionKey)
+      item && items.push(item)
     })
-  }
-  if (!lastPageInTask && !['acct', 'behaviour-notes'].includes(pageKey)) {
-    items.push({ key: { text: '' }, value: { html: '' } })
   }
 }
 
@@ -108,6 +101,11 @@ export const summaryListItemForQuestion = (
   questionKey: string,
 ) => {
   const answer = getAnswer(application, questions, task, pageKey, questionKey)
+
+  if (!answer) {
+    return null
+  }
+
   if (pageKey === 'acct-data') {
     return {
       key: {
@@ -182,6 +180,12 @@ export const getSectionsWithAnswers = (): Array<FormSection> => {
   return sections.filter(section => section.name !== CheckYourAnswers.name)
 }
 
+export const getPages = (application: Application, task: string) => {
+  const pagesKeys = Object.keys(application.data[task])
+
+  return pagesKeys.filter(pageKey => pageKey !== 'summary')
+}
+
 const containsQuestions = (questionKeys: Array<string>): boolean => {
   if (!questionKeys.length || (questionKeys.length === 1 && questionKeys[0] === 'oasysImportDate')) {
     return false
@@ -195,5 +199,5 @@ const hasDefinedAnswers = (
   pageKey: string,
   questionKey: string,
 ): boolean => {
-  return questions[task][pageKey]?.[questionKey].answers
+  return questions[task][pageKey]?.[questionKey]?.answers
 }
