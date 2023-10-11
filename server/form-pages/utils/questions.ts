@@ -1,4 +1,4 @@
-export const getQuestions = (name: string): Record<string, unknown> => {
+export const getQuestions = (name: string) => {
   return {
     'confirm-eligibility': {
       'confirm-eligibility': {
@@ -327,7 +327,7 @@ export const getQuestions = (name: string): Record<string, unknown> => {
         riskToKnownAdult: { question: 'Risk to a known adult' },
         riskToStaff: { question: 'Risk to staff' },
         lastUpdated: { question: 'Last updated' },
-        additionalComments: { question: 'Additional comments' },
+        additionalComments: { question: 'Additional comments (optional)' },
       },
       'risk-to-others': {
         whoIsAtRisk: {
