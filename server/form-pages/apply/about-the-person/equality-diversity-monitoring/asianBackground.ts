@@ -5,21 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+const options = applicationQuestions['equality-and-diversity-monitoring']['asian-background'].asianBackground.answers
 
 export type AsianBackgroundBody = {
-  asianBackground: 'indian' | 'pakistani' | 'chinese' | 'bangladeshi' | 'other' | 'preferNotToSay'
+  asianBackground: keyof typeof options
   optionalAsianBackground: string
 }
-
-export const asianBackgroundOptions = {
-  indian: 'Indian',
-  pakistani: 'Pakistani',
-  chinese: 'Chinese',
-  bangladeshi: 'Bangladeshi',
-  other: 'Any other Asian background',
-  preferNotToSay: 'Prefer not to say',
-}
-
 @Page({
   name: 'asian-background',
   bodyProperties: ['asianBackground', 'optionalAsianBackground'],
@@ -27,14 +22,11 @@ export const asianBackgroundOptions = {
 export default class AsianBackground implements TaskListPage {
   documentTitle = "Which of the following best describes the person's Asian or Asian British background?"
 
-  title = `Equality and diversity questions for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    asianBackground: `Which of the following best describes ${nameOrPlaceholderCopy(
-      this.application.person,
-    )}'s Asian or Asian British background?`,
-    optionalAsianBackground: 'How would they describe their background? (optional)',
-  }
+  title = `Equality and diversity questions for ${this.personName}`
+
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['asian-background']
 
   body: AsianBackgroundBody
 
@@ -63,15 +55,15 @@ export default class AsianBackground implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.asianBackground]: asianBackgroundOptions[this.body.asianBackground],
-      [this.questions.optionalAsianBackground]: this.body.optionalAsianBackground,
+      [this.questions.asianBackground.question]: options[this.body.asianBackground],
+      [this.questions.optionalAsianBackground.question]: this.body.optionalAsianBackground,
     }
 
     return response
   }
 
   items(optionalAsianBackground: string) {
-    const items = convertKeyValuePairToRadioItems(asianBackgroundOptions, this.body.asianBackground) as [Radio]
+    const items = convertKeyValuePairToRadioItems(options, this.body.asianBackground) as [Radio]
 
     items.forEach(item => {
       if (item.value === 'other') {

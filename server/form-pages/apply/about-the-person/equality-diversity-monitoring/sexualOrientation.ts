@@ -5,19 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const orientationOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['sexual-orientation'].orientation.answers
 
 type SexualOrientationBody = {
-  orientation: 'heterosexual' | 'gay' | 'lesbian' | 'bisexual' | 'other' | 'preferNotToSay'
+  orientation: keyof typeof orientationOptions
   otherOrientation: string
-}
-
-export const orientationOptions = {
-  heterosexual: 'Heterosexual or straight',
-  gay: 'Gay',
-  lesbian: 'Lesbian',
-  bisexual: 'Bisexual',
-  other: 'Other',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -31,10 +28,7 @@ export default class SexualOrientation implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    orientation: `Which of the following best describes ${this.personName}'s sexual orientation?`,
-    otherOrientation: 'How would they describe their sexual orientation? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['sexual-orientation']
 
   body: SexualOrientationBody
 
@@ -63,8 +57,8 @@ export default class SexualOrientation implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.orientation]: orientationOptions[this.body.orientation],
-      [this.questions.otherOrientation]: this.body.otherOrientation,
+      [this.questions.orientation.question]: orientationOptions[this.body.orientation],
+      [this.questions.otherOrientation.question]: this.body.otherOrientation,
     }
 
     return response

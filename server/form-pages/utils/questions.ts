@@ -41,6 +41,19 @@ export const getQuestions = (name: string) => {
             preferNotToSay: 'Prefer not to say',
           },
         },
+        typeOfDisability: {
+          question: `What type of disability?`,
+          hint: 'Select all that apply',
+          answers: {
+            sensoryImpairment: 'Sensory impairment',
+            physicalImpairment: 'Physical impairment',
+            learningDisability: 'Learning disability or difficulty',
+            mentalHealth: 'Mental health condition',
+            illness: 'Long-standing illness',
+            other: 'Other',
+          },
+        },
+        otherDisability: { question: 'What is the disability?' },
       },
       'sex-and-gender': {
         sex: {
@@ -59,6 +72,7 @@ export const getQuestions = (name: string) => {
             preferNotToSay: 'Prefer not to say',
           },
         },
+        optionalGenderIdentity: { question: 'What is their gender identity? (optional)' },
       },
       'sexual-orientation': {
         orientation: {
@@ -72,6 +86,7 @@ export const getQuestions = (name: string) => {
             preferNotToSay: 'Prefer not to say',
           },
         },
+        otherOrientation: { question: 'How would they describe their sexual orientation? (optional)' },
       },
       'ethnic-group': {
         ethnicGroup: {
@@ -86,6 +101,32 @@ export const getQuestions = (name: string) => {
           },
         },
       },
+      'asian-background': {
+        asianBackground: {
+          question: `Which of the following best describes ${name}'s Asian or Asian British background?`,
+          answers: {
+            indian: 'Indian',
+            pakistani: 'Pakistani',
+            chinese: 'Chinese',
+            bangladeshi: 'Bangladeshi',
+            other: 'Any other Asian background',
+            preferNotToSay: 'Prefer not to say',
+          },
+        },
+        optionalAsianBackground: { question: 'How would they describe their background? (optional)' },
+      },
+      'black-background': {
+        blackBackground: {
+          question: `Which of the following best describes ${name}'s Black, African, Caribbean or Black British background?`,
+          answers: {
+            african: 'African',
+            caribbean: 'Caribbean',
+            other: 'Any other Black, African or Caribbean background',
+            preferNotToSay: 'Prefer not to say',
+          },
+        },
+        optionalBlackBackground: { question: 'How would they describe their background? (optional)' },
+      },
       'white-background': {
         whiteBackground: {
           question: `Which of the following best describes ${name}'s White background?`,
@@ -97,6 +138,31 @@ export const getQuestions = (name: string) => {
             preferNotToSay: 'Prefer not to say',
           },
         },
+        optionalWhiteBackground: { question: 'How would they describe their background? (optional)' },
+      },
+      'mixed-background': {
+        mixedBackground: {
+          question: `Which of the following best describes ${name}'s mixed or multiple ethnic groups background?`,
+          answers: {
+            whiteAndBlackCaribbean: 'White and Black Caribbean',
+            whiteAndBlackAfrican: 'White and Black African',
+            whiteAndAsian: 'White and Asian',
+            other: 'Any other mixed or multiple ethnic background',
+            preferNotToSay: 'Prefer not to say',
+          },
+        },
+        optionalMixedBackground: { question: 'How would they describe their background? (optional)' },
+      },
+      'other-background': {
+        otherBackground: {
+          question: `Which of the following best describes ${name}'s background?`,
+          answers: {
+            arab: 'Arab',
+            other: 'Any other ethnic group',
+            preferNotToSay: 'Prefer not to say',
+          },
+        },
+        optionalOtherBackground: { question: 'How would they describe their background? (optional)' },
       },
       religion: {
         religion: {
@@ -115,6 +181,7 @@ export const getQuestions = (name: string) => {
             preferNotToSay: 'Prefer not to say',
           },
         },
+        otherReligion: { question: 'What is their religion? (optional)' },
       },
       'military-veteran': {
         isVeteran: {

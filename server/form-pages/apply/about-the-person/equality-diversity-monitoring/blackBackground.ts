@@ -5,17 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const blackBackgroundOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['black-background'].blackBackground.answers
 
 export type BlackBackgroundBody = {
-  blackBackground: 'african' | 'caribbean' | 'other' | 'preferNotToSay'
+  blackBackground: keyof typeof blackBackgroundOptions
   optionalBlackBackground: string
-}
-
-export const blackBackgroundOptions = {
-  african: 'African',
-  caribbean: 'Caribbean',
-  other: 'Any other Black, African or Caribbean background',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -30,10 +29,7 @@ export default class BlackBackground implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    blackBackground: `Which of the following best describes ${this.personName}'s Black, African, Caribbean or Black British background?`,
-    optionalBlackBackground: 'How would they describe their background? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['black-background']
 
   body: BlackBackgroundBody
 
@@ -62,8 +58,8 @@ export default class BlackBackground implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.blackBackground]: blackBackgroundOptions[this.body.blackBackground],
-      [this.questions.optionalBlackBackground]: this.body.optionalBlackBackground,
+      [this.questions.blackBackground.question]: blackBackgroundOptions[this.body.blackBackground],
+      [this.questions.optionalBlackBackground.question]: this.body.optionalBlackBackground,
     }
 
     return response

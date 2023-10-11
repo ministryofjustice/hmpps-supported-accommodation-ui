@@ -5,18 +5,15 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const ethnicGroupOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['ethnic-group'].ethnicGroup.answers
 
 export type EthnicGroupBody = {
-  ethnicGroup: 'white' | 'mixed' | 'asian' | 'black' | 'other' | 'preferNotToSay'
-}
-
-export const ethnicGroupOptions = {
-  white: 'White',
-  mixed: 'Mixed or multiple ethnic groups',
-  asian: 'Asian or Asian British',
-  black: 'Black, African, Caribbean or Black British',
-  other: 'Other ethnic group',
-  preferNotToSay: 'Prefer not to say',
+  ethnicGroup: keyof typeof ethnicGroupOptions
 }
 
 @Page({
@@ -26,11 +23,11 @@ export const ethnicGroupOptions = {
 export default class EthnicGroup implements TaskListPage {
   documentTitle = "What is the person's ethnic group?"
 
-  title = `Equality and diversity questions for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    ethnicGroup: `What is ${nameOrPlaceholderCopy(this.application.person)}'s ethnic group?`,
-  }
+  title = `Equality and diversity questions for ${this.personName}`
+
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['ethnic-group']
 
   body: EthnicGroupBody
 
@@ -69,7 +66,7 @@ export default class EthnicGroup implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.ethnicGroup]: ethnicGroupOptions[this.body.ethnicGroup],
+      [this.questions.ethnicGroup.question]: ethnicGroupOptions[this.body.ethnicGroup],
     }
 
     return response

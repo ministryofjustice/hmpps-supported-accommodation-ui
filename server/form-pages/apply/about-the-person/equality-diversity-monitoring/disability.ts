@@ -5,23 +5,17 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems, convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
-export const options = {
-  yes: 'Yes',
-  no: 'No',
-  preferNotToSay: 'Prefer not to say',
-}
+const applicationQuestions = getQuestions('')
 
-export const disabilityOptions = {
-  sensoryImpairment: 'Sensory impairment',
-  physicalImpairment: 'Physical impairment',
-  learningDisability: 'Learning disability or difficulty',
-  mentalHealth: 'Mental health condition',
-  illness: 'Long-standing illness',
-  other: 'Other',
-}
+export const hasDisabilityOptions =
+  applicationQuestions['equality-and-diversity-monitoring'].disability.hasDisability.answers
 
-export type DisabilityOptions = keyof typeof disabilityOptions
+export const disabilityTypeOptions =
+  applicationQuestions['equality-and-diversity-monitoring'].disability.typeOfDisability.answers
+
+export type DisabilityOptions = keyof typeof disabilityTypeOptions
 
 export type DisabilityBody = {
   hasDisability: YesOrNoOrPreferNotToSay
@@ -40,16 +34,13 @@ export default class Disability implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    hasDisability: `Does ${this.personName} have a disability?`,
-    typeOfDisability: {
-      question: `What type of disability?`,
-      hint: 'Select all that apply',
-    },
-    otherDisability: 'What is the disability?',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring'].disability
 
-  body: DisabilityBody
+  body: {
+    hasDisability: YesOrNoOrPreferNotToSay
+    typeOfDisability: Array<DisabilityOptions>
+    otherDisability: string
+  }
 
   constructor(
     body: Partial<DisabilityBody>,
@@ -80,16 +71,16 @@ export default class Disability implements TaskListPage {
 
   response() {
     let response: Record<string, string | Array<string>> = {
-      [this.questions.hasDisability]: options[this.body.hasDisability],
+      [this.questions.hasDisability.question]: hasDisabilityOptions[this.body.hasDisability],
     }
 
     if (this.body.typeOfDisability) {
       response = {
         ...response,
         [this.questions.typeOfDisability.question]: this.body.typeOfDisability.map(
-          disability => disabilityOptions[disability],
+          disability => disabilityTypeOptions[disability],
         ),
-        [this.questions.otherDisability]: this.body.otherDisability,
+        [this.questions.otherDisability.question]: this.body.otherDisability,
       }
     }
 
@@ -97,7 +88,7 @@ export default class Disability implements TaskListPage {
   }
 
   items(conditionalHtml: string) {
-    const items = convertKeyValuePairToRadioItems(options, this.body.hasDisability)
+    const items = convertKeyValuePairToRadioItems(hasDisabilityOptions, this.body.hasDisability)
 
     const yes = items.shift()
     const preferNotToSay = items.pop()
@@ -107,7 +98,7 @@ export default class Disability implements TaskListPage {
   }
 
   typeOfDisabilityItems(otherDisabilityHtml: string) {
-    const items = convertKeyValuePairToCheckboxItems(disabilityOptions, this.body.typeOfDisability)
+    const items = convertKeyValuePairToCheckboxItems(disabilityTypeOptions, this.body.typeOfDisability)
     const other = items.pop()
 
     return [...items, { ...other, conditional: { html: otherDisabilityHtml } }]

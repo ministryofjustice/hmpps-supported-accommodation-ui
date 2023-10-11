@@ -13,16 +13,6 @@ describe('Marital status', () => {
     })
   })
 
-  describe('question', () => {
-    it('personalises the page question', () => {
-      const page = new MaritalStatus({}, application)
-
-      expect(page.questions.maritalStatus).toEqual(
-        `What is Roger Smith's legal marital or registered civil partnership status?`,
-      )
-    })
-  })
-
   itShouldHaveNextValue(new MaritalStatus({}, application), '')
   itShouldHavePreviousValue(new MaritalStatus({}, application), 'parental-carer-responsibilities')
 

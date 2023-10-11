@@ -5,12 +5,11 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
-export const options = {
-  yes: 'Yes',
-  no: 'No',
-  dontKnow: `I don't know`,
-}
+const applicationQuestions = getQuestions('')
+
+export const options = applicationQuestions['equality-and-diversity-monitoring']['care-leaver'].isCareLeaver.answers
 
 export type CareLeaverBody = {
   isCareLeaver: YesNoOrDontKnow
@@ -23,11 +22,11 @@ export type CareLeaverBody = {
 export default class CareLeaver implements TaskListPage {
   documentTitle = 'Is the person a care leaver?'
 
-  title = `Equality and diversity questions for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    isCareLeaver: `Is ${nameOrPlaceholderCopy(this.application.person)} a care leaver?`,
-  }
+  title = `Equality and diversity questions for ${this.personName}`
+
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['care-leaver']
 
   body: CareLeaverBody
 
@@ -54,7 +53,7 @@ export default class CareLeaver implements TaskListPage {
 
   response() {
     return {
-      [this.questions.isCareLeaver]: options[this.body.isCareLeaver],
+      [this.questions.isCareLeaver.question]: options[this.body.isCareLeaver],
     }
   }
 

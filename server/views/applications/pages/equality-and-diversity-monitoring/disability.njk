@@ -4,13 +4,13 @@
 
 {% block questions %}
   <span class="govuk-caption-l">{{ page.title }}</span>
-  <h1 class="govuk-heading-l">{{ page.questions.hasDisability }}</h1>
+  <h1 class="govuk-heading-l">{{ page.questions.hasDisability.question }}</h1>
 
   {% set otherDisability %}
-    {{
+  {{
       formPageInput(
         {
-          label: { text: page.questions.otherDisability},
+          label: { text: page.questions.otherDisability.question},
           classes: "govuk-input--width-20",
           fieldName: "otherDisability"
         },
@@ -20,7 +20,7 @@
   {% endset -%}
 
   {% set typeOfDisability %}
-    {{ 
+  {{ 
       formPageCheckboxes(
           {
             fieldName: "typeOfDisability",

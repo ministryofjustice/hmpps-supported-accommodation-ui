@@ -5,35 +5,15 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const religionOptions = applicationQuestions['equality-and-diversity-monitoring'].religion.religion.answers
 
 type ReligionBody = {
-  religion:
-    | 'noReligion'
-    | 'atheist'
-    | 'agnostic'
-    | 'christian'
-    | 'buddhist'
-    | 'hindu'
-    | 'jewish'
-    | 'muslim'
-    | 'sikh'
-    | 'other'
-    | 'preferNotToSay'
+  religion: keyof typeof religionOptions
   otherReligion: string
-}
-
-export const religionOptions = {
-  noReligion: 'No religion',
-  atheist: 'Atheist or Humanist',
-  agnostic: 'Agnostic',
-  christian: 'Christian',
-  buddhist: 'Buddhist',
-  hindu: 'Hindu',
-  jewish: 'Jewish',
-  muslim: 'Muslim',
-  sikh: 'Sikh',
-  other: 'Any other religion',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -43,12 +23,11 @@ export const religionOptions = {
 export default class Religion implements TaskListPage {
   documentTitle = "What is the person's religion?"
 
-  title = `Equality and diversity questions for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    religion: `What is ${nameOrPlaceholderCopy(this.application.person)}'s religion?`,
-    otherReligion: 'What is their religion? (optional)',
-  }
+  title = `Equality and diversity questions for ${this.personName}`
+
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring'].religion
 
   body: ReligionBody
 
@@ -77,8 +56,8 @@ export default class Religion implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.religion]: religionOptions[this.body.religion],
-      [this.questions.otherReligion]: this.body.otherReligion,
+      [this.questions.religion.question]: religionOptions[this.body.religion],
+      [this.questions.otherReligion.question]: this.body.otherReligion,
     }
 
     return response

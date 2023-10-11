@@ -5,16 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const otherBackgroundOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['other-background'].otherBackground.answers
 
 export type OtherBackgroundBody = {
-  otherBackground: 'arab' | 'other' | 'preferNotToSay'
+  otherBackground: keyof typeof otherBackgroundOptions
   optionalOtherBackground: string
-}
-
-export const otherBackgroundOptions = {
-  arab: 'Arab',
-  other: 'Any other ethnic group',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -28,10 +28,7 @@ export default class OtherBackground implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    otherBackground: `Which of the following best describes ${this.personName}'s background?`,
-    optionalOtherBackground: 'How would they describe their background? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['other-background']
 
   body: OtherBackgroundBody
 
@@ -60,8 +57,8 @@ export default class OtherBackground implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.otherBackground]: otherBackgroundOptions[this.body.otherBackground],
-      [this.questions.optionalOtherBackground]: this.body.optionalOtherBackground,
+      [this.questions.otherBackground.question]: otherBackgroundOptions[this.body.otherBackground],
+      [this.questions.optionalOtherBackground.question]: this.body.optionalOtherBackground,
     }
 
     return response

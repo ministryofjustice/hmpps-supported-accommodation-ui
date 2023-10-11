@@ -13,16 +13,6 @@ describe('CarerResponsibilities', () => {
     })
   })
 
-  describe('question', () => {
-    it('personalises the question', () => {
-      const page = new ParentalCarerResponsibilities({ hasParentalOrCarerResponsibilities: 'yes' }, application)
-
-      expect(page.questions).toEqual({
-        hasParentalOrCarerResponsibilities: 'Does Roger Smith have parental or carer responsibilities?',
-      })
-    })
-  })
-
   itShouldHaveNextValue(
     new ParentalCarerResponsibilities({ hasParentalOrCarerResponsibilities: 'yes' }, application),
     'marital-status',

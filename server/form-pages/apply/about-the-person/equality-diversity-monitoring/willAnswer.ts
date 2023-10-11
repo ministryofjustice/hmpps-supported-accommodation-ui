@@ -4,14 +4,10 @@ import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
 type EqualityAndDiversityBody = {
   willAnswer: YesOrNo
-}
-
-export const options = {
-  yes: 'Yes, answer the equality questions (takes 2 minutes)',
-  no: 'No, skip the equality questions',
 }
 
 @Page({
@@ -21,19 +17,28 @@ export const options = {
 export default class EqualityAndDiversity implements TaskListPage {
   documentTitle = 'Does the person want to answer the equality questions?'
 
-  title = `Equality and diversity questions for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    willAnswer: `Does ${nameOrPlaceholderCopy(this.application.person)} want to answer the equality questions?`,
-  }
+  title = `Equality and diversity questions for ${this.personName}`
+
+  questions: Record<string, string>
 
   body: EqualityAndDiversityBody
+
+  options: Record<string, string>
 
   constructor(
     body: Partial<EqualityAndDiversityBody>,
     private readonly application: Application,
   ) {
     this.body = body as EqualityAndDiversityBody
+    const applicationQuestions = getQuestions(this.personName)
+    this.questions = {
+      willAnswer:
+        applicationQuestions['equality-and-diversity-monitoring']['will-answer-equality-questions'].willAnswer.question,
+    }
+    this.options =
+      applicationQuestions['equality-and-diversity-monitoring']['will-answer-equality-questions'].willAnswer.answers
   }
 
   previous() {
@@ -57,13 +62,13 @@ export default class EqualityAndDiversity implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.willAnswer]: options[this.body.willAnswer],
+      [this.questions.willAnswer]: this.options[this.body.willAnswer],
     }
 
     return response
   }
 
   items() {
-    return convertKeyValuePairToRadioItems(options, this.body.willAnswer)
+    return convertKeyValuePairToRadioItems(this.options, this.body.willAnswer)
   }
 }

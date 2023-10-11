@@ -13,16 +13,6 @@ describe('CareLeaver', () => {
     })
   })
 
-  describe('question', () => {
-    it('personalises the question', () => {
-      const page = new CareLeaver({ isCareLeaver: 'yes' }, application)
-
-      expect(page.questions).toEqual({
-        isCareLeaver: 'Is Roger Smith a care leaver?',
-      })
-    })
-  })
-
   itShouldHaveNextValue(new CareLeaver({ isCareLeaver: 'yes' }, application), 'parental-carer-responsibilities')
   itShouldHavePreviousValue(new CareLeaver({ isCareLeaver: 'yes' }, application), 'military-veteran')
 

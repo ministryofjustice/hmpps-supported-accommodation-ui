@@ -13,16 +13,6 @@ describe('MilitaryVeteran', () => {
     })
   })
 
-  describe('question', () => {
-    it('personalises the question', () => {
-      const page = new MilitaryVeteran({ isVeteran: 'yes' }, application)
-
-      expect(page.questions).toEqual({
-        isVeteran: 'Is Roger Smith a military veteran?',
-      })
-    })
-  })
-
   itShouldHaveNextValue(new MilitaryVeteran({ isVeteran: 'yes' }, application), 'care-leaver')
   itShouldHavePreviousValue(new MilitaryVeteran({ isVeteran: 'yes' }, application), 'religion')
 

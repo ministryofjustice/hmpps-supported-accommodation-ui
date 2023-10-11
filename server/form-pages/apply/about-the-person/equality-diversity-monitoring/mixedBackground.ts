@@ -5,18 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const mixedBackgroundOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['mixed-background'].mixedBackground.answers
 
 export type MixedBackgroundBody = {
-  mixedBackground: 'whiteAndBlackCaribbean' | 'whiteAndBlackAfrican' | 'whiteAndAsian' | 'other' | 'preferNotToSay'
+  mixedBackground: keyof typeof mixedBackgroundOptions
   optionalMixedBackground: string
-}
-
-export const mixedBackgroundOptions = {
-  whiteAndBlackCaribbean: 'White and Black Caribbean',
-  whiteAndBlackAfrican: 'White and Black African',
-  whiteAndAsian: 'White and Asian',
-  other: 'Any other mixed or multiple ethnic background',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -30,10 +28,7 @@ export default class MixedBackground implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    mixedBackground: `Which of the following best describes ${this.personName}'s mixed or multiple ethnic groups background?`,
-    optionalMixedBackground: 'How would they describe their background? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['mixed-background']
 
   body: MixedBackgroundBody
 
@@ -62,8 +57,8 @@ export default class MixedBackground implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.mixedBackground]: mixedBackgroundOptions[this.body.mixedBackground],
-      [this.questions.optionalMixedBackground]: this.body.optionalMixedBackground,
+      [this.questions.mixedBackground.question]: mixedBackgroundOptions[this.body.mixedBackground],
+      [this.questions.optionalMixedBackground.question]: this.body.optionalMixedBackground,
     }
 
     return response

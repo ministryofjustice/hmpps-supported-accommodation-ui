@@ -5,32 +5,14 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const options = applicationQuestions['equality-and-diversity-monitoring']['marital-status'].maritalStatus.answers
 
 export type MaritalStatusBody = {
-  maritalStatus:
-    | 'neverMarried'
-    | 'married'
-    | 'inCivilPartnership'
-    | 'marriedButSeparated'
-    | 'inCivilPartnershipButSeparated'
-    | 'divorced'
-    | 'formerlyInCivilPartnershipNowDissolved'
-    | 'widowed'
-    | 'survivingPartnerFromCivilPartnership'
-    | 'preferNotToSay'
-}
-
-export const options = {
-  neverMarried: 'Never married and never registered in a civil partnership',
-  married: 'Married',
-  inCivilPartnership: 'In a registered civil partnership',
-  marriedButSeparated: 'Separated, but still legally married',
-  inCivilPartnershipButSeparated: 'Separated, but still legally in a civil partnership',
-  divorced: 'Divorced',
-  formerlyInCivilPartnershipNowDissolved: 'Formerly in a civil partnership which is now legally dissolved',
-  widowed: 'Widowed',
-  survivingPartnerFromCivilPartnership: 'Surviving partner from a registered civil partnership',
-  preferNotToSay: 'Prefer not to say',
+  maritalStatus: keyof typeof options
 }
 
 @Page({
@@ -44,9 +26,7 @@ export default class MaritalStatus implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    maritalStatus: `What is ${this.personName}'s legal marital or registered civil partnership status?`,
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['marital-status']
 
   body: MaritalStatusBody
 
@@ -73,7 +53,7 @@ export default class MaritalStatus implements TaskListPage {
 
   response() {
     return {
-      [this.questions.maritalStatus]: options[this.body.maritalStatus],
+      [this.questions.maritalStatus.question]: options[this.body.maritalStatus],
     }
   }
 

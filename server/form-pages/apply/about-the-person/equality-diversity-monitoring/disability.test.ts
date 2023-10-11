@@ -5,21 +5,6 @@ import { personFactory, applicationFactory } from '../../../../testutils/factori
 describe('Disability', () => {
   const application = applicationFactory.build({ person: personFactory.build({ name: 'Roger Smith' }) })
 
-  describe('question', () => {
-    it('personalises the question', () => {
-      const page = new Disability({ hasDisability: 'yes' }, application)
-
-      expect(page.questions).toEqual({
-        hasDisability: 'Does Roger Smith have a disability?',
-        typeOfDisability: {
-          question: 'What type of disability?',
-          hint: 'Select all that apply',
-        },
-        otherDisability: 'What is the disability?',
-      })
-    })
-  })
-
   describe('title', () => {
     it('personalises the page title', () => {
       const page = new Disability({ hasDisability: 'yes' }, application)

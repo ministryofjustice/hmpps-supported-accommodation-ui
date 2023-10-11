@@ -5,23 +5,18 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const sexOptions = applicationQuestions['equality-and-diversity-monitoring']['sex-and-gender'].sex.answers
+
+const genderOptions = applicationQuestions['equality-and-diversity-monitoring']['sex-and-gender'].gender.answers
 
 type SexAndGenderBody = {
-  sex: 'female' | 'male' | 'preferNotToSay'
+  sex: keyof typeof sexOptions
   gender: YesOrNoOrPreferNotToSay
   optionalGenderIdentity: string
-}
-
-export const sexOptions = {
-  female: 'Female',
-  male: 'Male',
-  preferNotToSay: 'Prefer not to say',
-}
-
-const genderOptions = {
-  yes: 'Yes',
-  no: 'No',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -37,11 +32,7 @@ export default class SexAndGender implements TaskListPage {
 
   heading = 'Sex and gender identity'
 
-  questions = {
-    sex: `What is ${this.personName}'s sex?`,
-    gender: `Is the gender ${this.personName} identifies with the same as the sex registered at birth?`,
-    optionalGenderIdentity: 'What is their gender identity? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['sex-and-gender']
 
   body: SexAndGenderBody
 
@@ -73,9 +64,9 @@ export default class SexAndGender implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.sex]: sexOptions[this.body.sex],
-      [this.questions.gender]: genderOptions[this.body.gender],
-      [this.questions.optionalGenderIdentity]: this.body.optionalGenderIdentity,
+      [this.questions.sex.question]: sexOptions[this.body.sex],
+      [this.questions.gender.question]: genderOptions[this.body.gender],
+      [this.questions.optionalGenderIdentity.question]: this.body.optionalGenderIdentity,
     }
 
     return response

@@ -5,18 +5,16 @@ import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
+
+const applicationQuestions = getQuestions('')
+
+export const whiteBackgroundOptions =
+  applicationQuestions['equality-and-diversity-monitoring']['white-background'].whiteBackground.answers
 
 export type WhiteBackgroundBody = {
-  whiteBackground: 'english' | 'Irish' | 'Gypsy or Irish Traveller' | 'other' | 'preferNotToSay'
+  whiteBackground: keyof typeof whiteBackgroundOptions
   optionalWhiteBackground: string
-}
-
-export const whiteBackgroundOptions = {
-  english: 'English, Welsh, Scottish, Northern Irish or British',
-  irish: 'Irish',
-  gypsy: 'Gypsy or Irish Traveller',
-  other: 'Any other White background',
-  preferNotToSay: 'Prefer not to say',
 }
 
 @Page({
@@ -30,10 +28,7 @@ export default class WhiteBackground implements TaskListPage {
 
   title = `Equality and diversity questions for ${this.personName}`
 
-  questions = {
-    whiteBackground: `Which of the following best describes ${this.personName}'s White background?`,
-    optionalWhiteBackground: 'How would they describe their background? (optional)',
-  }
+  questions = getQuestions(this.personName)['equality-and-diversity-monitoring']['white-background']
 
   body: WhiteBackgroundBody
 
@@ -62,8 +57,8 @@ export default class WhiteBackground implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.whiteBackground]: whiteBackgroundOptions[this.body.whiteBackground],
-      [this.questions.optionalWhiteBackground]: this.body.optionalWhiteBackground,
+      [this.questions.whiteBackground.question]: whiteBackgroundOptions[this.body.whiteBackground],
+      [this.questions.optionalWhiteBackground.question]: this.body.optionalWhiteBackground,
     }
 
     return response
