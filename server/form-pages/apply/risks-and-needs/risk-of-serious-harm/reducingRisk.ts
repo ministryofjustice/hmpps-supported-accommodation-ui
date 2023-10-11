@@ -6,6 +6,7 @@ import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { getOasysImportDateFromApplication } from '../../../utils'
 import { convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
+import { getQuestions } from '../../../utils/questions'
 
 type ReducingRiskBody = {
   factorsLikelyToReduceRisk: string
@@ -19,19 +20,13 @@ type ReducingRiskBody = {
 export default class ReducingRisk implements TaskListPage {
   documentTitle = 'Reducing risk for the person'
 
-  title = `Reducing risk for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
+
+  title = `Reducing risk for ${this.personName}`
 
   body: ReducingRiskBody
 
-  questions = {
-    factorsLikelyToReduceRisk: {
-      question: 'What factors are likely to reduce risk?',
-      hint: 'Describe factors, actions and events which might reduce or contain the level of risk now and in the future.',
-    },
-    confirmation: {
-      question: 'I confirm this information is relevant and up to date.',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['reducing-risk']
 
   importDate = getOasysImportDateFromApplication(this.application, 'risk-of-serious-harm')
 

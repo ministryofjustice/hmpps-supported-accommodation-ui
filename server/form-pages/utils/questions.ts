@@ -395,9 +395,16 @@ export const getQuestions = (name: string) => {
         cellShareInformationDetail: { question: 'Cell sharing information' },
       },
       'behaviour-notes': {},
+      'behaviour-notes-data': {
+        behaviourDetail: {
+          question: 'Describe the behaviour',
+          hint: "If it's related to a specific incident, include when it happened.",
+        },
+      },
       'additional-risk-information': {
         hasAdditionalInformation: {
           question: `Is there any other risk information for ${name}?`,
+          hint: 'Record any additional information about their risk to others.',
           answers: { yes: 'Yes', no: 'No' },
         },
         additionalInformationDetail: { question: 'Additional information' },

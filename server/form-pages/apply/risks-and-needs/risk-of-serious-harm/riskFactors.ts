@@ -6,6 +6,7 @@ import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { getOasysImportDateFromApplication } from '../../../utils'
 import { convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
+import { getQuestions } from '../../../utils/questions'
 
 type RiskFactorsBody = {
   circumstancesLikelyToIncreaseRisk: string
@@ -20,22 +21,13 @@ type RiskFactorsBody = {
 export default class RiskFactors implements TaskListPage {
   documentTitle = 'Risk factors for the person'
 
-  title = `Risk factors for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
+
+  title = `Risk factors for ${this.personName}`
 
   body: RiskFactorsBody
 
-  questions = {
-    circumstancesLikelyToIncreaseRisk: {
-      question: 'What circumstances are likely to increase risk?',
-    },
-    whenIsRiskLikelyToBeGreatest: {
-      question: 'When is the risk likely to be greatest?',
-      hint: 'Consider the timescale and indicate whether risk is immediate or not.',
-    },
-    confirmation: {
-      question: 'I confirm this information is relevant and up to date.',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['risk-factors']
 
   importDate = getOasysImportDateFromApplication(this.application, 'risk-of-serious-harm')
 

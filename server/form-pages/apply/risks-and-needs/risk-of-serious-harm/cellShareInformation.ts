@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
 type CellShareInformationBody = { hasCellShareComments: YesOrNo; cellShareInformationDetail: string }
 
@@ -13,18 +14,13 @@ type CellShareInformationBody = { hasCellShareComments: YesOrNo; cellShareInform
 export default class CellShareInformation implements TaskListPage {
   documentTitle = 'Cell share information for the person'
 
-  title = `Cell share information for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
+
+  title = `Cell share information for ${this.personName}`
 
   body: CellShareInformationBody
 
-  questions = {
-    hasCellShareComments: {
-      question: 'Are there any comments to add about cell sharing?',
-    },
-    cellShareInformationDetail: {
-      question: 'Cell sharing information',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['cell-share-information']
 
   constructor(
     body: Partial<CellShareInformationBody>,

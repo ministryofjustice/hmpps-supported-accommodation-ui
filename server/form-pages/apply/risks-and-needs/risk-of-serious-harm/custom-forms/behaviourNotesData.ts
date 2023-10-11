@@ -2,6 +2,7 @@ import type { TaskListErrors } from '@approved-premises/ui'
 import { Cas2Application } from '@approved-premises/api'
 import { Page } from '../../../../utils/decorators'
 import TaskListPage from '../../../../taskListPage'
+import { getQuestions } from '../../../../utils/questions'
 
 export type BehaviourNotesDataBody = {
   behaviourDetail: string
@@ -18,12 +19,7 @@ export default class BehaviourNotesData implements TaskListPage {
 
   body: BehaviourNotesDataBody
 
-  questions = {
-    behaviourDetail: {
-      question: 'Describe the behaviour',
-      hint: "If it's related to a specific incident, include when it happened.",
-    },
-  }
+  questions = getQuestions('')['risk-of-serious-harm']['behaviour-notes-data']
 
   taskName = 'risk-of-serious-harm'
 

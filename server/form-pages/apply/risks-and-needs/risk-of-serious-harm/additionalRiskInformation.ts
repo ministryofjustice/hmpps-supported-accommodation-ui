@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
 type AdditionalRiskInformationBody = { hasAdditionalInformation: YesOrNo; additionalInformationDetail: string }
 
@@ -21,14 +22,7 @@ export default class AdditionalRiskInformation implements TaskListPage {
 
   exampleField = 'something'
 
-  questions = {
-    hasAdditionalInformation: {
-      question: `Is there any other risk information for ${this.personName}?`,
-    },
-    additionalInformationDetail: {
-      question: 'Additional information',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['additional-risk-information']
 
   constructor(
     body: Partial<AdditionalRiskInformationBody>,

@@ -6,6 +6,7 @@ import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { getOasysImportDateFromApplication } from '../../../utils'
 import { convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
+import { getQuestions } from '../../../utils/questions'
 
 type RiskToOthersBody = { whoIsAtRisk: string; natureOfRisk: string; confirmation: string }
 
@@ -16,21 +17,13 @@ type RiskToOthersBody = { whoIsAtRisk: string; natureOfRisk: string; confirmatio
 export default class RiskToOthers implements TaskListPage {
   documentTitle = 'Risk to others for the person'
 
-  title = `Risk to others for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
+
+  title = `Risk to others for ${this.personName}`
 
   body: RiskToOthersBody
 
-  questions = {
-    whoIsAtRisk: {
-      question: 'Who is at risk?',
-    },
-    natureOfRisk: {
-      question: 'What is the nature of the risk?',
-    },
-    confirmation: {
-      question: 'I confirm this information is relevant and up to date.',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['risk-to-others']
 
   importDate = getOasysImportDateFromApplication(this.application, 'risk-of-serious-harm')
 

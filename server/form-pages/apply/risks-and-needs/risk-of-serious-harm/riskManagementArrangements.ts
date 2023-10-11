@@ -4,6 +4,7 @@ import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
+import { getQuestions } from '../../../utils/questions'
 
 const arrangementOptions = {
   mappa: 'Multi-Agency Public Protection Arrangements (MAPPA)',
@@ -28,30 +29,13 @@ export type RiskManagementArrangementsBody = {
 export default class RiskManagementArrangements implements TaskListPage {
   documentTitle = 'Risk management arrangements for the person'
 
-  title = `Risk management arrangements for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
+
+  title = `Risk management arrangements for ${this.personName}`
 
   body: RiskManagementArrangementsBody
 
-  questions = {
-    arrangements: {
-      question: `Is ${nameOrPlaceholderCopy(
-        this.application.person,
-      )} subject to any of these multi-agency risk management arrangements upon release?`,
-      hint: 'Select all that apply',
-    },
-    mappaDetails: {
-      question: 'Provide MAPPA details',
-      hint: 'Specify whether the MAPPA is Category 2 or Category 3. Include lead contact details where possible.',
-    },
-    maracDetails: {
-      question: 'Provide MARAC details',
-      hint: 'Include lead contact details where possible.',
-    },
-    iomDetails: {
-      question: 'Provide IOM details',
-      hint: 'Include lead contact details where possible.',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-of-serious-harm']['risk-management-arrangements']
 
   constructor(
     body: Partial<RiskManagementArrangementsBody>,
