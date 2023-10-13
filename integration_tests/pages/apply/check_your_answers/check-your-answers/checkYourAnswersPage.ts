@@ -36,9 +36,14 @@ export default class CheckYourAnswersPage extends ApplyPage {
     this.shouldShowQuestionsAndAnswers('risk-to-self')
   }
 
+  shouldShowRoshAnswers(): void {
+    this.shouldShowCheckYourAnswersTitle('risk-of-serious-harm', 'Review risk of serious harm (RoSH) information')
+    this.shouldShowQuestionsAndAnswers('risk-of-serious-harm')
+  }
+
   shouldShowCheckYourAnswersTitle(taskName: string, taskTitle: string) {
     cy.get(`[data-cy-check-your-answers-section="${taskName}"]`).within(() => {
-      cy.get('.box-title').should('contain', taskTitle)
+      cy.get('.govuk-summary-card__title').should('contain', taskTitle)
     })
   }
 
@@ -49,8 +54,15 @@ export default class CheckYourAnswersPage extends ApplyPage {
       const questions = getQuestions(nameOrPlaceholderCopy(this.application.person))[task][pageKey]
       cy.get(`[data-cy-check-your-answers-section="${task}"]`).within(() => {
         questionKeys.forEach(questionKey => {
-          if (questionKey === '0') {
-            // handle
+          if (!this.application.data[task][pageKey][questionKey]) {
+            return
+          }
+          if (!isNaN(Number(questionKey))) {
+            cy.contains(
+              pageKey === 'acct-data'
+                ? this.application.data[task][pageKey][questionKey].acctDetails
+                : this.application.data[task][pageKey][questionKey].behaviourDetail,
+            )
           } else if (questionKey !== 'oasysImportDate') {
             cy.get('dt')
               .contains(questions[questionKey].question)
