@@ -1,4 +1,4 @@
-import type { TaskListErrors, YesNoOrIDK } from '@approved-premises/ui'
+import type { TaskListErrors, YesNoOrDontKnow } from '@approved-premises/ui'
 import { Cas2Application as Application } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
@@ -13,7 +13,7 @@ export const options = {
 }
 
 export type ParentalCarerResponsibilitiesBody = {
-  hasParentalOrCarerResponsibilities: YesNoOrIDK
+  hasParentalOrCarerResponsibilities: YesNoOrDontKnow
 }
 
 @Page({
