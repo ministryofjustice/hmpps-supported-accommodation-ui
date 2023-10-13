@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type AdditionalInformationBody = { hasAdditionalInformation: YesOrNo; additionalInformationDetail: string }
 
@@ -15,16 +16,7 @@ export default class AdditionalInformation implements TaskListPage {
 
   documentTitle = this.title
 
-  questions = {
-    hasAdditionalInformation: {
-      question: `Is there anything else to include about ${nameOrPlaceholderCopy(
-        this.application.person,
-      )}'s risk to self?`,
-    },
-    additionalInformationDetail: {
-      question: 'Additional information',
-    },
-  }
+  questions = getQuestions(nameOrPlaceholderCopy(this.application.person))['risk-to-self']['additional-information']
 
   body: AdditionalInformationBody
 

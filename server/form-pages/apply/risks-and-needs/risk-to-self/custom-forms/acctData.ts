@@ -3,6 +3,7 @@ import { Cas2Application } from '@approved-premises/api'
 import { Page } from '../../../../utils/decorators'
 import TaskListPage from '../../../../taskListPage'
 import { dateAndTimeInputsAreValidDates } from '../../../../../utils/dateUtils'
+import { getQuestions } from '../../../../utils/questions'
 
 export type AcctDataBody = {
   referringInstitution: string
@@ -39,26 +40,7 @@ export default class AcctData implements TaskListPage {
 
   body: AcctDataBody
 
-  questions = {
-    createdDate: {
-      question: 'When was the ACCT created?',
-      hint: 'For example, 22 4 2003',
-    },
-    isOngoing: {
-      question: 'Is the ACCT ongoing?',
-    },
-    closedDate: {
-      question: 'When was the ACCT closed?',
-      hint: 'For example, 22 4 2003',
-    },
-    referringInstitution: {
-      question: 'Referring institution',
-      hint: 'Where the applicant was based at the time the ACCT was created',
-    },
-    acctDetail: {
-      question: 'Details about the ACCT',
-    },
-  }
+  questions = getQuestions('')['risk-to-self']['acct-data']
 
   taskName = 'risk-to-self'
 

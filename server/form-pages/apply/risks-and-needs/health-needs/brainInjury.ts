@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { nameOrPlaceholderCopy, sentenceCase } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type BrainInjuryBody = {
   hasBrainInjury: YesOrNo
@@ -31,34 +32,11 @@ type BrainInjuryBody = {
 export default class BrainInjury implements TaskListPage {
   documentTitle = 'Brain injury needs for the person'
 
-  title = `Brain injury needs for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    hasBrainInjury: {
-      question: 'Do they have a brain injury?',
-      injuryDetail: {
-        question: 'Please describe their brain injury and needs.',
-      },
-    },
-    isVulnerable: {
-      question: 'Are they vulnerable as a result of this injury?',
-      vulnerabilityDetail: {
-        question: 'Please describe their level of vulnerability.',
-      },
-    },
-    hasDifficultyInteracting: {
-      question: 'Do they have difficulties interacting with other people as a result of this injury?',
-      interactionDetail: {
-        question: 'Please describe these difficulties.',
-      },
-    },
-    requiresAdditionalSupport: {
-      question: 'Is additional support required?',
-      addSupportDetail: {
-        question: 'Please describe the type of support.',
-      },
-    },
-  }
+  title = `Brain injury needs for ${this.personName}`
+
+  questions = getQuestions(this.personName)['health-needs']['brain-injury']
 
   body: BrainInjuryBody
 
@@ -114,16 +92,16 @@ export default class BrainInjury implements TaskListPage {
   response() {
     const response = {
       [this.questions.hasBrainInjury.question]: sentenceCase(this.body.hasBrainInjury),
-      [this.questions.hasBrainInjury.injuryDetail.question]: this.body.injuryDetail,
+      [this.questions.injuryDetail.question]: this.body.injuryDetail,
 
       [this.questions.isVulnerable.question]: sentenceCase(this.body.isVulnerable),
-      [this.questions.isVulnerable.vulnerabilityDetail.question]: this.body.vulnerabilityDetail,
+      [this.questions.vulnerabilityDetail.question]: this.body.vulnerabilityDetail,
 
       [this.questions.hasDifficultyInteracting.question]: sentenceCase(this.body.hasDifficultyInteracting),
-      [this.questions.hasDifficultyInteracting.interactionDetail.question]: this.body.interactionDetail,
+      [this.questions.interactionDetail.question]: this.body.interactionDetail,
 
       [this.questions.requiresAdditionalSupport.question]: sentenceCase(this.body.requiresAdditionalSupport),
-      [this.questions.requiresAdditionalSupport.addSupportDetail.question]: this.body.addSupportDetail,
+      [this.questions.addSupportDetail.question]: this.body.addSupportDetail,
     }
 
     return response

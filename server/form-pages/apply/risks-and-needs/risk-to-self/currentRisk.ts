@@ -6,6 +6,7 @@ import TaskListPage from '../../../taskListPage'
 import { getOasysImportDateFromApplication } from '../../../utils'
 import { convertKeyValuePairToCheckboxItems } from '../../../../utils/formUtils'
 import errorLookups from '../../../../i18n/en/errors.json'
+import { getQuestions } from '../../../utils/questions'
 
 type CurrentRiskBody = { currentRiskDetail: string; confirmation: string }
 
@@ -20,16 +21,7 @@ export default class CurrentRisk implements TaskListPage {
 
   title = `${this.personName}'s current risks`
 
-  questions = {
-    currentRiskDetail: {
-      question: `Describe ${nameOrPlaceholderCopy(
-        this.application.person,
-      )}'s current issues and needs related to self harm and suicide`,
-    },
-    confirmation: {
-      question: 'I confirm this information is relevant and up to date.',
-    },
-  }
+  questions = getQuestions(this.personName)['risk-to-self']['current-risk']
 
   body: CurrentRiskBody
 

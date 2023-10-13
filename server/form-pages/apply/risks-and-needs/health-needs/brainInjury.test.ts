@@ -21,7 +21,7 @@ describe('BrainInjury', () => {
         expect(page.questions.hasBrainInjury.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.hasBrainInjury.injuryDetail.question).toBeDefined()
+        expect(page.questions.injuryDetail.question).toBeDefined()
       })
     })
 
@@ -30,7 +30,7 @@ describe('BrainInjury', () => {
         expect(page.questions.isVulnerable.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.isVulnerable.vulnerabilityDetail.question).toBeDefined()
+        expect(page.questions.vulnerabilityDetail.question).toBeDefined()
       })
     })
 
@@ -39,7 +39,7 @@ describe('BrainInjury', () => {
         expect(page.questions.hasDifficultyInteracting.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.hasDifficultyInteracting.interactionDetail.question).toBeDefined()
+        expect(page.questions.interactionDetail.question).toBeDefined()
       })
     })
 
@@ -48,7 +48,7 @@ describe('BrainInjury', () => {
         expect(page.questions.requiresAdditionalSupport.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.requiresAdditionalSupport.addSupportDetail.question).toBeDefined()
+        expect(page.questions.addSupportDetail.question).toBeDefined()
       })
     })
   })
