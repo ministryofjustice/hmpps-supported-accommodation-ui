@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { nameOrPlaceholderCopy, sentenceCase } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type OtherHealthBody = {
   hasLongTermHealthCondition: YesOrNo
@@ -27,29 +28,11 @@ type OtherHealthBody = {
 export default class OtherHealth implements TaskListPage {
   documentTitle = 'Other health needs for the person'
 
-  title = `Other health needs for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    hasLongTermHealthCondition: {
-      question: 'Are they managing any long term health conditions?',
-      hint: 'For example, diabetes, arthritis or high blood pressure.',
-      healthConditionDetail: {
-        question: 'Please describe the long term health conditions.',
-      },
-      hasHadStroke: {
-        question: 'Have they experienced a stroke?',
-      },
-    },
-    hasSeizures: {
-      question: 'Do they experience seizures?',
-      seizuresDetail: {
-        question: 'Please describe the type and any treatment.',
-      },
-    },
-    beingTreatedForCancer: {
-      question: 'Are they currently receiving regular treatment for cancer?',
-    },
-  }
+  title = `Other health needs for ${this.personName}`
+
+  questions = getQuestions(this.personName)['health-needs']['other-health']
 
   body: OtherHealthBody
 
@@ -98,11 +81,11 @@ export default class OtherHealth implements TaskListPage {
   response() {
     const response = {
       [this.questions.hasLongTermHealthCondition.question]: sentenceCase(this.body.hasLongTermHealthCondition),
-      [this.questions.hasLongTermHealthCondition.healthConditionDetail.question]: this.body.healthConditionDetail,
-      [this.questions.hasLongTermHealthCondition.hasHadStroke.question]: sentenceCase(this.body.hasHadStroke),
+      [this.questions.healthConditionDetail.question]: this.body.healthConditionDetail,
+      [this.questions.hasHadStroke.question]: sentenceCase(this.body.hasHadStroke),
 
       [this.questions.hasSeizures.question]: sentenceCase(this.body.hasSeizures),
-      [this.questions.hasSeizures.seizuresDetail.question]: this.body.seizuresDetail,
+      [this.questions.seizuresDetail.question]: this.body.seizuresDetail,
 
       [this.questions.beingTreatedForCancer.question]: sentenceCase(this.body.beingTreatedForCancer),
     }

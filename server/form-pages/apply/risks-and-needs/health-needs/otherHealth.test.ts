@@ -22,8 +22,8 @@ describe('OtherHealth', () => {
         expect(page.questions.hasLongTermHealthCondition.hint).toBeDefined()
       })
       it('has 2 follow-up questions', () => {
-        expect(page.questions.hasLongTermHealthCondition.healthConditionDetail.question).toBeDefined()
-        expect(page.questions.hasLongTermHealthCondition.hasHadStroke.question).toBeDefined()
+        expect(page.questions.healthConditionDetail.question).toBeDefined()
+        expect(page.questions.hasHadStroke.question).toBeDefined()
       })
     })
 
@@ -32,7 +32,7 @@ describe('OtherHealth', () => {
         expect(page.questions.hasSeizures.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.hasSeizures.seizuresDetail.question).toBeDefined()
+        expect(page.questions.seizuresDetail.question).toBeDefined()
       })
     })
 

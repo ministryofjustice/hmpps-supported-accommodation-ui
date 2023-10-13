@@ -21,8 +21,8 @@ describe('SubstanceMisuse', () => {
         expect(page.questions.usesIllegalSubstances.question).toBeDefined()
       })
       it('has two follow-up questions', () => {
-        expect(page.questions.usesIllegalSubstances.substanceMisuseHistory.question).toBeDefined()
-        expect(page.questions.usesIllegalSubstances.substanceMisuseDetail.question).toBeDefined()
+        expect(page.questions.substanceMisuseHistory.question).toBeDefined()
+        expect(page.questions.substanceMisuseDetail.question).toBeDefined()
       })
     })
 
@@ -31,7 +31,7 @@ describe('SubstanceMisuse', () => {
         expect(page.questions.engagedWithDrugAndAlcoholService.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.engagedWithDrugAndAlcoholService.drugAndAlcoholServiceDetail.question).toBeDefined()
+        expect(page.questions.drugAndAlcoholServiceDetail.question).toBeDefined()
       })
     })
 
@@ -40,7 +40,7 @@ describe('SubstanceMisuse', () => {
         expect(page.questions.requiresSubstituteMedication.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.requiresSubstituteMedication.substituteMedicationDetail.question).toBeDefined()
+        expect(page.questions.substituteMedicationDetail.question).toBeDefined()
       })
     })
   })

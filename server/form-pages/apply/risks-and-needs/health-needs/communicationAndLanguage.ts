@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { sentenceCase, nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type CommunicationAndLanguageBody = {
   hasCommunicationNeeds: YesOrNo
@@ -27,28 +28,11 @@ type CommunicationAndLanguageBody = {
 export default class CommunicationAndLanguage implements TaskListPage {
   documentTitle = 'Communication and language needs for the person'
 
-  title = `Communication and language needs for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    hasCommunicationNeeds: {
-      question: 'Do they have any additional communication needs?',
-      communicationDetail: {
-        question: 'Please describe their communication needs.',
-      },
-    },
-    requiresInterpreter: {
-      question: 'Do they need an interpreter?',
-      interpretationDetail: {
-        question: 'What language do they need an interpreter for?',
-      },
-    },
-    hasSupportNeeds: {
-      question: 'Do they need any support to see, hear, speak, or understand?',
-      supportDetail: {
-        question: 'Please describe their support needs.',
-      },
-    },
-  }
+  title = `Communication and language needs for ${this.personName}`
+
+  questions = getQuestions(this.personName)['health-needs']['communication-and-language']
 
   body: CommunicationAndLanguageBody
 
@@ -97,13 +81,13 @@ export default class CommunicationAndLanguage implements TaskListPage {
   response() {
     const response = {
       [this.questions.hasCommunicationNeeds.question]: sentenceCase(this.body.hasCommunicationNeeds),
-      [this.questions.hasCommunicationNeeds.communicationDetail.question]: this.body.communicationDetail,
+      [this.questions.communicationDetail.question]: this.body.communicationDetail,
 
       [this.questions.requiresInterpreter.question]: sentenceCase(this.body.requiresInterpreter),
-      [this.questions.requiresInterpreter.interpretationDetail.question]: this.body.interpretationDetail,
+      [this.questions.interpretationDetail.question]: this.body.interpretationDetail,
 
       [this.questions.hasSupportNeeds.question]: sentenceCase(this.body.hasSupportNeeds),
-      [this.questions.hasSupportNeeds.supportDetail.question]: this.body.supportDetail,
+      [this.questions.supportDetail.question]: this.body.supportDetail,
     }
 
     return response

@@ -240,6 +240,9 @@ export const getQuestions = (name: string) => {
       'physical-health': {
         hasPhyHealthNeeds: { question: 'Do they have any physical health needs?', answers: { yes: 'Yes', no: 'No' } },
         needsDetail: { question: 'Please describe their needs.' },
+        canClimbStairs: {
+          question: 'Can they climb stairs?',
+        },
         isReceivingTreatment: {
           question: 'Are they currently receiving any medical treatment for their physical health needs?',
           answers: { yes: 'Yes', no: 'No' },
@@ -275,7 +278,7 @@ export const getQuestions = (name: string) => {
           answers: { yes: 'Yes', no: 'No' },
         },
         medicationDetail: { question: 'Please list any medications.' },
-        medicationIssues: { question: 'Please list any issues they have with taking their medication' },
+        medicationIssues: { question: 'Please list any issues they have with taking their medication (optional).' },
       },
       'communication-and-language': {
         hasCommunicationNeeds: {
@@ -332,6 +335,7 @@ export const getQuestions = (name: string) => {
       'other-health': {
         hasLongTermHealthCondition: {
           question: 'Are they managing any long term health conditions?',
+          hint: 'For example, diabetes, arthritis or high blood pressure.',
           answers: { yes: 'Yes', no: 'No' },
         },
         healthConditionDetail: {

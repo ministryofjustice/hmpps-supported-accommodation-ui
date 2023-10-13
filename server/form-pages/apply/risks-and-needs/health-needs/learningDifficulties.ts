@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { nameOrPlaceholderCopy, sentenceCase } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type LearningDifficultiesBody = {
   hasLearningNeeds: YesOrNo
@@ -31,34 +32,11 @@ type LearningDifficultiesBody = {
 export default class LearningDifficulties implements TaskListPage {
   documentTitle = 'Learning difficulties and neurodiversity for the person'
 
-  title = `Learning difficulties and neurodiversity for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    hasLearningNeeds: {
-      question: 'Do they have any additional needs relating to learning difficulties or neurodiversity?',
-      needsDetail: {
-        question: 'Please describe their additional needs.',
-      },
-    },
-    isVulnerable: {
-      question: 'Are they vulnerable as a result of this condition?',
-      vulnerabilityDetail: {
-        question: 'Please describe their level of vulnerability.',
-      },
-    },
-    hasDifficultyInteracting: {
-      question: 'Do they have difficulties interacting with other people as a result of this condition?',
-      interactionDetail: {
-        question: 'Please describe these difficulties.',
-      },
-    },
-    requiresAdditionalSupport: {
-      question: 'Is additional support required?',
-      addSupportDetail: {
-        question: 'Please describe the type of support.',
-      },
-    },
-  }
+  title = `Learning difficulties and neurodiversity for ${this.personName}`
+
+  questions = getQuestions(this.personName)['health-needs']['learning-difficulties']
 
   body: LearningDifficultiesBody
 
@@ -114,16 +92,16 @@ export default class LearningDifficulties implements TaskListPage {
   response() {
     const response = {
       [this.questions.hasLearningNeeds.question]: sentenceCase(this.body.hasLearningNeeds),
-      [this.questions.hasLearningNeeds.needsDetail.question]: this.body.needsDetail,
+      [this.questions.needsDetail.question]: this.body.needsDetail,
 
       [this.questions.isVulnerable.question]: sentenceCase(this.body.isVulnerable),
-      [this.questions.isVulnerable.vulnerabilityDetail.question]: this.body.vulnerabilityDetail,
+      [this.questions.vulnerabilityDetail.question]: this.body.vulnerabilityDetail,
 
       [this.questions.hasDifficultyInteracting.question]: sentenceCase(this.body.hasDifficultyInteracting),
-      [this.questions.hasDifficultyInteracting.interactionDetail.question]: this.body.interactionDetail,
+      [this.questions.interactionDetail.question]: this.body.interactionDetail,
 
       [this.questions.requiresAdditionalSupport.question]: sentenceCase(this.body.requiresAdditionalSupport),
-      [this.questions.requiresAdditionalSupport.addSupportDetail.question]: this.body.addSupportDetail,
+      [this.questions.addSupportDetail.question]: this.body.addSupportDetail,
     }
 
     return response

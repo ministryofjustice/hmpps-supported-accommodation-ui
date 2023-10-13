@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { nameOrPlaceholderCopy, sentenceCase } from '../../../../utils/utils'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type SubstanceMisuseBody = {
   usesIllegalSubstances: YesOrNo
@@ -29,31 +30,11 @@ type SubstanceMisuseBody = {
 export default class SubstanceMisuse implements TaskListPage {
   documentTitle = 'Health needs for the person'
 
+  personName = nameOrPlaceholderCopy(this.application.person)
+
   title = `Health needs for ${nameOrPlaceholderCopy(this.application.person)}`
 
-  questions = {
-    usesIllegalSubstances: {
-      question: 'Do they take any illegal substances?',
-      substanceMisuseHistory: {
-        question: 'What substances do they take?',
-      },
-      substanceMisuseDetail: {
-        question: 'How often do they take these substances, by what method, and how much?',
-      },
-    },
-    engagedWithDrugAndAlcoholService: {
-      question: 'Are they engaged with a drug and alcohol service?',
-      drugAndAlcoholServiceDetail: {
-        question: 'Name the drug and alcohol service',
-      },
-    },
-    requiresSubstituteMedication: {
-      question: 'Do they require any substitute medication for misused substances?',
-      substituteMedicationDetail: {
-        question: 'What substitute medication do they take?',
-      },
-    },
-  }
+  questions = getQuestions(this.personName)['health-needs']['substance-misuse']
 
   body: SubstanceMisuseBody
 
@@ -109,18 +90,16 @@ export default class SubstanceMisuse implements TaskListPage {
   response() {
     const response = {
       [this.questions.usesIllegalSubstances.question]: sentenceCase(this.body.usesIllegalSubstances),
-      [this.questions.usesIllegalSubstances.substanceMisuseHistory.question]: this.body.substanceMisuseHistory,
-      [this.questions.usesIllegalSubstances.substanceMisuseDetail.question]: this.body.substanceMisuseDetail,
+      [this.questions.substanceMisuseHistory.question]: this.body.substanceMisuseHistory,
+      [this.questions.substanceMisuseDetail.question]: this.body.substanceMisuseDetail,
 
       [this.questions.engagedWithDrugAndAlcoholService.question]: sentenceCase(
         this.body.engagedWithDrugAndAlcoholService,
       ),
-      [this.questions.engagedWithDrugAndAlcoholService.drugAndAlcoholServiceDetail.question]:
-        this.body.drugAndAlcoholServiceDetail,
+      [this.questions.drugAndAlcoholServiceDetail.question]: this.body.drugAndAlcoholServiceDetail,
 
       [this.questions.requiresSubstituteMedication.question]: sentenceCase(this.body.requiresSubstituteMedication),
-      [this.questions.requiresSubstituteMedication.substituteMedicationDetail.question]:
-        this.body.substituteMedicationDetail,
+      [this.questions.substituteMedicationDetail.question]: this.body.substituteMedicationDetail,
     }
 
     return response

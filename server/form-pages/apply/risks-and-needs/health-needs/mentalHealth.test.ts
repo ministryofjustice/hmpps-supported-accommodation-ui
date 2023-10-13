@@ -21,7 +21,7 @@ describe('MentalHealth', () => {
         expect(page.questions.hasMentalHealthNeeds.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.hasMentalHealthNeeds.needsDetail.question).toBeDefined()
+        expect(page.questions.needsDetail.question).toBeDefined()
       })
     })
 
@@ -30,7 +30,7 @@ describe('MentalHealth', () => {
         expect(page.questions.isEngagedWithCommunity.question).toBeDefined()
       })
       it('has one follow-up question', () => {
-        expect(page.questions.isEngagedWithCommunity.servicesDetail.question).toBeDefined()
+        expect(page.questions.servicesDetail.question).toBeDefined()
       })
     })
 
@@ -39,12 +39,9 @@ describe('MentalHealth', () => {
         expect(page.questions.hasPrescribedMedication.question).toBeDefined()
       })
       it('has 3 follow-up questions', () => {
-        expect(page.questions.hasPrescribedMedication.isInPossessionOfMeds.question).toBeDefined()
-        expect(page.questions.hasPrescribedMedication.medicationDetail.question).toBeDefined()
-        expect(page.questions.hasPrescribedMedication.medicationIssues.question).toBeDefined()
-      })
-      it('has one optional question about issues with medication', () => {
-        expect(page.questions.hasPrescribedMedication.medicationIssues.optional).toBeTruthy()
+        expect(page.questions.isInPossessionOfMeds.question).toBeDefined()
+        expect(page.questions.medicationDetail.question).toBeDefined()
+        expect(page.questions.medicationIssues.question).toBeDefined()
       })
     })
   })
@@ -76,7 +73,7 @@ describe('MentalHealth', () => {
         'Are they prescribed any medication for their mental health?': 'Yes',
         'Are they in possession of their medication?': 'No',
         'Please list any medications.': 'anti-epilepsy',
-        'Please list any issues they have with taking their medication': 'often forget to take it',
+        'Please list any issues they have with taking their medication (optional).': 'often forget to take it',
       })
     })
   })

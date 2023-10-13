@@ -21,7 +21,7 @@ describe('CommunicationAndLanguage', () => {
         expect(page.questions.hasCommunicationNeeds.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.hasCommunicationNeeds.communicationDetail.question).toBeDefined()
+        expect(page.questions.communicationDetail.question).toBeDefined()
       })
     })
 
@@ -30,7 +30,7 @@ describe('CommunicationAndLanguage', () => {
         expect(page.questions.requiresInterpreter.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.requiresInterpreter.interpretationDetail.question).toBeDefined()
+        expect(page.questions.interpretationDetail.question).toBeDefined()
       })
     })
 
@@ -39,7 +39,7 @@ describe('CommunicationAndLanguage', () => {
         expect(page.questions.hasSupportNeeds.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.hasSupportNeeds.supportDetail.question).toBeDefined()
+        expect(page.questions.supportDetail.question).toBeDefined()
       })
     })
   })

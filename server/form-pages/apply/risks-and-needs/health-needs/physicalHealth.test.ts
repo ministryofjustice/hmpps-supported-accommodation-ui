@@ -24,8 +24,8 @@ describe('PhysicalHealth', () => {
         expect(page.questions.hasPhyHealthNeeds.question).toBeDefined()
       })
       it('has two follow-up questions', () => {
-        expect(page.questions.hasPhyHealthNeeds.needsDetail.question).toBeDefined()
-        expect(page.questions.hasPhyHealthNeeds.canClimbStairs.question).toBeDefined()
+        expect(page.questions.needsDetail.question).toBeDefined()
+        expect(page.questions.canClimbStairs.question).toBeDefined()
       })
     })
 
@@ -34,7 +34,7 @@ describe('PhysicalHealth', () => {
         expect(page.questions.isReceivingTreatment.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.isReceivingTreatment.treatmentDetail.question).toBeDefined()
+        expect(page.questions.treatmentDetail.question).toBeDefined()
       })
     })
 
@@ -43,7 +43,7 @@ describe('PhysicalHealth', () => {
         expect(page.questions.hasPhyHealthMedication.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.hasPhyHealthMedication.medicationDetail.question).toBeDefined()
+        expect(page.questions.medicationDetail.question).toBeDefined()
       })
     })
 
@@ -52,7 +52,7 @@ describe('PhysicalHealth', () => {
         expect(page.questions.canLiveIndependently.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.canLiveIndependently.indyLivingDetail.question).toBeDefined()
+        expect(page.questions.indyLivingDetail.question).toBeDefined()
       })
     })
 
@@ -61,7 +61,7 @@ describe('PhysicalHealth', () => {
         expect(page.questions.requiresAdditionalSupport.question).toBeDefined()
       })
       it('has a follow-up question', () => {
-        expect(page.questions.requiresAdditionalSupport.addSupportDetail.question).toBeDefined()
+        expect(page.questions.addSupportDetail.question).toBeDefined()
       })
     })
   })

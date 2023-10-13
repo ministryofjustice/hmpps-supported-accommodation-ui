@@ -3,6 +3,7 @@ import { Cas2Application as Application } from '@approved-premises/api'
 import { Page } from '../../../utils/decorators'
 import { nameOrPlaceholderCopy, sentenceCase } from '../../../../utils/utils'
 import TaskListPage from '../../../taskListPage'
+import { getQuestions } from '../../../utils/questions'
 
 type PhysicalHealthBody = {
   hasPhyHealthNeeds: YesOrNo
@@ -37,43 +38,11 @@ type PhysicalHealthBody = {
 export default class PhysicalHealth implements TaskListPage {
   documentTitle = 'Physical health needs for the person'
 
-  title = `Physical health needs for ${nameOrPlaceholderCopy(this.application.person)}`
+  personName = nameOrPlaceholderCopy(this.application.person)
 
-  questions = {
-    hasPhyHealthNeeds: {
-      question: 'Do they have any physical health needs?',
-      needsDetail: {
-        question: 'Please describe their needs.',
-      },
-      canClimbStairs: {
-        question: 'Can they climb stairs?',
-      },
-    },
-    isReceivingTreatment: {
-      question: 'Are they currently receiving any medical treatment for their physical health needs?',
-      treatmentDetail: {
-        question: 'Describe the treatment they receive for physical health needs',
-      },
-    },
-    hasPhyHealthMedication: {
-      question: 'Are they currently receiving any medication for their physical health needs?',
-      medicationDetail: {
-        question: 'Describe the medication they receive for physical health needs',
-      },
-    },
-    canLiveIndependently: {
-      question: 'Can they live independently?',
-      indyLivingDetail: {
-        question: 'Describe why they are unable to live independently',
-      },
-    },
-    requiresAdditionalSupport: {
-      question: 'Do they require any additional support?',
-      addSupportDetail: {
-        question: 'Please describe the types of support.',
-      },
-    },
-  }
+  title = `Physical health needs for ${this.personName}`
+
+  questions = getQuestions(this.personName)['health-needs']['physical-health']
 
   body: PhysicalHealthBody
 
@@ -147,20 +116,20 @@ export default class PhysicalHealth implements TaskListPage {
   response() {
     const response = {
       [this.questions.hasPhyHealthNeeds.question]: sentenceCase(this.body.hasPhyHealthNeeds),
-      [this.questions.hasPhyHealthNeeds.needsDetail.question]: this.body.needsDetail,
-      [this.questions.hasPhyHealthNeeds.canClimbStairs.question]: sentenceCase(this.body.canClimbStairs),
+      [this.questions.needsDetail.question]: this.body.needsDetail,
+      [this.questions.canClimbStairs.question]: sentenceCase(this.body.canClimbStairs),
 
       [this.questions.isReceivingTreatment.question]: sentenceCase(this.body.isReceivingTreatment),
-      [this.questions.isReceivingTreatment.treatmentDetail.question]: this.body.treatmentDetail,
+      [this.questions.treatmentDetail.question]: this.body.treatmentDetail,
 
       [this.questions.hasPhyHealthMedication.question]: sentenceCase(this.body.hasPhyHealthMedication),
-      [this.questions.hasPhyHealthMedication.medicationDetail.question]: this.body.medicationDetail,
+      [this.questions.medicationDetail.question]: this.body.medicationDetail,
 
       [this.questions.canLiveIndependently.question]: sentenceCase(this.body.canLiveIndependently),
-      [this.questions.canLiveIndependently.indyLivingDetail.question]: this.body.indyLivingDetail,
+      [this.questions.indyLivingDetail.question]: this.body.indyLivingDetail,
 
       [this.questions.requiresAdditionalSupport.question]: sentenceCase(this.body.requiresAdditionalSupport),
-      [this.questions.requiresAdditionalSupport.addSupportDetail.question]: this.body.addSupportDetail,
+      [this.questions.addSupportDetail.question]: this.body.addSupportDetail,
     }
 
     return response
