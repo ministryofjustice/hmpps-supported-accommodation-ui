@@ -4,6 +4,7 @@ import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
 type ConfirmEligibilityBody = {
   isEligible: YesOrNo
@@ -19,14 +20,9 @@ export default class ConfirmEligibility implements TaskListPage {
 
   title = `Check ${this.personName} is eligible for Short-Term Accommodation (CAS-2)`
 
-  questions = {
-    isEligible: `Is ${this.personName} eligible for Short-Term Accommodation (CAS-2)?`,
-  }
+  questions: Record<string, string>
 
-  options = {
-    yes: `Yes, I confirm ${this.personName} is eligible`,
-    no: `No, ${this.personName} is not eligible`,
-  }
+  options: Record<string, string>
 
   body: ConfirmEligibilityBody
 
@@ -35,6 +31,12 @@ export default class ConfirmEligibility implements TaskListPage {
     private readonly application: Application,
   ) {
     this.body = body as ConfirmEligibilityBody
+
+    const applicationQuestions = getQuestions(this.personName)
+    this.questions = {
+      isEligible: applicationQuestions['confirm-eligibility']['confirm-eligibility'].isEligible.question,
+    }
+    this.options = applicationQuestions['confirm-eligibility']['confirm-eligibility'].isEligible.answers
   }
 
   previous() {

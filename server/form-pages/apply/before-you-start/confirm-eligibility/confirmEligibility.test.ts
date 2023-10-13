@@ -2,16 +2,19 @@ import { itShouldHaveNextValue, itShouldHavePreviousValue } from '../../../share
 import ConfirmEligibility from './confirmEligibility'
 import { applicationFactory, personFactory } from '../../../../testutils/factories/index'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../../form-pages/utils/questions'
 
 describe('ConfirmEligibility', () => {
   const application = applicationFactory.build({ person: personFactory.build({ name: 'Roger Smith' }) })
+
+  const questions = getQuestions('Roger Smith')
 
   describe('question', () => {
     it('personalises the question', () => {
       const page = new ConfirmEligibility({ isEligible: 'yes' }, application)
 
       expect(page.questions).toEqual({
-        isEligible: 'Is Roger Smith eligible for Short-Term Accommodation (CAS-2)?',
+        isEligible: questions['confirm-eligibility']['confirm-eligibility'].isEligible.question,
       })
     })
   })
@@ -50,12 +53,12 @@ describe('ConfirmEligibility', () => {
       expect(page.items()).toEqual([
         {
           value: 'yes',
-          text: `Yes, I confirm ${nameOrPlaceholderCopy(application.person)} is eligible`,
+          text: questions['confirm-eligibility']['confirm-eligibility'].isEligible.answers.yes,
           checked: true,
         },
         {
           value: 'no',
-          text: `No, ${nameOrPlaceholderCopy(application.person)} is not eligible`,
+          text: questions['confirm-eligibility']['confirm-eligibility'].isEligible.answers.no,
           checked: false,
         },
       ])
