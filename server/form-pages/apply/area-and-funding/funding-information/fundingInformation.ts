@@ -4,15 +4,12 @@ import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { convertKeyValuePairToRadioItems } from '../../../../utils/formUtils'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
+import { getQuestions } from '../../../utils/questions'
 
-export const fundingSources = {
-  personalSavings: 'Personal money or savings',
-  benefits: 'Benefits',
-}
 const benefitsHint =
   'This includes Housing Benefit and Universal Credit, Disability Living Allowance, and Employment and Support Allowance'
 
-export type FundingSources = keyof typeof fundingSources
+export type FundingSources = 'personalSavings' | 'benefits'
 
 type FundingSourceBody = {
   fundingSource: FundingSources
@@ -29,11 +26,9 @@ export default class FundingSource implements TaskListPage {
 
   title = `Funding information for ${this.personName}`
 
-  questions = {
-    fundingSource: `How will ${nameOrPlaceholderCopy(
-      this.application.person,
-    )} pay for their accommodation and service charge?`,
-  }
+  questions: Record<string, string>
+
+  options: Record<string, string>
 
   body: FundingSourceBody
 
@@ -42,6 +37,12 @@ export default class FundingSource implements TaskListPage {
     private readonly application: Application,
   ) {
     this.body = body as FundingSourceBody
+
+    const applicationQuestions = getQuestions(this.personName)
+    this.questions = {
+      fundingSource: applicationQuestions['funding-information']['funding-source'].fundingSource.question,
+    }
+    this.options = applicationQuestions['funding-information']['funding-source'].fundingSource.answers
   }
 
   previous() {
@@ -62,7 +63,7 @@ export default class FundingSource implements TaskListPage {
 
   response() {
     const response = {
-      [this.questions.fundingSource]: fundingSources[this.body.fundingSource],
+      [this.questions.fundingSource]: this.options[this.body.fundingSource],
     }
 
     Object.keys(response).forEach(key => {
@@ -75,7 +76,7 @@ export default class FundingSource implements TaskListPage {
   }
 
   items() {
-    const items = convertKeyValuePairToRadioItems(fundingSources, this.body.fundingSource) as [Radio]
+    const items = convertKeyValuePairToRadioItems(this.options, this.body.fundingSource) as [Radio]
     return items.map(radio => {
       if (radio.value === 'benefits') {
         return { ...radio, hint: { text: benefitsHint } }
