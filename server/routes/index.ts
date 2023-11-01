@@ -6,6 +6,7 @@ import { Services } from '../services'
 import { actions } from './utils'
 import paths from '../paths/apply'
 import applyRoutes from './apply'
+import assessRoutes from './assess'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(controllers: Controllers, services: Services): Router {
@@ -28,6 +29,7 @@ export default function routes(controllers: Controllers, services: Services): Ro
   })
 
   applyRoutes(controllers, router, services)
+  assessRoutes(controllers, router, services)
 
   return router
 }
