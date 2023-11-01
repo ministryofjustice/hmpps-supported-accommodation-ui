@@ -182,4 +182,12 @@ export default {
     args: { name?: string; userId?: string; roles?: Array<UserRole> } = {},
   ): Promise<[Response, Response, Response]> =>
     Promise.all([stubUser(args.name || 'john smith'), stubUserRoles(), stubProfile(args.roles || [], args.userId)]),
+  stubAssessorUser: (
+    args: { name?: string; userId?: string; roles?: [] } = {},
+  ): Promise<[Response, Response, Response]> =>
+    Promise.all([
+      stubUser(args.name || 'Mister Assessor'),
+      stubUserRoles(),
+      stubProfile(args.roles || [], args.userId),
+    ]),
 }
