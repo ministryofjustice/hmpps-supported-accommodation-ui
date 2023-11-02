@@ -1,0 +1,21 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% macro documentSummaryList(application) %}
+
+  {% for section in application.document.sections %}
+    <h2 class="govuk-heading-l">{{section.title}}</h2>
+    {% for task in section.tasks %}
+      {{
+                  govukSummaryList({
+                    card: {
+                            title: {
+                              text: task.title
+                            }
+                    },
+                    rows: documentSummaryListRows(task.questionsAndAnswers)
+                  })
+            }}
+    {% endfor %}
+  {% endfor %}
+
+{% endmacro %}
