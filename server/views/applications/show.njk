@@ -1,0 +1,50 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% from "../partials/documentSummaryList.njk" import documentSummaryList %}
+
+{% extends "../partials/layout.njk" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">
+        Application answers
+      </h1>
+
+      <p class="govuk-body-l">This page contains answers submitted as part of a CAS-2 application.</p>
+
+    </div>
+
+    <div class="govuk-grid-column-full">
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <div id="application-summary">
+        <h2 class="govuk-heading-l">
+          Application summary
+        </h2>
+
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <span class="govuk-!-font-weight-bold">Application ID: </span>{{ application.id }}</li>
+          <li>
+            <span class="govuk-!-font-weight-bold">Applicant name: </span>{{ application.person.name }}</li>
+          <li>
+            <span class="govuk-!-font-weight-bold">Prison number: </span>{{ application.person.nomsNumber }}</li>
+          <li>
+            <span class="govuk-!-font-weight-bold">Submission date:</span>
+            {{ formatDate(application.submittedAt, {format: 'medium'}) }}
+          </li>
+        </ul>
+      </div>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      {% if application.document.sections | length %}
+        {{ documentSummaryList(application) }}
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

@@ -11,7 +11,7 @@ export default Factory.define<Application>(() => ({
   createdByUserId: faker.string.uuid(),
   schemaVersion: faker.string.uuid(),
   createdAt: DateFormats.dateObjToIsoDateTime(faker.date.past()),
-  submittedAt: DateFormats.dateObjToIsoDateTime(faker.date.past()),
+  submittedAt: null,
   data: {},
   document: {},
   outdatedSchema: faker.datatype.boolean(),
