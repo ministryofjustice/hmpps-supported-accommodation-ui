@@ -1,3 +1,4 @@
+import { ApplicationDocument } from '@approved-premises/ui'
 import errorLookups from '../../server/i18n/en/errors.json'
 import { DateFormats } from '../../server/utils/dateUtils'
 
@@ -78,5 +79,33 @@ export default abstract class Page {
 
   clickRemove(): void {
     cy.get('a').contains('Remove').click()
+  }
+
+  removeWhiteSpaceAndLineBreaks(stringToReplace: string): string {
+    return stringToReplace.trim().replace(/(\r\n|\n|\r)/gm, '')
+  }
+
+  hasQuestionsAndAnswersFromDocument(document: ApplicationDocument) {
+    const { sections } = document
+    sections.forEach(section => {
+      cy.get('h2').contains(section.title)
+      section.tasks.forEach(task => {
+        cy.get('h2').contains(task.title)
+        task.questionsAndAnswers.forEach(question => {
+          this.checkTermAndDescription(question.question, question.answer)
+        })
+      })
+    })
+  }
+
+  checkTermAndDescription(term: string, description: string): void {
+    const formattedDescription = this.removeWhiteSpaceAndLineBreaks(description)
+
+    cy.get('dt')
+      .contains(term)
+      .parent()
+      .within(() => {
+        cy.get('dd').invoke('text').should('contain', formattedDescription)
+      })
   }
 }

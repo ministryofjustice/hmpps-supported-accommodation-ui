@@ -37,19 +37,4 @@ export default class ApplyPage extends Page {
   clickConfirm(): void {
     this.checkCheckboxByValue('confirmed')
   }
-
-  removeWhiteSpaceAndLineBreaks(description: string): string {
-    return description.trim().replace(/(\r\n|\n|\r)/gm, '')
-  }
-
-  checkTermAndDescription(term: string, description: string): void {
-    const formattedDescription = this.removeWhiteSpaceAndLineBreaks(description)
-
-    cy.get('dt')
-      .contains(term)
-      .parent()
-      .within(() => {
-        cy.get('.govuk-summary-list__value').contains(formattedDescription)
-      })
-  }
 }
