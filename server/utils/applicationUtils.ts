@@ -1,8 +1,9 @@
 import type { Cas2Application as Application } from '@approved-premises/api'
-import type { TableRow } from '@approved-premises/ui'
+import type { QuestionAndAnswer, TableRow } from '@approved-premises/ui'
 import paths from '../paths/apply'
 import { DateFormats } from './dateUtils'
 import { nameOrPlaceholderCopy } from './utils'
+import { formatLines } from './viewUtils'
 
 export const inProgressApplicationTableRows = (applications: Array<Application>): Array<TableRow> => {
   return applications.map(application => {
@@ -21,6 +22,19 @@ export const submittedApplicationTableRows = (applications: Array<Application>):
       textValue(application.person.crn),
       textValue(DateFormats.isoDateToUIDate(application.submittedAt, { format: 'medium' })),
     ]
+  })
+}
+
+export const documentSummaryListRows = (questionsAndAnswers: Array<QuestionAndAnswer>) => {
+  return questionsAndAnswers.map(question => {
+    return {
+      key: {
+        html: formatLines(question.question),
+      },
+      value: {
+        html: formatLines(question.answer),
+      },
+    }
   })
 }
 
