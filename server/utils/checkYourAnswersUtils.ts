@@ -1,5 +1,5 @@
 import { Cas2Application as Application } from '@approved-premises/api'
-import { SummaryListItem, FormSection } from '@approved-premises/ui'
+import { SummaryListItem, FormSection, QuestionAndAnswer } from '@approved-premises/ui'
 import Apply from '../form-pages/apply/index'
 import CheckYourAnswers from '../form-pages/apply/check-your-answers'
 import paths from '../paths/apply'
@@ -8,11 +8,6 @@ import { nameOrPlaceholderCopy } from './utils'
 import { formatLines } from './viewUtils'
 import TaskListPage, { TaskListPageInterface } from '../form-pages/taskListPage'
 import { UnknownPageError } from './errors'
-
-type QuestionAndAnswer = {
-  question: string
-  answer: string
-}
 
 export const checkYourAnswersSections = (application: Application) => {
   const sections = getSections()

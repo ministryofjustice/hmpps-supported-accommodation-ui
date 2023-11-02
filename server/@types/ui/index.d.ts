@@ -158,3 +158,15 @@ export interface TextItem {
 export interface HtmlItem {
   html: string
 }
+
+export type QuestionAndAnswer = {
+  question: string
+  answer: string
+}
+
+export type ApplicationDocument = {
+  sections: Array<{
+    title: string
+    tasks: Array<{ title: string; questionsAndAnswers: Array<QuestionAndAnswer> }>
+  }>
+}
