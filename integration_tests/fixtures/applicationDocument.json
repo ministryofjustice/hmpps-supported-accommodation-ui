@@ -1,0 +1,252 @@
+{
+  "sections": [
+    {
+      "title": "Before you start",
+      "tasks": [
+        {
+          "title": "Check eligibility for CAS-2",
+          "questionsAndAnswers": [
+            {
+              "question": "Is Aadland Bertrand eligible for Short-Term Accommodation (CAS-2)?",
+              "answer": "Yes, I confirm Aadland Bertrand is eligible"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Area and funding",
+      "tasks": [
+        {
+          "title": "Add funding information",
+          "questionsAndAnswers": [
+            {
+              "question": "How will Aadland Bertrand pay for their accommodation and service charge?",
+              "answer": "Benefits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "About the person",
+      "tasks": [
+        {
+          "title": "Complete equality and diversity monitoring",
+          "questionsAndAnswers": [
+            {
+              "question": "Does Aadland Bertrand want to answer the equality questions?",
+              "answer": "Yes, answer the equality questions (takes 2 minutes)"
+            },
+            { "question": "Does Aadland Bertrand have a disability?", "answer": "Yes" },
+            { "question": "What type of disability?", "answer": "Sensory impairment" },
+            { "question": "What is Aadland Bertrand's sex?", "answer": "Male" },
+            {
+              "question": "Is the gender Aadland Bertrand identifies with the same as the sex registered at birth?",
+              "answer": "Yes"
+            },
+            {
+              "question": "Which of the following best describes Aadland Bertrand's sexual orientation?",
+              "answer": "Other"
+            },
+            {
+              "question": "How would they describe their sexual orientation? (optional)",
+              "answer": "other sexual orientation"
+            },
+            { "question": "What is Aadland Bertrand's ethnic group?", "answer": "Other ethnic group" },
+            {
+              "question": "Which of the following best describes Aadland Bertrand's background?",
+              "answer": "Any other ethnic group"
+            },
+            { "question": "How would they describe their background? (optional)", "answer": "any other ethnic group" },
+            { "question": "What is Aadland Bertrand's religion?", "answer": "Any other religion" },
+            { "question": "Is Aadland Bertrand a military veteran?", "answer": "Yes" },
+            { "question": "Is Aadland Bertrand a care leaver?", "answer": "Yes" },
+            { "question": "Does Aadland Bertrand have parental or carer responsibilities?", "answer": "Yes" },
+            {
+              "question": "What is Aadland Bertrand's legal marital or registered civil partnership status?",
+              "answer": "In a registered civil partnership"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Risks and needs",
+      "tasks": [
+        {
+          "title": "Add health needs",
+          "questionsAndAnswers": [
+            { "question": "Do they take any illegal substances?", "answer": "Yes" },
+            { "question": "What substances do they take?", "answer": "substances taken illegally" },
+            {
+              "question": "How often do they take these substances, by what method, and how much?",
+              "answer": "once a month"
+            },
+            { "question": "Are they engaged with a drug and alcohol service?", "answer": "Yes" },
+            { "question": "Name the drug and alcohol service", "answer": "Local drug and alcohol service" },
+            { "question": "Do they require any substitute medication for misused substances?", "answer": "Yes" },
+            { "question": "What substitute medication do they take?", "answer": "substitute meds" },
+            { "question": "Do they have any physical health needs?", "answer": "Yes" },
+            { "question": "Please describe their needs.", "answer": "some physical needs" },
+            { "question": "Can they climb stairs?", "answer": "no" },
+            {
+              "question": "Are they currently receiving any medical treatment for their physical health needs?",
+              "answer": "Yes"
+            },
+            {
+              "question": "Describe the treatment they receive for physical health needs",
+              "answer": "some medical treatment"
+            },
+            {
+              "question": "Are they currently receiving any medication for their physical health needs?",
+              "answer": "Yes"
+            },
+            {
+              "question": "Describe the medication they receive for physical health needs",
+              "answer": "medication for physical needs"
+            },
+            { "question": "Can they live independently?", "answer": "No" },
+            {
+              "question": "Describe why they are unable to live independently",
+              "answer": "they are unable to live independently"
+            },
+            { "question": "Do they require any additional support?", "answer": "Yes" },
+            { "question": "Please describe the types of support.", "answer": "more additional support" },
+            { "question": "Do they have any mental health needs?", "answer": "Yes" },
+            { "question": "Please describe their mental health needs.", "answer": "some mental health needs" },
+            { "question": "Are they engaged with any community mental health services?", "answer": "Yes" },
+            { "question": "Please state which services.", "answer": "some community mental health services" },
+            { "question": "Are they prescribed any medication for their mental health?", "answer": "Yes" },
+            { "question": "Are they in possession of their medication?", "answer": "Yes" },
+            { "question": "Please list any medications.", "answer": "medication\r\nanother medication" },
+            {
+              "question": "Please list any issues they have with taking their medication (optional).",
+              "answer": "some issues\r\nmore issues"
+            },
+            { "question": "Do they have any additional communication needs?", "answer": "Yes" },
+            { "question": "Please describe their communication needs.", "answer": "additional needs" },
+            { "question": "Do they need an interpreter?", "answer": "Yes" },
+            { "question": "What language do they need an interpreter for?", "answer": "French" },
+            { "question": "Do they need any support to see, hear, speak, or understand?", "answer": "Yes" },
+            { "question": "Please describe their support needs.", "answer": "more support needs" },
+            {
+              "question": "Do they have any additional needs relating to learning difficulties or neurodiversity?",
+              "answer": "Yes"
+            },
+            { "question": "Please describe their additional needs.", "answer": "more additional needs " },
+            { "question": "Are they vulnerable as a result of this condition?", "answer": "Yes" },
+            { "question": "Please describe their level of vulnerability.", "answer": "vulnerability" },
+            {
+              "question": "Do they have difficulties interacting with other people as a result of this condition?",
+              "answer": "Yes"
+            },
+            { "question": "Please describe these difficulties.", "answer": "more difficulties" },
+            { "question": "Is additional support required?", "answer": "Yes" },
+            { "question": "Please describe the type of support.", "answer": "more additional support" },
+            { "question": "Do they have a brain injury?", "answer": "Yes" },
+            { "question": "Please describe their brain injury and needs.", "answer": "brain injury" },
+            { "question": "Are they vulnerable as a result of this injury?", "answer": "Yes" },
+            { "question": "Please describe their level of vulnerability.", "answer": "vulnerability" },
+            {
+              "question": "Do they have difficulties interacting with other people as a result of this injury?",
+              "answer": "Yes"
+            },
+            { "question": "Please describe these difficulties.", "answer": "more difficulties" },
+            { "question": "Is additional support required?", "answer": "Yes" },
+            { "question": "Please describe the type of support.", "answer": "more additional support" },
+            { "question": "Are they managing any long term health conditions?", "answer": "Yes" },
+            { "question": "Please describe the long term health conditions.", "answer": "long term conditions" },
+            { "question": "Have they experienced a stroke?", "answer": "No" },
+            { "question": "Do they experience seizures?", "answer": "Yes" },
+            { "question": "Please describe the type and any treatment.", "answer": "seizure treatment and type" },
+            { "question": "Are they currently receiving regular treatment for cancer?", "answer": "Yes" }
+          ]
+        },
+        {
+          "title": "Review risk to self information",
+          "questionsAndAnswers": [
+            {
+              "question": "Describe Aadland Bertrand's current issues and needs related to self harm and suicide",
+              "answer": "[R8.1.1] Review 06.10.21:\r\n\r\n        There have been numerous ACCTs opened since 2013 and every subsequent year he has been in custody.  In 2021..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "Describe Aadland Bertrand's current circumstances, issues and needs related to vulnerability",
+              "answer": "[R8.3.1] Review 06.10.21:\r\n\r\n        A previous assessor opined that Mr Smith was displaying all the characteristics of someone..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "Describe Aadland Bertrand's historical issues and needs related to self harm and suicide",
+              "answer": "[R8.1.4] Review 06.10.21:\r\n\r\n        There have been numerous ACCTs opened since 2013 and every subsequent year he has been in custody.  In 2021 there..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "ACCT<br />Created: 1 February 2012<br />Expiry: 1 March 2013",
+              "answer": "more details about ACCT\r\nmore details about ACCT\r\nmore details about ACCT\r\n\r\nmore details about ACCT"
+            },
+            { "question": "Is there anything else to include about Aadland Bertrand's risk to self?", "answer": "Yes" },
+            { "question": "Additional information", "answer": "more additional info" }
+          ]
+        },
+        {
+          "title": "Review risk of serious harm (RoSH) information",
+          "questionsAndAnswers": [
+            {
+              "question": "Who is at risk?",
+              "answer": "[R10.1] IN CUSTODY\r\n\r\nKNOWN ADULTS:\r\nSuch as Ms Elaine Underhill and any of the victims of the index offence if they are placed close to Mr Smith cell.\r\n\r\nCHILDREN:\r\nSimon Smith, Roger Smith, Lindy Smith"
+            },
+            {
+              "question": "What is the nature of the risk?",
+              "answer": "[R10.2] IN CUSTODY:\r\n\r\nKNOWN ADULTS:\r\nIntimidation, threats of violence, use of weapons or boiling water, physical education and violent assault, long term psychological impact as a result of Mr Smith violent behaviour. This harm may be cause in the course of physical altercation due to seeking revenge or holding grudges..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "What circumstances are likely to increase risk?",
+              "answer": "[R10.4] CIRCUMSTANCES:\r\nA lack of stable accommodation\r\nunemployment\r\nnon constructive use of time\r\nbreakdown of family support\r\nbeing unable to access benefits\r\n\r\nUNDERLYING FACTORS:\r\npro criminal attitudes supporting commission of crime..."
+            },
+            {
+              "question": "When is the risk likely to be greatest?",
+              "answer": "[R10.3] STATIC RISK FACTORS:\r\n\r\nMr Smith gender - At the time of the offence, Mr Smith was 35 years old and considered to be in the higher risk group.\r\n\r\nSTABLE DYNAMIC RISK FACTORS:\r\nThinking and behaviour - limited ability to manage mood or emotions poor impulse control. Mr Smith demonstrated cognitive deficit in committing the index offences and this still remains a concern..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "What factors are likely to reduce risk?",
+              "answer": "[R10.5] Engage with Mental Health Services in prison and in the community.\r\nMaintain emotional stability.\r\nAbstain from alcohol.\r\nAbstain from illegal drugs.\r\nRegular testing for alcohol and drug use, in prison and on Licence.\r\nMaintain stable accommodation..."
+            },
+            { "question": "I confirm this information is relevant and up to date.", "answer": "Confirmed" },
+            {
+              "question": "Is Aadland Bertrand subject to any of these multi-agency risk management arrangements upon release?",
+              "answer": "MAPPA,MARAC,IOM"
+            },
+            { "question": "Provide MAPPA details", "answer": "Mapp details" },
+            { "question": "Provide MARAC details", "answer": "Marac details" },
+            { "question": "Provide IOM details", "answer": "IOM details" },
+            { "question": "Are there any comments to add about cell sharing?", "answer": "Yes" },
+            { "question": "Cell sharing information", "answer": "cell sharing comments and more" },
+            {
+              "question": "Behaviour note 1",
+              "answer": "behaviour note details behaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note detailsbehaviour note details\r\n\r\nbehaviour note details"
+            },
+            { "question": "Is there any other risk information for Aadland Bertrand?", "answer": "Yes" },
+            { "question": "Additional information", "answer": "more additional info" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Offence and licence information",
+      "tasks": [
+        {
+          "title": "Add offending history",
+          "questionsAndAnswers": [
+            {
+              "question": "Does Aadland Bertrand have any previous convictions?",
+              "answer": "No, this is their first offence"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
