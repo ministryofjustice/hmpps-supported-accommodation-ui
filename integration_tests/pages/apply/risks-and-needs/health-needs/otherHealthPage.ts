@@ -7,7 +7,7 @@ import { nameOrPlaceholderCopy } from '../../../../../server/utils/utils'
 export default class OtherHealthPage extends ApplyPage {
   constructor(private readonly application: Application) {
     super(
-      `Other health needs for ${nameOrPlaceholderCopy(application.person)}`,
+      `Other health requirements${nameOrPlaceholderCopy(application.person)}`,
       application,
       'health-needs',
       'other-health',
