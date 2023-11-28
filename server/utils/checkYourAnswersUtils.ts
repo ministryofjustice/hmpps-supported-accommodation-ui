@@ -64,7 +64,9 @@ export const addPageAnswersToItemsArray = (params: {
   const { items, application, task, pageKey, questions, outputFormat } = params
   const PageClass = getPage(task, pageKey)
 
-  const page = new PageClass({}, application)
+  const body = application?.data?.[task]?.[pageKey]
+
+  const page = new PageClass(body, application)
 
   if (hasResponseMethod(page)) {
     const response = page.response()
