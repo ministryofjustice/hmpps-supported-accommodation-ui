@@ -5,6 +5,7 @@ import * as pathModule from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
 
+import { ErrorMessages } from '@approved-premises/ui'
 import applicationPaths from '../paths/apply'
 import assessPaths from '../paths/assess'
 import config from '../config'
@@ -83,7 +84,9 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     njkEnv.addGlobal('tagManagerUrl', `https://www.googletagmanager.com/ns.html?id=${tagManagerId.trim()}`)
   }
 
-  njkEnv.addGlobal('dateFieldValues', dateFieldValues)
+  njkEnv.addGlobal('dateFieldValues', function sendContextToDateFieldValues(fieldName: string, errors: ErrorMessages) {
+    return dateFieldValues(fieldName, this.ctx, errors)
+  })
   njkEnv.addGlobal('formatDate', DateFormats.isoDateToUIDate)
 
   njkEnv.addGlobal('checkYourAnswersSections', checkYourAnswersSections)
