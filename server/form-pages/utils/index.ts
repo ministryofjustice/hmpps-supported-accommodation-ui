@@ -119,3 +119,7 @@ export function pageBodyShallowEquals(body1: Record<string, unknown>, body2: Rec
     return value1 === value2
   })
 }
+
+export const dateBodyProperties = (root: string) => {
+  return [root, `${root}-year`, `${root}-month`, `${root}-day`]
+}

@@ -246,4 +246,15 @@ describe('utils', () => {
       expect(utils.pageBodyShallowEquals(value2, value1)).toEqual(false)
     })
   })
+
+  describe('dateBodyProperties', () => {
+    it('returns date field names for use in page body properties', () => {
+      expect(utils.dateBodyProperties('someDate')).toEqual([
+        'someDate',
+        'someDate-year',
+        'someDate-month',
+        'someDate-day',
+      ])
+    })
+  })
 })
