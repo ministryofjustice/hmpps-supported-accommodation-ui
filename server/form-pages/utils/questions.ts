@@ -632,7 +632,7 @@ export const getQuestions = (name: string) => {
         },
         offenceDate: {
           question: 'When did they commit the offence?',
-          hint: 'For example, 27 3 2007',
+          hint: 'For example, 27 3 2023',
         },
         sentenceLength: {
           question: 'How long were they sentenced for?',
@@ -640,6 +640,18 @@ export const getQuestions = (name: string) => {
         },
         summary: {
           question: 'Provide a summary of the offence',
+        },
+      },
+    },
+    'hdc-licence-and-cpp-details': {
+      'hdc-licence-dates': {
+        hdcEligibilityDate: {
+          question: `What is ${name}'s HDC eligibility date?`,
+          hint: 'For example, 27 3 2023',
+        },
+        conditionalReleaseDate: {
+          question: `What is ${name}'s conditional release date?`,
+          hint: 'For example, 27 3 2023',
         },
       },
     },

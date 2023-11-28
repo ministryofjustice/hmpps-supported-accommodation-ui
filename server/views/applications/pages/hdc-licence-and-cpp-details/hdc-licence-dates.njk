@@ -1,0 +1,43 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../../../components/formFields/form-page-date-input/macro.njk" import formPageDateInput %}
+
+{% extends "../layout.njk" %}
+
+{% block questions %}
+
+  <h1 class="govuk-heading-l govuk-!-margin-bottom-4">{{ page.title }}</h1>
+
+  {{ 
+    formPageDateInput( {
+      hint: {
+        text: page.questions.hdcEligibilityDate.hint
+      },
+      fieldName: "hdcEligibilityDate",
+      fieldset: {
+        legend: {
+          text: page.questions.hdcEligibilityDate.question,
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      items: dateFieldValues('hdcEligibilityDate', errors)
+      }, 
+      fetchContext()) 
+  }}
+
+  {{ 
+    formPageDateInput( {
+      hint: {
+        text: page.questions.conditionalReleaseDate.hint
+      },
+      fieldName: "conditionalReleaseDate",
+      fieldset: {
+        legend: {
+          text: page.questions.conditionalReleaseDate.question,
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      items: dateFieldValues('conditionalReleaseDate', errors)
+      }, 
+      fetchContext()) 
+  }}
+{% endblock %}
