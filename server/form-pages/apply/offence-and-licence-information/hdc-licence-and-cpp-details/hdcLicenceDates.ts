@@ -1,18 +1,18 @@
 import { TaskListErrors } from '@approved-premises/ui'
 import { Cas2Application as Application } from '@approved-premises/api'
+import type { ObjectWithDateParts } from '@approved-premises/ui'
 import { Page } from '../../../utils/decorators'
 import TaskListPage from '../../../taskListPage'
 import { nameOrPlaceholderCopy } from '../../../../utils/utils'
 import { getQuestions } from '../../../utils/questions'
+import { dateAndTimeInputsAreValidDates, DateFormats } from '../../../../utils/dateUtils'
+import { dateBodyProperties } from '../../../utils'
 
-type HDCLicenceDatesBody = {
-  hdcEligibilityDate: string
-  conditionalReleaseDate: string
-}
+type HDCLicenceDatesBody = ObjectWithDateParts<'hdcEligibilityDate'> & ObjectWithDateParts<'conditionalReleaseDate'>
 
 @Page({
   name: 'hdc-licence-dates',
-  bodyProperties: ['hdcEligibilityDate', 'conditionalReleaseDate'],
+  bodyProperties: [...dateBodyProperties('hdcEligibilityDate'), ...dateBodyProperties('conditionalReleaseDate')],
 })
 export default class HDCLicenceDates implements TaskListPage {
   documentTitle = 'Home Detention Curfew (HDC) licence dates'
@@ -42,12 +42,19 @@ export default class HDCLicenceDates implements TaskListPage {
     return ''
   }
 
+  response() {
+    return {
+      'HDC eligibility date': DateFormats.dateAndTimeInputsToUiDate(this.body, 'hdcEligibilityDate'),
+      'Conditional release date': DateFormats.dateAndTimeInputsToUiDate(this.body, 'conditionalReleaseDate'),
+    }
+  }
+
   errors() {
     const errors: TaskListErrors<this> = {}
-    if (!this.body.hdcEligibilityDate) {
+    if (!dateAndTimeInputsAreValidDates(this.body, 'hdcEligibilityDate')) {
       errors.hdcEligibilityDate = "Enter the applicant's HDC eligibility date"
     }
-    if (!this.body.conditionalReleaseDate) {
+    if (!dateAndTimeInputsAreValidDates(this.body, 'conditionalReleaseDate')) {
       errors.conditionalReleaseDate = "Enter the applicant's conditional release date"
     }
     return errors

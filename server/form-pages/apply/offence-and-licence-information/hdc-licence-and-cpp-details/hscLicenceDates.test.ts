@@ -27,4 +27,25 @@ describe('HDCLicenceDates', () => {
       })
     })
   })
+
+  describe('response', () => {
+    it('returns data in expected format', () => {
+      const page = new HDCLicenceDates(
+        {
+          'hdcEligibilityDate-year': '2023',
+          'hdcEligibilityDate-month': '11',
+          'hdcEligibilityDate-day': '11',
+          'conditionalReleaseDate-year': '2023',
+          'conditionalReleaseDate-month': '11',
+          'conditionalReleaseDate-day': '12',
+        },
+        application,
+      )
+
+      expect(page.response()).toEqual({
+        'HDC eligibility date': '11 November 2023',
+        'Conditional release date': '12 November 2023',
+      })
+    })
+  })
 })
