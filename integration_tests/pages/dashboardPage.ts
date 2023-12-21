@@ -4,6 +4,7 @@ export default class DashboardPage extends Page {
   constructor() {
     const name = undefined
     super('CAS2: Short-term accommodation', name)
+    this.checkPhaseBanner()
   }
 
   static visit(): DashboardPage {
@@ -25,4 +26,8 @@ export default class DashboardPage extends Page {
   }
 
   headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
+
+  checkPhaseBanner(): void {
+    cy.get('[data-cy-phase-banner="phase-banner"]').contains('This is a new service')
+  }
 }
