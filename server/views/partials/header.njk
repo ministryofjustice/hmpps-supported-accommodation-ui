@@ -1,3 +1,5 @@
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
 <header class="hmpps-header" role="banner">
   <div class="hmpps-header__container">
     <div class="hmpps-header__title">
@@ -31,3 +33,14 @@
     </nav>
   </div>
 </header>
+
+{% block phaseBanner %}
+  {{ govukPhaseBanner({
+    attributes: { "data-cy-phase-banner": "phase-banner" },
+    classes: "hmpps-header__container",
+    tag: {
+      text: "Beta"
+    },
+    html: 'This is a new service. <a class="govuk-link" href="https://forms.office.com/Pages/ResponsePage.aspx?id=8Guh-9qHxkGcH5mz3N5BRLMVmprlPbhNoMYbqf52APRUNzBDWDJNOEgzTzlJV0RWTE5NNUpZRktNSS4u">Complete our feedback form</a> or <a class="govuk-link" href="mailto:cas2support@digital.justice.gov.uk">email us</a> (cas2support@digital.justice.gov.uk) to report a bug'
+  }) }}
+{% endblock %}
