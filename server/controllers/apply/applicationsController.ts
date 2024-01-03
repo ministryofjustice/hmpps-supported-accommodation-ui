@@ -205,6 +205,7 @@ export default class ApplicationsController {
       try {
         await this.applicationService.appendToList(page, req)
         const next = page.next()
+        req.flash('success', 'Form updated')
         if (redirectPage) {
           res.redirect(paths.applications.pages.show({ id, task: taskName, page: redirectPage as string }))
         } else if (next) {

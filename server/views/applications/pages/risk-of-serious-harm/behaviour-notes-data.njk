@@ -9,6 +9,15 @@
   <div class="govuk-grid-row">
     <div class="{{ columnClasses | default("govuk-grid-column-three-quarters") }}">
       {{ showErrorSummary(errorSummary) }}
+      {% if successMessages %}
+          {% for message in successMessages %}
+            {{ govukNotificationBanner({
+              html: '<h3 class="govuk-!-margin-top-2">' + message + '</h3>',
+              type: 'success',
+              titleId: 'success-title'
+            }) }}
+          {% endfor %}
+      {% endif %}
       <h1 class="govuk-heading-l govuk-!-margin-bottom-4">{{ page.title }}</h1>
       <div class="govuk-body">
         <p>Behaviour notes are positive or negative notes about an applicant's behaviour.</p>
