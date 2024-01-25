@@ -3,6 +3,7 @@ import type { Cas2Application as Application, Cas2StatusUpdate, Cas2SubmittedApp
 import Apply from '../../form-pages/apply'
 import paths from '../../paths/apply'
 import { DateFormats } from '../dateUtils'
+import { getSections } from '../checkYourAnswersUtils'
 
 export const journeyPages = (_journeyType: JourneyType): FormPages => {
   return Apply.pages
@@ -112,6 +113,18 @@ export const getSideNavLinksForDocument = (document: ApplicationDocument) => {
   const tasks: Array<SideNavItem> = []
 
   document.sections.forEach(section => {
+    section.tasks.forEach(task => tasks.push({ href: `#${stringToKebabCase(task.title)}`, text: task.title }))
+  })
+
+  return tasks
+}
+
+export const getSideNavLinksForApplication = () => {
+  const sections = getSections()
+
+  const tasks: Array<SideNavItem> = []
+
+  sections.forEach(section => {
     section.tasks.forEach(task => tasks.push({ href: `#${stringToKebabCase(task.title)}`, text: task.title }))
   })
 

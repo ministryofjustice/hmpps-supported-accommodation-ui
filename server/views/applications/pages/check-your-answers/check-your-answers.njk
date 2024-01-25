@@ -4,6 +4,7 @@
 {% from "../../../components/formFields/form-page-checkboxes/macro.njk" import formPageCheckboxes %}
 {% from "../../../components/printButton/macro.njk" import printButtonScript, printButton %}
 {% from "../../../components/applicationSummary/macro.njk" import applicationSummary %}
+{% from "../../../components/sideNav/macro.njk" import sideNav %}
 
 {% from "../../../partials/applicantDetails.njk" import applicantDetails %}
 {% from "../../../partials/showErrorSummary.njk" import showErrorSummary %}
@@ -46,62 +47,77 @@
 
       {{ applicantDetails(page.application) }}
 
-      {% for section in checkYourAnswersSections(page.application) %}
-        <h2 class="govuk-heading-l">{{ section.title }}</h2>
-        {% for task in section.tasks %}
-          <div class="main-box" data-cy-check-your-answers-section="{{ task.id }}">
-            <div class="box-content">
-              {{
-                govukSummaryList({
-                      card: {
-                        title: {
-                          text: task.title
-                        }
-                    },
-                  rows: task.rows
-                })
-              }}
-            </div>
-          </div>
-        {% endfor %}
-      {% endfor %}
+      <div class="govuk-grid-row">
 
-      <form action="{{ paths.applications.pages.update({ id: applicationId, task: task, page: page.name }) }}?_method=PUT" method="post" class="govuk-!-margin-top-8 print__hidden">
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
-
-        {{
-          formPageCheckboxes(
-            {
-              fieldName: "checkYourAnswers",
-              fieldset: {
-                legend: {
-                  text: "Confirm your answers",
-                  classes: "govuk-fieldset__legend--l"
-                }
-              },
-              items: [
-                {
-                  value: "confirmed",
-                  text: "I confirm to the best of my knowledge, the information provided in this referral is accurate and, where required, it has been verified by all relevant prison departments."
-                }
-              ]
-            },
-            fetchContext()
-          )
-        }}
-
-        <div class="govuk-button-group">
-          {{ govukButton({
-          text: "Save and continue",
-          preventDoubleClick: true
-          }) }}
-
-          <a href="{{ paths.applications.show({ id: applicationId }) }}">Back to task list</a>
+        <div class="govuk-grid-column-one-quarter side-nav">
+          {{ sideNav(getSideNavLinksForApplication()) }}
         </div>
-      </form>
 
-      <div class="print__show govuk-!-margin-top-6">
-        <p>I confirm to the best of my knowledge, the information provided in this referral is accurate and, where required, it has been verified by all relevant prison departments.</p>
+        <div class="govuk-grid-column-three-quarters">
+
+          {% for section in checkYourAnswersSections(page.application) %}
+            <h2 class="govuk-heading-l">{{ section.title }}</h2>
+            {% for task in section.tasks %}
+              <div class="main-box" data-cy-check-your-answers-section="{{ task.id }}">
+                <div class="box-content">
+                  {{
+                    govukSummaryList({
+                          card: {
+                            attributes: { id: stringToKebabCase(task.title)},
+                            title: {
+                              text: task.title
+                            }
+                        },
+                      rows: task.rows
+                    })
+                  }}
+                </div>
+              </div>
+            {% endfor %}
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <div class="govuk-grid-row">
+        <form action="{{ paths.applications.pages.update({ id: applicationId, task: task, page: page.name }) }}?_method=PUT" method="post" class="govuk-!-margin-top-8 print__hidden">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+          {{
+            formPageCheckboxes(
+              {
+                fieldName: "checkYourAnswers",
+                fieldset: {
+                  legend: {
+                    text: "Confirm your answers",
+                    classes: "govuk-fieldset__legend--l"
+                  }
+                },
+                items: [
+                  {
+                    value: "confirmed",
+                    text: "I confirm to the best of my knowledge, the information provided in this referral is accurate and, where required, it has been verified by all relevant prison departments."
+                  }
+                ]
+              },
+              fetchContext()
+            )
+          }}
+
+          <div class="govuk-button-group">
+            {{ govukButton({
+            text: "Save and continue",
+            preventDoubleClick: true
+            }) }}
+
+            <a href="{{ paths.applications.show({ id: applicationId }) }}">Back to task list</a>
+          </div>
+        </form>
+
+        <div class="print__show govuk-!-margin-top-6">
+          <p>I confirm to the best of my knowledge, the information provided in this referral is accurate and, where required, it has been verified by all relevant prison departments.</p>
+        </div>
       </div>
 
     </div>
