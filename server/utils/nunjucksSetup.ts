@@ -16,7 +16,7 @@ import {
   inProgressApplicationTableRows,
   submittedApplicationTableRows,
 } from './applicationUtils'
-import { getApplicationTimelineEvents } from './applications/utils'
+import { getApplicationTimelineEvents, getSideNavLinksForDocument, stringToKebabCase } from './applications/utils'
 import { applicationStatusRadios } from './assessUtils'
 import { checkYourAnswersSections, getApplicantDetails } from './checkYourAnswersUtils'
 import { DateFormats } from './dateUtils'
@@ -107,4 +107,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   }
 
   njkEnv.addGlobal('statusTag', (status: PersonStatus) => markAsSafe(statusTag(status)))
+  njkEnv.addGlobal('getSideNavLinksForDocument', getSideNavLinksForDocument)
+  njkEnv.addGlobal('stringToKebabCase', stringToKebabCase)
 }

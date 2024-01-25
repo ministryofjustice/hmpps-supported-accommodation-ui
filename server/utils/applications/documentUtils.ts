@@ -10,6 +10,7 @@ export const buildDocument = (application: Application): ApplicationDocument => 
         tasks: section.tasks.map(task => {
           return {
             title: task.title,
+            id: task.id,
             questionsAndAnswers: getTaskAnswersAsSummaryListItems(
               task.id,
               application,

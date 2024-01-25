@@ -167,7 +167,7 @@ export type QuestionAndAnswer = {
 export type ApplicationDocument = {
   sections: Array<{
     title: string
-    tasks: Array<{ title: string; questionsAndAnswers: Array<QuestionAndAnswer> }>
+    tasks: Array<{ id: string; title: string; questionsAndAnswers: Array<QuestionAndAnswer> }>
   }>
 }
 

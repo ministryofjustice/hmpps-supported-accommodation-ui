@@ -1,4 +1,4 @@
-import type { FormPages, JourneyType, UiTimelineEvent } from '@approved-premises/ui'
+import type { ApplicationDocument, FormPages, JourneyType, UiTimelineEvent } from '@approved-premises/ui'
 import type { Cas2Application as Application, Cas2StatusUpdate, Cas2SubmittedApplication } from '@approved-premises/api'
 import Apply from '../../form-pages/apply'
 import paths from '../../paths/apply'
@@ -101,4 +101,23 @@ export const generateSuccessMessage = (pageName: string): string => {
     default:
       return ''
   }
+}
+
+export type SideNavItem = {
+  text: string
+  href: string
+}
+
+export const getSideNavLinksForDocument = (document: ApplicationDocument) => {
+  const tasks: Array<SideNavItem> = []
+
+  document.sections.forEach(section => {
+    section.tasks.forEach(task => tasks.push({ href: `#${stringToKebabCase(task.title)}`, text: task.title }))
+  })
+
+  return tasks
+}
+
+export const stringToKebabCase = (stringToTransform: string) => {
+  return stringToTransform.replace(/\s+/g, '-').toLowerCase()
 }

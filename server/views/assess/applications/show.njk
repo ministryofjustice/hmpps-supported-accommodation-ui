@@ -8,6 +8,7 @@
 {% from "../../components/printButton/macro.njk" import printButtonScript,
 printButton %}
 {% from "../../components/applicationSummary/macro.njk" import applicationSummary %}
+{% from "../../components/sideNav/macro.njk" import sideNav %}
 
 {% extends "../../partials/layout.njk" %}
 
@@ -52,11 +53,17 @@ printButton %}
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      {{ applicantDetails(application) }}
+      <div class="govuk-grid-column-one-quarter side-nav">
+        {{ sideNav(getSideNavLinksForDocument(application.document)) }}
+      </div>
 
-      {% if application.document.sections | length %}
-        {{ documentSummaryList(application) }}
-      {% endif %}
+      <div class="govuk-grid-column-three-quarters">
+        {{ applicantDetails(application) }}
+
+        {% if application.document.sections | length %}
+          {{ documentSummaryList(application) }}
+        {% endif %}
+      </div>
     </div>
   </div>
 

@@ -8,6 +8,7 @@
       {{
                   govukSummaryList({
                     card: {
+                            attributes: { id: stringToKebabCase(task.title)},
                             title: {
                               text: task.title
                             }
