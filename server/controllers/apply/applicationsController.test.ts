@@ -674,4 +674,16 @@ describe('applicationsController', () => {
       })
     })
   })
+
+  describe('prisonDashboard', () => {
+    it('renders the prison dashboard page', async () => {
+      const requestHandler = applicationsController.prisonDashboard()
+
+      await requestHandler(request, response, next)
+
+      expect(response.render).toHaveBeenCalledWith('applications/prison-dashboard', {
+        pageHeading: 'Applications for prison',
+      })
+    })
+  })
 })

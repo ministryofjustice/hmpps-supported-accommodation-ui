@@ -280,4 +280,12 @@ export default class ApplicationsController {
       }
     }
   }
+
+  prisonDashboard(): RequestHandler {
+    return async (req: Request, res: Response) => {
+      return res.render('applications/prison-dashboard', {
+        pageHeading: 'Applications for prison',
+      })
+    }
+  }
 }
