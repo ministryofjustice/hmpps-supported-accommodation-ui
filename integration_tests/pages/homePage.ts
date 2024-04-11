@@ -1,16 +1,16 @@
 import Page, { PageElement } from './page'
 
-export default class DashboardPage extends Page {
+export default class HomePage extends Page {
   constructor() {
     const name = undefined
     super('CAS-2: Short-Term Accommodation', name)
     this.checkPhaseBanner()
   }
 
-  static visit(): DashboardPage {
+  static visit(): HomePage {
     cy.visit('/')
 
-    return new DashboardPage()
+    return new HomePage()
   }
 
   shouldShowSignOutButton(): void {

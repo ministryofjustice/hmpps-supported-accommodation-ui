@@ -1,4 +1,4 @@
-import IndexPage from '../pages/dashboardPage'
+import IndexPage from '../pages/homePage'
 import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
 import AuthManageDetailsPage from '../pages/authManageDetails'
