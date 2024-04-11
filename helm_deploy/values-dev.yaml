@@ -17,6 +17,7 @@ generic-service:
     AUDIT_LOG_ERRORS: 'true'
     COMMUNITY_ACCOMMODATION_API_TIMEOUT_RESPONSE: 30000
     COMMUNITY_ACCOMMODATION_API_TIMEOUT_DEADLINE: 30000
+    PRISON_DASHBOARD_ENABLED: true
 
   namespace_secrets:
     hmpps-community-accommodation-tier-2-ui:

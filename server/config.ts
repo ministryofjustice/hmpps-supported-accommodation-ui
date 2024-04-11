@@ -101,6 +101,7 @@ export default {
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   flags: {
     maintenanceMode: get('IN_MAINTENANCE_MODE', false),
+    prisonDashboardEnabled: get('PRISON_DASHBOARD_ENABLED', false),
   },
   analytics: {
     tagManagerId: get('TAG_MANAGER_ID', null),
