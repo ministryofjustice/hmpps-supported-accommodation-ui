@@ -39,7 +39,7 @@ export const sections = {
     title: 'View my prison’s referrals',
     description: 'View recently submitted CAS-2 referrals from your prison.',
     shortTitle: 'View my prison’s referrals',
-    href: reportsPaths.report.new.pattern,
+    href: applyPaths.applications.prison.pattern,
   },
 }
 
