@@ -44,7 +44,7 @@ context('Home', () => {
     const page = Page.verifyOnPage(HomePage)
 
     //  Then see the correct cards
-    page.shouldShowCards(['referrals', 'new-referral'])
+    page.shouldShowCards(['referrals', 'new-referral', 'prison-dashboard'])
 
     //  And I see the sign out button
     page.shouldShowSignOutButton()

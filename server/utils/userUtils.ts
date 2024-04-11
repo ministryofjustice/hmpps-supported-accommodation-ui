@@ -3,6 +3,7 @@ import { ServiceSection } from '@approved-premises/ui'
 import applyPaths from '../paths/apply'
 import assessPaths from '../paths/assess'
 import reportsPaths from '../paths/report'
+import config from '../config'
 
 export const sections = {
   referral: {
@@ -33,6 +34,13 @@ export const sections = {
     shortTitle: 'Management information reports',
     href: reportsPaths.report.new.pattern,
   },
+  prisonDashboard: {
+    id: 'prison-dashboard',
+    title: 'View my prison’s referrals',
+    description: 'View recently submitted CAS-2 referrals from your prison.',
+    shortTitle: 'View my prison’s referrals',
+    href: reportsPaths.report.new.pattern,
+  },
 }
 
 export const hasRole = (userRoles: Array<string>, role: string): boolean => {
@@ -45,6 +53,9 @@ export const sectionsForUser = (userRoles: Array<string>): Array<ServiceSection>
   if (hasRole(userRoles, 'ROLE_POM')) {
     items.push(sections.referral)
     items.push(sections.newReferral)
+    if (config.flags.prisonDashboardEnabled) {
+      items.push(sections.prisonDashboard)
+    }
   }
   if (hasRole(userRoles, 'ROLE_CAS2_ADMIN')) {
     items.push(sections.submittedApplications)

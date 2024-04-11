@@ -1,3 +1,4 @@
+import config from '../config'
 import { sectionsForUser, sections } from './userUtils'
 
 describe('userUtils', () => {
@@ -6,9 +7,20 @@ describe('userUtils', () => {
       expect(sectionsForUser([])).toEqual([])
     })
 
-    it('should return correct sections for a POM', () => {
-      const expected = [sections.referral, sections.newReferral]
-      expect(sectionsForUser(['ROLE_POM'])).toEqual(expected)
+    describe('when prison dashboard is enabled', () => {
+      it('should return correct sections including the prison dashboard for a POM', () => {
+        config.flags.prisonDashboardEnabled = true
+        const expected = [sections.referral, sections.newReferral, sections.prisonDashboard]
+        expect(sectionsForUser(['ROLE_POM'])).toEqual(expected)
+      })
+    })
+
+    describe('when prison dashboard is NOT enabled', () => {
+      it('should return correct sections without prison dashboard for a POM', () => {
+        config.flags.prisonDashboardEnabled = false
+        const expected = [sections.referral, sections.newReferral]
+        expect(sectionsForUser(['ROLE_POM'])).toEqual(expected)
+      })
     })
 
     it('should return correct sections for an admin', () => {
