@@ -5,9 +5,9 @@
 export type ClarificationNote = {
     id: string;
     createdAt: string;
-    responseReceivedOn?: string;
     createdByStaffMemberId: string;
     query: string;
+    responseReceivedOn?: string;
     response?: string;
 };
 

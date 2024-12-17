@@ -4,6 +4,9 @@
 /* eslint-disable */
 import type { PersonSummary } from './PersonSummary';
 export type FullPersonSummary = (PersonSummary & {
+    name?: string;
+    isRestricted?: boolean;
+} & {
     name: string;
     isRestricted: boolean;
 });

@@ -5,14 +5,14 @@
 import type { ProbationDeliveryUnit } from './ProbationDeliveryUnit';
 import type { ProbationRegion } from './ProbationRegion';
 export type User = {
-    service: string;
-    id: string;
-    name: string;
-    deliusUsername: string;
-    email?: string;
-    telephoneNumber?: string;
-    isActive?: boolean;
     region: ProbationRegion;
+    isActive?: boolean;
+    name: string;
+    id: string;
+    deliusUsername: string;
+    telephoneNumber?: string;
+    email?: string;
+    service: string;
     probationDeliveryUnit?: ProbationDeliveryUnit;
 };
 

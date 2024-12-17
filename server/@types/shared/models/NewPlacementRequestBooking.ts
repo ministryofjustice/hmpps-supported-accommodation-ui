@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * Booking details
+ */
 export type NewPlacementRequestBooking = {
     arrivalDate: string;
     departureDate: string;

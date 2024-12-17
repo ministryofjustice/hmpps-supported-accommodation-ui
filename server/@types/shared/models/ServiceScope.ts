@@ -2,4 +2,4 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserSortField = 'name';
+export type ServiceScope = 'approved-premises' | 'temporary-accommodation' | '*';

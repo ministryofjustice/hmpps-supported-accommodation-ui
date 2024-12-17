@@ -3,8 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { InvalidParam } from './InvalidParam';
-import type { Problem } from './Problem';
-export type ValidationError = (Problem & {
+export type ValidationError = {
+    type?: string;
+    title?: string;
+    status?: number;
+    detail?: string;
+    instance?: string;
     'invalid-params'?: Array<InvalidParam>;
-});
+};
 

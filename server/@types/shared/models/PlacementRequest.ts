@@ -3,19 +3,30 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ApprovedPremisesUser } from './ApprovedPremisesUser';
+import type { ApType } from './ApType';
 import type { AssessmentDecision } from './AssessmentDecision';
 import type { BookingSummary } from './BookingSummary';
-import type { Person } from './Person';
+import type { FullPerson } from './FullPerson';
+import type { Gender } from './Gender';
 import type { PersonRisks } from './PersonRisks';
-import type { PlacementDates } from './PlacementDates';
+import type { PlacementCriteria } from './PlacementCriteria';
 import type { PlacementRequestRequestType } from './PlacementRequestRequestType';
 import type { PlacementRequestStatus } from './PlacementRequestStatus';
-import type { PlacementRequirements } from './PlacementRequirements';
 import type { ReleaseTypeOption } from './ReleaseTypeOption';
+import type { RestrictedPerson } from './RestrictedPerson';
+import type { UnknownPerson } from './UnknownPerson';
 import type { WithdrawPlacementRequestReason } from './WithdrawPlacementRequestReason';
-export type PlacementRequest = (PlacementRequirements & PlacementDates & {
+export type PlacementRequest = {
+    gender: Gender;
+    type: ApType;
+    location: string;
+    radius: number;
+    essentialCriteria: Array<PlacementCriteria>;
+    desirableCriteria: Array<PlacementCriteria>;
+    expectedArrival: string;
+    duration: number;
     id: string;
-    person: Person;
+    person: (FullPerson | RestrictedPerson | UnknownPerson);
     risks: PersonRisks;
     applicationId: string;
     assessmentId: string;
@@ -26,10 +37,10 @@ export type PlacementRequest = (PlacementRequirements & PlacementDates & {
     applicationDate: string;
     assessor: ApprovedPremisesUser;
     isParole: boolean;
+    isWithdrawn: boolean;
     notes?: string;
     booking?: BookingSummary;
     requestType?: PlacementRequestRequestType;
-    isWithdrawn: boolean;
     withdrawalReason?: WithdrawPlacementRequestReason;
-});
+};
 

@@ -2,10 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnyValue } from './AnyValue';
 import type { SubmitApplication } from './SubmitApplication';
 export type SubmitTemporaryAccommodationApplication = (SubmitApplication & {
-    arrivalDate: string;
+    arrivalDate?: string;
+    /**
+     * Any object that conforms to the current JSON schema for an application
+     */
+    summaryData?: Record<string, any>;
     isRegisteredSexOffender?: boolean;
     needsAccessibleProperty?: boolean;
     hasHistoryOfArson?: boolean;
@@ -22,6 +25,11 @@ export type SubmitTemporaryAccommodationApplication = (SubmitApplication & {
     isConcerningSexualBehaviour?: boolean;
     isConcerningArsonBehaviour?: boolean;
     prisonReleaseTypes?: Array<string>;
-    summaryData: AnyValue;
+} & {
+    arrivalDate: string;
+    /**
+     * Any object that conforms to the current JSON schema for an application
+     */
+    summaryData: Record<string, any>;
 });
 

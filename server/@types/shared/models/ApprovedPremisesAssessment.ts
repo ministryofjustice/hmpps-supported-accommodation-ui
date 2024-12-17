@@ -7,9 +7,12 @@ import type { ApprovedPremisesAssessmentStatus } from './ApprovedPremisesAssessm
 import type { ApprovedPremisesUser } from './ApprovedPremisesUser';
 import type { Assessment } from './Assessment';
 export type ApprovedPremisesAssessment = (Assessment & {
-    application: ApprovedPremisesApplication;
+    application?: ApprovedPremisesApplication;
+    createdFromAppeal?: boolean;
     allocatedToStaffMember?: ApprovedPremisesUser;
     status?: ApprovedPremisesAssessmentStatus;
+} & {
+    application: ApprovedPremisesApplication;
     createdFromAppeal: boolean;
 });
 

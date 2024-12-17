@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * A note to add to an application
+ * the note to add
  */
 export type NewApplicationTimelineNote = {
     note: string;

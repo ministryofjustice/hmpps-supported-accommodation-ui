@@ -8,7 +8,7 @@ export type Nonarrival = {
     bookingId: string;
     date: string;
     reason: NonArrivalReason;
-    notes?: string;
     createdAt: string;
+    notes?: string;
 };
 

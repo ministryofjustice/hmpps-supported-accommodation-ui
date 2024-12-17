@@ -6,7 +6,7 @@ export type Confirmation = {
     id: string;
     bookingId: string;
     dateTime: string;
-    notes?: string;
     createdAt: string;
+    notes?: string;
 };
 

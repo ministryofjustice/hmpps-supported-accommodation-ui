@@ -4,13 +4,13 @@
 /* eslint-disable */
 import type { PropertyStatus } from './PropertyStatus';
 export type PremisesSummary = {
-    service: string;
-    id: string;
     name: string;
+    id: string;
     addressLine1: string;
     addressLine2?: string;
     postcode: string;
     bedCount: number;
+    service: string;
     status: PropertyStatus;
 };
 

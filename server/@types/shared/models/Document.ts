@@ -3,9 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DocumentLevel } from './DocumentLevel';
-/**
- * Meta Info about a file relating to an Offender
- */
 export type Document = {
     id: string;
     level: DocumentLevel;

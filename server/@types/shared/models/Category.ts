@@ -2,8 +2,4 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type NewBedMove = {
-    bedId: string;
-    notes?: string;
-};
-
+export type Category = 'submitted' | 'unallocated' | 'in_review' | 'ready_to_place' | 'rejected' | 'completed';

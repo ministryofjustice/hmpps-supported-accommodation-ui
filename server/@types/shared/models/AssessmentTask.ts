@@ -5,7 +5,9 @@
 import type { AssessmentDecision } from './AssessmentDecision';
 import type { Task } from './Task';
 export type AssessmentTask = (Task & {
-    createdFromAppeal: boolean;
+    createdFromAppeal?: boolean;
     outcome?: AssessmentDecision;
+} & {
+    createdFromAppeal: boolean;
 });
 

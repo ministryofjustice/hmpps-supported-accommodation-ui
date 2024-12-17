@@ -7,7 +7,7 @@ export type Extension = {
     bookingId: string;
     previousDepartureDate: string;
     newDepartureDate: string;
-    notes?: string;
     createdAt: string;
+    notes?: string;
 };
 

@@ -3,14 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ApprovedPremisesApplicationStatus } from './ApprovedPremisesApplicationStatus';
+import type { ApprovedPremisesUser } from './ApprovedPremisesUser';
+import type { TemporaryAccommodationUser } from './TemporaryAccommodationUser';
 import type { TimelineEvent } from './TimelineEvent';
-import type { User } from './User';
 export type ApplicationTimeline = {
     id: string;
     createdAt: string;
     isOfflineApplication: boolean;
-    status?: ApprovedPremisesApplicationStatus;
-    createdBy?: User;
     timelineEvents: Array<TimelineEvent>;
+    status?: ApprovedPremisesApplicationStatus;
+    createdBy?: (ApprovedPremisesUser | TemporaryAccommodationUser);
 };
 

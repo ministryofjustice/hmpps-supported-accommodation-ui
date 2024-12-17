@@ -5,6 +5,8 @@
 import type { TemporaryAccommodationUserRole } from './TemporaryAccommodationUserRole';
 import type { User } from './User';
 export type TemporaryAccommodationUser = (User & {
+    roles?: Array<TemporaryAccommodationUserRole>;
+} & {
     roles: Array<TemporaryAccommodationUserRole>;
 });
 

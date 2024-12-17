@@ -7,9 +7,9 @@ import type { Characteristic } from './Characteristic';
 export type Room = {
     id: string;
     name: string;
+    characteristics: Array<Characteristic>;
     code?: string;
     notes?: string;
     beds?: Array<Bed>;
-    characteristics: Array<Characteristic>;
 };
 

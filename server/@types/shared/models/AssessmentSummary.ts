@@ -3,17 +3,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AssessmentDecision } from './AssessmentDecision';
-import type { Person } from './Person';
+import type { FullPerson } from './FullPerson';
 import type { PersonRisks } from './PersonRisks';
+import type { RestrictedPerson } from './RestrictedPerson';
+import type { UnknownPerson } from './UnknownPerson';
 export type AssessmentSummary = {
-    type: string;
     id: string;
-    applicationId: string;
-    arrivalDate?: string;
-    createdAt: string;
+    type: string;
     dateOfInfoRequest?: string;
-    decision?: AssessmentDecision;
+    applicationId: string;
+    person: (FullPerson | RestrictedPerson | UnknownPerson);
     risks?: PersonRisks;
-    person: Person;
+    arrivalDate?: string;
+    decision?: AssessmentDecision;
+    createdAt: string;
 };
 

@@ -2,4 +2,4 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type TaskSortField = 'createdAt' | 'dueAt' | 'person' | 'allocatedTo' | 'completedAt' | 'taskType' | 'decision';
+export type ModelScope = 'premises' | 'room' | '*';

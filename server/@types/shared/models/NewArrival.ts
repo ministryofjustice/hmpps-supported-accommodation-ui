@@ -4,8 +4,8 @@
 /* eslint-disable */
 export type NewArrival = {
     type: string;
-    expectedDepartureDate: string;
-    notes?: string;
     keyWorkerStaffCode?: string;
+    notes?: string;
+    expectedDepartureDate: string;
 };
 

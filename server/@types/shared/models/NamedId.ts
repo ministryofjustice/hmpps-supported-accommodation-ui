@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * A generic stub for an object with a name and an ID.
+ * The CRU Management Area manually set on this user. This is provided to support the user configuration page.
  */
 export type NamedId = {
     id: string;

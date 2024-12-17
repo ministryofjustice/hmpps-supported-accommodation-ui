@@ -2,14 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { User } from './User';
-/**
- * Notes added to an application
- */
+import type { ApprovedPremisesUser } from './ApprovedPremisesUser';
+import type { TemporaryAccommodationUser } from './TemporaryAccommodationUser';
 export type ApplicationTimelineNote = {
-    id?: string;
-    createdByUser?: User;
     note: string;
+    id?: string;
+    createdByUser?: (ApprovedPremisesUser | TemporaryAccommodationUser);
     createdAt?: string;
 };
 

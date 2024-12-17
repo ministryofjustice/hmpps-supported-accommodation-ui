@@ -8,10 +8,15 @@ export type TemporaryAccommodationBedSearchParameters = (BedSearchParameters & {
     /**
      * The list of pdus Ids to search within
      */
-    probationDeliveryUnits: Array<string>;
+    probationDeliveryUnits?: Array<string>;
     /**
      * Bedspace and property attributes to filter on
      */
     attributes?: Array<BedSearchAttributes>;
+} & {
+    /**
+     * The list of pdus Ids to search within
+     */
+    probationDeliveryUnits: Array<string>;
 });
 

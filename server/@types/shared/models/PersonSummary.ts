@@ -4,7 +4,7 @@
 /* eslint-disable */
 import type { PersonSummaryDiscriminator } from './PersonSummaryDiscriminator';
 export type PersonSummary = {
-    crn: string;
     personType: PersonSummaryDiscriminator;
+    crn: string;
 };
 

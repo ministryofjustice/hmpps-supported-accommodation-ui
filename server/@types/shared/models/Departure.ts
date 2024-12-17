@@ -5,14 +5,17 @@
 import type { DepartureReason } from './DepartureReason';
 import type { DestinationProvider } from './DestinationProvider';
 import type { MoveOnCategory } from './MoveOnCategory';
+/**
+ * The latest version of the departure, if it exists
+ */
 export type Departure = {
     id: string;
     bookingId: string;
     dateTime: string;
     reason: DepartureReason;
-    notes?: string;
     moveOnCategory: MoveOnCategory;
-    destinationProvider?: DestinationProvider;
     createdAt: string;
+    notes?: string;
+    destinationProvider?: DestinationProvider;
 };
 

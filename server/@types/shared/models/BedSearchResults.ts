@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BedSearchResult } from './BedSearchResult';
+import type { ApprovedPremisesBedSearchResult } from './ApprovedPremisesBedSearchResult';
+import type { TemporaryAccommodationBedSearchResult } from './TemporaryAccommodationBedSearchResult';
 export type BedSearchResults = {
     /**
      * How many distinct Rooms the Beds in the results belong to
@@ -16,6 +17,6 @@ export type BedSearchResults = {
      * How many Beds are in the results
      */
     resultsBedCount: number;
-    results: Array<BedSearchResult>;
+    results: Array<(ApprovedPremisesBedSearchResult | TemporaryAccommodationBedSearchResult)>;
 };
 

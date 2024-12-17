@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * Information to create a blank application with
+ */
 export type NewApplication = {
     crn: string;
     convictionId?: number;

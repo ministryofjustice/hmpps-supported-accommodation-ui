@@ -2,16 +2,17 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ApprovedPremisesUser } from './ApprovedPremisesUser';
+import type { TemporaryAccommodationUser } from './TemporaryAccommodationUser';
 import type { TimelineEventAssociatedUrl } from './TimelineEventAssociatedUrl';
 import type { TimelineEventType } from './TimelineEventType';
 import type { TriggerSourceType } from './TriggerSourceType';
-import type { User } from './User';
 export type TimelineEvent = {
     type?: TimelineEventType;
     id?: string;
     occurredAt?: string;
     content?: string;
-    createdBy?: User;
+    createdBy?: (ApprovedPremisesUser | TemporaryAccommodationUser);
     associatedUrls?: Array<TimelineEventAssociatedUrl>;
     triggerSource?: TriggerSourceType;
 };

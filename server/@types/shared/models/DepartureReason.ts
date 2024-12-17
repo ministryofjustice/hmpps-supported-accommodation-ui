@@ -6,7 +6,7 @@ export type DepartureReason = {
     id: string;
     name: string;
     serviceScope: string;
-    parentReasonId?: string;
     isActive: boolean;
+    parentReasonId?: string;
 };
 

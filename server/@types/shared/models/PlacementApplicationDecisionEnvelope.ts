@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PlacementApplicationDecision } from './PlacementApplicationDecision';
+/**
+ * Information needed to submit a placement application
+ */
 export type PlacementApplicationDecisionEnvelope = {
     decision: PlacementApplicationDecision;
     summaryOfChanges: string;

@@ -10,26 +10,23 @@ import type { SentenceTypeOption } from './SentenceTypeOption';
 import type { SituationOption } from './SituationOption';
 import type { SubmitApplication } from './SubmitApplication';
 export type SubmitApprovedPremisesApplication = (SubmitApplication & {
+    targetLocation?: string;
+    releaseType?: ReleaseTypeOption;
+    sentenceType?: SentenceTypeOption;
     /**
      * Use apType
-     * @deprecated
      */
     isPipeApplication?: boolean;
     isWomensApplication?: boolean;
     /**
      * noticeType should be used to indicate if this an emergency application
-     * @deprecated
      */
     isEmergencyApplication?: boolean;
     /**
      * Use apType
-     * @deprecated
      */
     isEsapApplication?: boolean;
     apType?: ApType;
-    targetLocation: string;
-    releaseType: ReleaseTypeOption;
-    sentenceType: SentenceTypeOption;
     situation?: SituationOption;
     arrivalDate?: string;
     /**
@@ -43,5 +40,9 @@ export type SubmitApprovedPremisesApplication = (SubmitApplication & {
     reasonForShortNotice?: string;
     reasonForShortNoticeOther?: string;
     licenseExpiryDate?: string;
+} & {
+    targetLocation: string;
+    releaseType: ReleaseTypeOption;
+    sentenceType: SentenceTypeOption;
 });
 

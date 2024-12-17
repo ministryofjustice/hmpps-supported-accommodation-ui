@@ -2,22 +2,26 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnyValue } from './AnyValue';
 import type { AssessmentDecision } from './AssessmentDecision';
 import type { ClarificationNote } from './ClarificationNote';
-import type { ReferralHistoryNote } from './ReferralHistoryNote';
+import type { ReferralHistoryDomainEventNote } from './ReferralHistoryDomainEventNote';
+import type { ReferralHistorySystemNote } from './ReferralHistorySystemNote';
+import type { ReferralHistoryUserNote } from './ReferralHistoryUserNote';
 export type Assessment = {
-    service: string;
+    /**
+     * Any object that conforms to the current JSON schema for an application
+     */
+    data?: Record<string, any>;
     id: string;
-    schemaVersion: string;
     outdatedSchema: boolean;
-    createdAt: string;
+    clarificationNotes: Array<ClarificationNote>;
+    rejectionRationale?: string;
+    schemaVersion: string;
     allocatedAt?: string;
     submittedAt?: string;
     decision?: AssessmentDecision;
-    rejectionRationale?: string;
-    data?: AnyValue;
-    clarificationNotes: Array<ClarificationNote>;
-    referralHistoryNotes?: Array<ReferralHistoryNote>;
+    createdAt: string;
+    service: string;
+    referralHistoryNotes?: Array<(ReferralHistoryDomainEventNote | ReferralHistorySystemNote | ReferralHistoryUserNote)>;
 };
 

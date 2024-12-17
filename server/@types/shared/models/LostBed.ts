@@ -13,9 +13,9 @@ export type LostBed = {
     bedName: string;
     roomName: string;
     reason: LostBedReason;
+    status: LostBedStatus;
     referenceNumber?: string;
     notes?: string;
-    status: LostBedStatus;
-    cancellation?: LostBedCancellation | null;
+    cancellation?: LostBedCancellation;
 };
 

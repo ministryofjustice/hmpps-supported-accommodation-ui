@@ -6,8 +6,8 @@ export type BookingSearchResultPremisesSummary = {
     id: string;
     name: string;
     addressLine1: string;
+    postcode: string;
     addressLine2?: string;
     town?: string;
-    postcode: string;
 };
 

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CharacteristicPair = {
-    propertyName?: string;
     name: string;
+    propertyName?: string;
 };
 

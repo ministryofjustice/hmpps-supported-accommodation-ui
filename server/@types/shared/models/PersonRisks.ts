@@ -9,8 +9,8 @@ import type { RoshRisksEnvelope } from './RoshRisksEnvelope';
 export type PersonRisks = {
     crn: string;
     roshRisks: RoshRisksEnvelope;
-    mappa?: MappaEnvelope;
     tier: RiskTierEnvelope;
     flags: FlagsEnvelope;
+    mappa?: MappaEnvelope;
 };
 

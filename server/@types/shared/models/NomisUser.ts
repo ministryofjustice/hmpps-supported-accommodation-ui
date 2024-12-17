@@ -6,7 +6,7 @@ export type NomisUser = {
     id: string;
     name: string;
     nomisUsername: string;
-    email?: string;
     isActive: boolean;
+    email?: string;
 };
 

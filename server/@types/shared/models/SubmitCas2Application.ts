@@ -2,19 +2,24 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnyValue } from './AnyValue';
+/**
+ * Information needed to submit an application
+ */
 export type SubmitCas2Application = {
-    translatedDocument: AnyValue;
+    /**
+     * Any object that conforms to the current JSON schema for an application
+     */
+    translatedDocument: Record<string, any>;
     /**
      * Id of the application being submitted
      */
     applicationId: string;
+    telephoneNumber: string;
     /**
      * First and second preferences for where the accommodation should be located, pipe-separated
      */
     preferredAreas?: string;
     hdcEligibilityDate?: string;
     conditionalReleaseDate?: string;
-    telephoneNumber: string;
 };
 

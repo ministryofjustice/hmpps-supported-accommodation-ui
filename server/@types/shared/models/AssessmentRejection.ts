@@ -2,9 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnyValue } from './AnyValue';
+/**
+ * Rejection info
+ */
 export type AssessmentRejection = {
-    document: AnyValue;
+    /**
+     * Any object that conforms to the current JSON schema for an application
+     */
+    document: Record<string, any>;
     rejectionRationale: string;
     referralRejectionReasonId?: string;
     referralRejectionReasonDetail?: string;

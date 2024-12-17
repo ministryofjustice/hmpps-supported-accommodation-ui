@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Type } from './Type';
 export type BookingSummary = {
     id: string;
     premisesId: string;
@@ -9,6 +10,6 @@ export type BookingSummary = {
     arrivalDate: string;
     departureDate: string;
     createdAt: string;
-    type: 'space' | 'legacy';
+    type: Type;
 };
 

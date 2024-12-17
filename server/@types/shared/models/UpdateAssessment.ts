@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AnyValue } from './AnyValue';
+/**
+ * Updated assessment
+ */
 export type UpdateAssessment = {
-    data: Record<string, AnyValue>;
+    data: Record<string, Record<string, any>>;
     releaseDate?: string;
     accommodationRequiredFromDate?: string;
 };

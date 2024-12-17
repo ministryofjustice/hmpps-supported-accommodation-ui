@@ -3,14 +3,17 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CancellationReason } from './CancellationReason';
+/**
+ * The latest version of the cancellation, if it exists
+ */
 export type Cancellation = {
-    id?: string;
     bookingId: string;
     date: string;
     reason: CancellationReason;
-    notes?: string;
     createdAt: string;
     premisesName: string;
+    id?: string;
+    notes?: string;
     otherReason?: string;
 };
 

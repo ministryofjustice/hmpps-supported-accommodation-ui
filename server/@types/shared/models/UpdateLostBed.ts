@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * details of the lost bed
+ */
 export type UpdateLostBed = {
     startDate: string;
     endDate: string;

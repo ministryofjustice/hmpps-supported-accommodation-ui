@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * details of the extension
+ */
 export type NewDateChange = {
     newArrivalDate?: string;
     newDepartureDate?: string;

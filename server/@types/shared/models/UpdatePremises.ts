@@ -3,16 +3,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PropertyStatus } from './PropertyStatus';
+/**
+ * Information to update the premises with
+ */
 export type UpdatePremises = {
     addressLine1: string;
-    addressLine2?: string;
-    town?: string;
     postcode: string;
-    notes?: string;
-    localAuthorityAreaId?: string;
     probationRegionId: string;
     characteristicIds: Array<string>;
     status: PropertyStatus;
+    addressLine2?: string;
+    town?: string;
+    notes?: string;
+    localAuthorityAreaId?: string;
     pdu?: string;
     probationDeliveryUnitId?: string;
     turnaroundWorkingDayCount?: number;

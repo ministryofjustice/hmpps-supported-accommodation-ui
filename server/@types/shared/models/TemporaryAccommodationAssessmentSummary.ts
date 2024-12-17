@@ -5,7 +5,9 @@
 import type { AssessmentSummary } from './AssessmentSummary';
 import type { TemporaryAccommodationAssessmentStatus } from './TemporaryAccommodationAssessmentStatus';
 export type TemporaryAccommodationAssessmentSummary = (AssessmentSummary & {
-    status: TemporaryAccommodationAssessmentStatus;
+    status?: TemporaryAccommodationAssessmentStatus;
     probationDeliveryUnitName?: string;
+} & {
+    status: TemporaryAccommodationAssessmentStatus;
 });
 

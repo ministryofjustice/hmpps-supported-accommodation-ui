@@ -4,11 +4,11 @@
 /* eslint-disable */
 import type { ReferralHistoryNoteMessageDetails } from './ReferralHistoryNoteMessageDetails';
 export type ReferralHistoryNote = {
-    id: string;
-    createdAt: string;
     message?: string;
-    messageDetails?: ReferralHistoryNoteMessageDetails;
-    createdByUserName: string;
+    id: string;
     type: string;
+    createdByUserName: string;
+    messageDetails?: ReferralHistoryNoteMessageDetails;
+    createdAt: string;
 };
 

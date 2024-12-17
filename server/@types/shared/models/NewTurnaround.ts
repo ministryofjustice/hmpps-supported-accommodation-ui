@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+/**
+ * details of the turnaround
+ */
 export type NewTurnaround = {
     workingDays: number;
 };

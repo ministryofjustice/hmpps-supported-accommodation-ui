@@ -9,15 +9,15 @@ export type Cas2ApplicationSummary = {
     type: string;
     id: string;
     createdAt: string;
-    submittedAt?: string;
     createdByUserId: string;
-    createdByUserName?: string;
     status: ApplicationStatus;
-    latestStatusUpdate?: LatestCas2StatusUpdate;
-    risks?: PersonRisks;
-    hdcEligibilityDate?: string;
     personName: string;
     crn: string;
     nomsNumber: string;
+    submittedAt?: string;
+    createdByUserName?: string;
+    latestStatusUpdate?: LatestCas2StatusUpdate;
+    risks?: PersonRisks;
+    hdcEligibilityDate?: string;
 };
 

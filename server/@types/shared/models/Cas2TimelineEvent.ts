@@ -7,7 +7,7 @@ export type Cas2TimelineEvent = {
     type: TimelineEventType;
     occurredAt: string;
     label: string;
-    body?: string;
     createdByName: string;
+    body?: string;
 };
 
