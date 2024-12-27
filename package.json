@@ -167,8 +167,7 @@
     "static-path": "^0.0.4",
     "superagent": "^9.0.0",
     "swagger-mock-validator": "^11.0.0",
-    "url-value-parser": "^2.2.0",
-    "uuid": "^9.0.0"
+    "url-value-parser": "^2.2.0"
   },
   "devDependencies": {
     "@pact-foundation/pact": "^13.2.0",
@@ -188,7 +187,6 @@
     "@types/passport-oauth2": "^1.4.12",
     "@types/superagent": "^8.0.0",
     "@types/supertest": "^6.0.0",
-    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "audit-ci": "^7.1.0",
