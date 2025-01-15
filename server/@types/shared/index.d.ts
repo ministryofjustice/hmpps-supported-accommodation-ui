@@ -40,7 +40,6 @@ export type { Bed } from './models/Bed';
 export type { BedDetail } from './models/BedDetail';
 export type { BedSearchAttributes } from './models/BedSearchAttributes';
 export type { BedSearchParameters } from './models/BedSearchParameters';
-export type { BedSearchResult } from './models/BedSearchResult';
 export type { BedSearchResultBedSummary } from './models/BedSearchResultBedSummary';
 export type { BedSearchResultPremisesSummary } from './models/BedSearchResultPremisesSummary';
 export type { BedSearchResultRoomSummary } from './models/BedSearchResultRoomSummary';
